@@ -8,6 +8,7 @@ class QToolBar;
 class QAction;
 
 class PaintCanvas;
+class Histogram;
 
 class VoiciMainWindow : public QMainWindow {
 	Q_OBJECT
@@ -20,10 +21,12 @@ private slots:
 private:
 	void createToolBars();
 	void createActions();
+	void createCentralWidget();
 	void loadFile(const QString &filename);
 	
 	QToolBar *fileToolBar;
-	PaintCanvas *imageLabel;
+	PaintCanvas *paintCanvas;
+	Histogram *histogram;
 
 	QAction *openAction;
 	QAction *saveAction;

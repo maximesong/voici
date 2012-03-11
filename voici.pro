@@ -10,5 +10,7 @@ OBJECTS_DIR += ./objs
 MOC_DIR += ./tmp
 
 # Input
-HEADERS += src/Exceptions.h src/PaintCanvas.h src/VoiciMainWindow.h
-SOURCES += src/main.cpp src/PaintCanvas.cpp src/VoiciMainWindow.cpp
+HEADERS += src/Exceptions.h src/PaintCanvas.h src/VoiciMainWindow.h \
+           src/Histogram.h
+SOURCES += src/main.cpp src/PaintCanvas.cpp src/VoiciMainWindow.cpp \
+           src/Histogram.cpp
