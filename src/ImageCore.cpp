@@ -1,22 +1,23 @@
 #include "ImageCore.h"
 #include "Exceptions.h"
 
-ImageCore::ImageCore()
+ImageCore::ImageCore(const QString &name)
 {
-	histogram = 0;
+	m_name = name;
 }
+
 
 ImageCore::~ImageCore()
 {
-	delete histogram;
+	/* empty */
 }
 
 
 void ImageCore::load(const QString &filename)
 {
 	m_image.load(filename);
-	if (m_image.isNull)
+	if (m_image.isNull())
 		throw FileError();
 
-	emit imageChanged();
+	emit imageChanged(*this);
 }

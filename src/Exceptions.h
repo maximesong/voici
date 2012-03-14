@@ -1,6 +1,6 @@
-#ifndef _EXCEPTION_H_
-#define _EXCEPTION_H_
+#ifndef _EXCEPTIONS_H_
+#define _EXCEPTIONS_H_
 
 class FileError {};
 
-#endif
+#endif /* _EXCEPTIONS_H_ */

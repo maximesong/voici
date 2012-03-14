@@ -1,14 +1,19 @@
+#ifndef _PAINTCANVAS_H_
+#define _PAINTCANVAS_H_
+
 #include <QWidget>
 
-class QImage;
+class ImageCore;
 
 class PaintCanvas : public QWidget {
+	Q_OBJECT
 public:
-	PaintCanvas(QWidget *parent, const QImage &image);
-slots:
-	void redraw();
-protected:
-	virtual void paintEvent(QPaintEvent *event);
+	PaintCanvas(QWidget *parent);
+public slots:
+	void drawImage(const ImageCore &imageCore);
+	void paintEvent(QPaintEvent *event);
 private:
-	const QImage &m_image;
+	QImage m_image;
 };
+
+#endif /* _PAINTCANVAS_H_ */

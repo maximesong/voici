@@ -1,22 +1,21 @@
 #include <QPainter>
 
 #include "PaintCanvas.h"
+#include "ImageCore.h"
 
-PaintCanvas::PaintCanvas(QWidget *parent, const QImage &image):
-	QWidget(parent), m_image(image)
+PaintCanvas::PaintCanvas(QWidget *parent):
+	QWidget(parent)
 {
 	/* empty */
 }
 
-void PaintCanvas::redraw()
+void PaintCanvas::drawImage(const ImageCore &imageCore)
 {
-	this->update();
+	m_image = imageCore.getImage();
 }
 
 void PaintCanvas::paintEvent(QPaintEvent *event)
 {
-	if (isChanged) {
-		QPainter painter(this);
-		painter.drawImage(QPoint(0,0), m_image);
-	}
+	QPainter painter(this);
+	painter.drawImage(QPoint(0,0), m_image);
 }

@@ -8,7 +8,7 @@ class QToolBar;
 class QAction;
 
 class PaintCanvas;
-class Histogram;
+class ImageCore;
 
 class VoiciMainWindow : public QMainWindow {
 	Q_OBJECT
@@ -26,10 +26,12 @@ private:
 	
 	QToolBar *fileToolBar;
 	PaintCanvas *paintCanvas;
-	Histogram *histogram;
+	QWidget *centerWidget;
 
 	QAction *openAction;
 	QAction *saveAction;
+
+	ImageCore *imageCore;
 
 	QString currentFileName;
 };

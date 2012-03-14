@@ -7,10 +7,12 @@
 
 #include "VoiciMainWindow.h"
 #include "PaintCanvas.h"
-#include "Histogram.h"
+#include "ImageCore.h"
 
 VoiciMainWindow::VoiciMainWindow()
 {
+	imageCore = new ImageCore();
+
 	createActions();
 	createToolBars();
 	createCentralWidget();
@@ -44,7 +46,8 @@ void VoiciMainWindow::createCentralWidget()
 	QHBoxLayout *layout = new QHBoxLayout();
 
 	paintCanvas = new PaintCanvas(this);
-	histogram = new Histogram(this);
+	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
+		paintCanvas, SLOT(drawImage(const ImageCore&)));
 	layout->addWidget(paintCanvas);
 	
 	centerWidget->setLayout(layout);
@@ -71,8 +74,7 @@ void VoiciMainWindow::save()
 
 void VoiciMainWindow::loadFile(const QString &filename)
 {
-	paintCanvas->loadImage(filename);
-	paintCanvas->update();
+	imageCore->load(filename);
 }
 
 
@@ -81,5 +83,6 @@ VoiciMainWindow::~VoiciMainWindow()
 	delete openAction;
 	delete saveAction;
 	delete fileToolBar;
-	delete imageLabel;
+	delete centerWidget;
+	delete imageCore;
 }

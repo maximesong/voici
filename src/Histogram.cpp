@@ -1,15 +1,9 @@
-#include <QPainter>
+#include <QImage>
 
 #include "Histogram.h"
 
-Histogram::Histogram()
-{
-	rRate = 11 / 32;
-	gRate = 16 / 32;
-	bRate = 5 / 32;
-}
-
-void Histogram::computeHistogram(const QImage &image)
+Histogram::Histogram(const QImage &image, double rRate, 
+		     double gRate,  double bRate)
 {
 	for (int i = 0; i != 255; ++i) {
 		r_histogram[i] = 0;
@@ -27,14 +21,6 @@ void Histogram::computeHistogram(const QImage &image)
 			++r_histogram[r];
 			++g_histogram[g];
 			++b_histogram[b];
-			++gray_histogram[r * rRate + g * gRate + b * bRate];
+			++gray_histogram[int(r * rRate + g * gRate + b * bRate)];
 		}
-}
-
-
-void Histogram::setBlendRate(double r, double g, double b)
-{
-	rRate = r;
-	gRate = g;
-	bRate = b;
 }
