@@ -8,6 +8,7 @@ class QToolBar;
 class QAction;
 
 class PaintCanvas;
+class HistogramChart;
 class ImageCore;
 
 class VoiciMainWindow : public QMainWindow {
@@ -26,6 +27,8 @@ private:
 	
 	QToolBar *fileToolBar;
 	PaintCanvas *paintCanvas;
+	HistogramChart *histogramChart;
+
 	QWidget *centerWidget;
 
 	QAction *openAction;
