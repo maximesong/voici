@@ -8,7 +8,7 @@ class ImageCore;
 class PaintCanvas : public QWidget {
 	Q_OBJECT
 public:
-	PaintCanvas(QWidget *parent);
+	PaintCanvas(QWidget *parent = 0);
 public slots:
 	void drawImage(const ImageCore &imageCore);
 	void paintEvent(QPaintEvent *event);

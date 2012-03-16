@@ -11,7 +11,7 @@ class HistogramChart : public QWidget
 {
 	Q_OBJECT
 public:
-	HistogramChart(QWidget * parent);
+	HistogramChart(QWidget * parent = 0);
 public slots:
 	void drawChart(const ImageCore &imageCore);
 	void setLowThreshold(int low);
@@ -19,7 +19,15 @@ public slots:
 protected:
 	virtual void paintEvent(QPaintEvent *event);
 private:
+	void drawBackground();
+	void drawAxis();
+	void drawData();
+	void drawThreshold();
 	Histogram m_histogram;
+	QColor background;
+	QColor threshold_brush_color;
+	QColor threshold_pen_color;
+	QColor histogram_pen_color;
 	int m_low;
 	int m_high;
 };

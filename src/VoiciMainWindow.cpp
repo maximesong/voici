@@ -1,3 +1,7 @@
+#include "VoiciMainWindow.h"
+
+#include <iostream>
+
 #include <QAction>
 #include <QToolBar>
 #include <QHBoxLayout>
@@ -5,10 +9,11 @@
 #include <QLabel>
 #include <QMessageBox>
 
-#include "VoiciMainWindow.h"
 #include "PaintCanvas.h"
 #include "HistogramChart.h"
+#include "ThresholdPanel.h"
 #include "ImageCore.h"
+#include "SliderPanel.h"
 
 VoiciMainWindow::VoiciMainWindow()
 {
@@ -46,16 +51,25 @@ void VoiciMainWindow::createCentralWidget()
 	centerWidget = new QWidget(this);
 	QHBoxLayout *layout = new QHBoxLayout();
 
-	paintCanvas = new PaintCanvas(this);
+
+	paintCanvas = new PaintCanvas();
 	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
 		paintCanvas, SLOT(drawImage(const ImageCore&)));
 
-	histogramChart = new HistogramChart(this);
+	histogramChart = new HistogramChart();
 	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
 		histogramChart, SLOT(drawChart(const ImageCore&)));
+	
+//	SliderPanel *sliderPanel = new SliderPanel("Max");
+//	layout->addWidget(sliderPanel);
 
+	ThresholdPanel *thresholdPanel = new ThresholdPanel();
+	
 	layout->addWidget(paintCanvas);
 	layout->addWidget(histogramChart);
+	layout->addWidget(thresholdPanel);
+//	std::cout << thresholdPanel->height() << " " << thresholdPanel->width()
+//		  << std::endl;
 	centerWidget->setLayout(layout);
 	this->setCentralWidget(centerWidget);
 }

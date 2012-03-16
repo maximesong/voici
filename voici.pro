@@ -11,6 +11,8 @@ MOC_DIR += ./tmp
 
 # Input
 HEADERS += src/Exceptions.h src/PaintCanvas.h src/VoiciMainWindow.h \
-           src/Histogram.h src/ImageCore.h src/HistogramChart.h
+           src/Histogram.h src/ImageCore.h src/HistogramChart.h \
+           src/ThresholdPanel.h src/SliderPanel.h src/VoiciGlobal.h
 SOURCES += src/main.cpp src/PaintCanvas.cpp src/VoiciMainWindow.cpp \
-           src/Histogram.cpp src/ImageCore.cpp src/HistogramChart.cpp
+           src/Histogram.cpp src/ImageCore.cpp src/HistogramChart.cpp \
+           src/ThresholdPanel.cpp src/SliderPanel.cpp
