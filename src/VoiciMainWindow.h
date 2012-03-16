@@ -29,7 +29,8 @@ private:
 	PaintCanvas *paintCanvas;
 	HistogramChart *histogramChart;
 
-	QWidget *centerWidget;
+	QTabWidget *displayPanel;
+	QTabWidget *controlPanel;
 
 	QAction *openAction;
 	QAction *saveAction;

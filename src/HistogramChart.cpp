@@ -5,6 +5,7 @@
 #include <QPainter>
 
 #include "ImageCore.h"
+#include "Histogram.h"
 
 HistogramChart::HistogramChart(QWidget *parent) :
 	QWidget(parent), m_histogram(QImage())
@@ -20,7 +21,7 @@ HistogramChart::HistogramChart(QWidget *parent) :
 
 void HistogramChart::drawChart(const ImageCore &imageCore)
 {
-	m_histogram = imageCore.getHistogram();
+	m_histogram = Histogram(imageCore.getCurrentImage());
 	this->update();
 }
 

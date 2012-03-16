@@ -4,7 +4,7 @@
 
 #include <QAction>
 #include <QToolBar>
-#include <QHBoxLayout>
+#include <QGridLayout>
 #include <QFileDialog>
 #include <QLabel>
 #include <QMessageBox>
@@ -48,28 +48,14 @@ void VoiciMainWindow::createActions()
 
 void VoiciMainWindow::createCentralWidget()
 {
-	centerWidget = new QWidget(this);
-	QHBoxLayout *layout = new QHBoxLayout();
+	QWidget *centerWidget = new QWidget(this);
 
+	displayPanel = new QTabWidget();
+	controlPanel = new QTabWidget();
 
-	paintCanvas = new PaintCanvas();
-	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
-		paintCanvas, SLOT(drawImage(const ImageCore&)));
-
-	histogramChart = new HistogramChart();
-	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
-		histogramChart, SLOT(drawChart(const ImageCore&)));
-	
-//	SliderPanel *sliderPanel = new SliderPanel("Max");
-//	layout->addWidget(sliderPanel);
-
-	ThresholdPanel *thresholdPanel = new ThresholdPanel();
-	
-	layout->addWidget(paintCanvas);
-	layout->addWidget(histogramChart);
-	layout->addWidget(thresholdPanel);
-//	std::cout << thresholdPanel->height() << " " << thresholdPanel->width()
-//		  << std::endl;
+	QGridLayout *layout = new QGridLayout();
+	layout->addWidget(displayPanel, 0, 0, 9, 6);
+	layout->addWidget(controlPanel, 0, 6, 10, 4);
 	centerWidget->setLayout(layout);
 	this->setCentralWidget(centerWidget);
 }
@@ -83,6 +69,19 @@ void VoiciMainWindow::open()
 	if (!fileName.isEmpty()) {
 		loadFile(fileName);
 		currentFileName = fileName;
+
+		int paintCanvasIndex = displayPanel->indexOf(paintCanvas);
+		if (paintCanvasIndex != -1) {
+			displayPanel->removeTab(paintCanvasIndex);
+			delete paintCanvas;
+		}
+		paintCanvas = new PaintCanvas();
+
+		connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
+			paintCanvas, SLOT(drawImage(const ImageCore&)));
+		
+		displayPanel->addTab(paintCanvas, fileName);
+		paintCanvas->drawImage(*imageCore);
 	}
 }
 
@@ -102,3 +101,6 @@ VoiciMainWindow::~VoiciMainWindow()
 {
 	delete imageCore;
 }
+
+
+
