@@ -10,6 +10,7 @@ class QAction;
 class PaintCanvas;
 class HistogramChart;
 class ImageCore;
+class GrayImageCore;
 
 class VoiciMainWindow : public QMainWindow {
 	Q_OBJECT
@@ -27,6 +28,8 @@ private:
 	
 	QToolBar *fileToolBar;
 	PaintCanvas *paintCanvas;
+	PaintCanvas *grayPaintCanvas;
+
 	HistogramChart *histogramChart;
 
 	QTabWidget *displayPanel;
@@ -36,6 +39,7 @@ private:
 	QAction *saveAction;
 
 	ImageCore *imageCore;
+	ImageCore *grayImageCore;
 
 	QString currentFileName;
 };

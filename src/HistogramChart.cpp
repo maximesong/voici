@@ -49,6 +49,16 @@ void HistogramChart::setHighThreshold(int high)
 	}
 }
 
+
+void HistogramChart::setThreshold(int low, int high)
+{
+	if (low != m_low || high != m_high) {
+		m_low = low;
+		m_high = high;
+		this->update();
+	}
+}
+
 void HistogramChart::drawBackground()
 {
 	QPainter painter(this);

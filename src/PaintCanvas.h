@@ -10,7 +10,7 @@ class PaintCanvas : public QLabel {
 public:
 	PaintCanvas(QWidget *parent = 0);
 public slots:
-	void drawImage(const ImageCore &imageCore);
+	virtual void drawImage(const ImageCore &imageCore);
 };
 
 #endif /* _PAINTCANVAS_H_ */

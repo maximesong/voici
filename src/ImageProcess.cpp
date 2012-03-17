@@ -6,5 +6,5 @@
 
 void ImageProcess::processImage(ImageCore *imageCore) {
 	const QImage &currentImage = imageCore->getCurrentImage();
-	imageCore->setCurrentImage(drawNewImage(currentImage));
+	imageCore->setCurrentImage(generateNewImage(currentImage));
 }

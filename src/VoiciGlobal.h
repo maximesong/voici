@@ -3,5 +3,4 @@
 
 const int MAX_PIXEL_VALUE = 255;
 
-
 #endif /* _VOICIGLOBAL_H_ */

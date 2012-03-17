@@ -15,7 +15,12 @@ class ImageCore : public QObject {
 	Q_OBJECT
 public:
 	ImageCore(const QString &id = "");
+	ImageCore(const ImageCore &imageCore);
 	~ImageCore();
+
+	ImageCore &operator=(const ImageCore &imageCore);
+
+	static ImageCore toGrayImageCore(const ImageCore &imageCore);
 
 	void load(const QString &filename);
 
@@ -29,15 +34,23 @@ public:
 
 	const QString &getId() const { return m_id; }
 
+	void setId(const QString id) { m_id = id; }
+
 	void pushImageProcess(ImageProcess *process);
 
 	void goProcessN(int n);
 
 	QString getProcessNameN(int n) { return m_processes[n]->getProcessName(); }
 
+	void applyImageProcess(ImageProcess *process);
+
+	void originToCurrent() { m_current_image = m_origin_image; }
+
+	void currentToOrigin() { m_origin_image = m_current_image; }
+
 signals:
 	void imageChanged(const ImageCore& imageCore);
-private:
+protected:
 	QVector<QSharedPointer<ImageProcess> > m_processes;
 	int m_current_process;
 	QImage m_origin_image;

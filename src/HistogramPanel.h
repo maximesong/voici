@@ -12,7 +12,7 @@ class HistogramPanel : public QWidget {
 public:
 	HistogramPanel(ImageCore *imageCore, QWidget *parent = 0);
 signals:
-	void imageChanged();
+	void thresholdChanged(int low, int high);
 public slots:
 	void updateHistogramPanel(const ImageCore &imageCore);
 private:

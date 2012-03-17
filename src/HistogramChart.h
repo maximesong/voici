@@ -16,6 +16,7 @@ public slots:
 	void drawChart(const ImageCore &imageCore);
 	void setLowThreshold(int low);
 	void setHighThreshold(int high);
+	void setThreshold(int low, int high);
 protected:
 	virtual void paintEvent(QPaintEvent *event);
 private:

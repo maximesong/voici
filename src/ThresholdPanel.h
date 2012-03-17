@@ -9,8 +9,15 @@ class ThresholdPanel : public QWidget
 public:
 	ThresholdPanel(QWidget *parent = 0);
 signals:
-	void lowBoundChanged(int low);
-	void highBoundChanged(int high);
+	void thresholdChanged(int low, int high);
+private slots:
+	void setLow(int low);
+	void setHigh(int high);
+	int getLow() { return m_low; }
+	int getHigh() { return m_high; }
+private:
+	int m_low;
+	int m_high;
 };
 
 

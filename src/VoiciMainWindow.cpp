@@ -14,10 +14,15 @@
 #include "ThresholdPanel.h"
 #include "ImageCore.h"
 #include "SliderPanel.h"
+#include "HistogramPanel.h"
+#include "GrayImageCore.h"
 
 VoiciMainWindow::VoiciMainWindow()
 {
 	imageCore = new ImageCore();
+	grayImageCore = new GrayImageCore();
+	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)),
+  		grayImageCore, SLOT(setColorfulImage(const ImageCore&)));
 
 	createActions();
 	createToolBars();
@@ -53,6 +58,7 @@ void VoiciMainWindow::createCentralWidget()
 	displayPanel = new QTabWidget();
 	controlPanel = new QTabWidget();
 
+
 	QGridLayout *layout = new QGridLayout();
 	layout->addWidget(displayPanel, 0, 0, 9, 6);
 	layout->addWidget(controlPanel, 0, 6, 10, 4);
@@ -76,12 +82,20 @@ void VoiciMainWindow::open()
 			delete paintCanvas;
 		}
 		paintCanvas = new PaintCanvas();
-
 		connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
 			paintCanvas, SLOT(drawImage(const ImageCore&)));
-		
+
+		grayPaintCanvas = new PaintCanvas();
+		connect(grayImageCore, SIGNAL(imageChanged(const ImageCore&)), 
+			grayPaintCanvas, SLOT(drawImage(const ImageCore&)));
+
 		displayPanel->addTab(paintCanvas, fileName);
+		displayPanel->addTab(grayPaintCanvas, "Gray");
 		paintCanvas->drawImage(*imageCore);
+		grayPaintCanvas->drawImage(*grayImageCore);
+
+		HistogramPanel *histogramPanel = new HistogramPanel(imageCore);
+		controlPanel->addTab(histogramPanel, "Histogram");
 	}
 }
 
