@@ -10,7 +10,6 @@
 #include <QMessageBox>
 
 #include "PaintCanvas.h"
-#include "HistogramChart.h"
 #include "ThresholdPanel.h"
 #include "ImageCore.h"
 #include "SliderPanel.h"
@@ -76,21 +75,13 @@ void VoiciMainWindow::open()
 		loadFile(fileName);
 		currentFileName = fileName;
 
-		int paintCanvasIndex = displayPanel->indexOf(paintCanvas);
-		if (paintCanvasIndex != -1) {
-			displayPanel->removeTab(paintCanvasIndex);
-			delete paintCanvas;
-		}
-		paintCanvas = new PaintCanvas();
+		replaceTabWidget(displayPanel, &paintCanvas, new PaintCanvas(),
+			fileName);
 		connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
 			paintCanvas, SLOT(drawImage(const ImageCore&)));
 
-		int grayPaintCanvasIndex = displayPanel->indexOf(grayPaintCanvas);
-		if (grayPaintCanvasIndex != -1) {
-			displayPanel->removeTab(grayPaintCanvasIndex);
-			delete grayPaintCanvas;
-		}
-		grayPaintCanvas = new PaintCanvas();
+		replaceTabWidget(displayPanel, &grayPaintCanvas, 
+				 new PaintCanvas(), "Gray");
 		connect(grayImageCore, SIGNAL(imageChanged(const ImageCore&)), 
 			grayPaintCanvas, SLOT(drawImage(const ImageCore&)));
 
@@ -99,8 +90,8 @@ void VoiciMainWindow::open()
 		paintCanvas->drawImage(*imageCore);
 		grayPaintCanvas->drawImage(*grayImageCore);
 
-		HistogramPanel *histogramPanel = new HistogramPanel(imageCore);
-		controlPanel->addTab(histogramPanel, "Histogram");
+		replaceTabWidget(controlPanel, &histogramPanel, 
+				 new HistogramPanel(imageCore), "Histogram");
 
 		connect(histogramPanel, SIGNAL(thresholdChanged(int, int)), 
 			grayImageCore, SLOT(setThreshold(int,int)));
@@ -128,4 +119,15 @@ VoiciMainWindow::~VoiciMainWindow()
 }
 
 
-
+template <class T, class U>
+void VoiciMainWindow::replaceTabWidget(QTabWidget *tabWidget, T **oldWidget, 
+				       U *newWidget, const QString &label)
+{
+	int widgetIndex = tabWidget->indexOf(*oldWidget);
+	if (widgetIndex != -1) {
+		tabWidget->removeTab(widgetIndex);
+		delete *oldWidget;
+	}
+	*oldWidget = newWidget;
+	tabWidget->addTab(newWidget, label);
+}

@@ -8,7 +8,7 @@ class QToolBar;
 class QAction;
 
 class PaintCanvas;
-class HistogramChart;
+class HistogramPanel;
 class ImageCore;
 class GrayImageCore;
 
@@ -26,12 +26,15 @@ private:
 	void createActions();
 	void createCentralWidget();
 	void loadFile(const QString &filename);
+	template <class T, class U>
+	static void replaceTabWidget(QTabWidget *tabWidget, T **oldWidget, 
+				     U *newWidget, const QString &label);
 	
 	QToolBar *fileToolBar;
 	PaintCanvas *paintCanvas;
 	PaintCanvas *grayPaintCanvas;
 
-	HistogramChart *histogramChart;
+	HistogramPanel *histogramPanel;
 
 	QTabWidget *displayPanel;
 	QTabWidget *controlPanel;
