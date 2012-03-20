@@ -9,12 +9,11 @@ ThresholdPanel::ThresholdPanel(QWidget *parent)
 	: QWidget(parent)
 {
 	QVBoxLayout *layout = new QVBoxLayout();
-	SliderPanel *lowSlider = new SliderPanel("Low");
-	SliderPanel *highSlider = new SliderPanel("High");
-	m_low = 0;
-	m_high = MAX_PIXEL_VALUE;
-	lowSlider->setValue(m_low);
-	highSlider->setValue(m_high);
+	lowSlider = new SliderPanel("Low");
+	highSlider = new SliderPanel("High");
+
+	lowSlider->setValue(0);
+	highSlider->setValue(MAX_PIXEL_VALUE);
 
 	connect(lowSlider, SIGNAL(valueChanged(int)),
 		this, SLOT(setLow(int)));
@@ -26,18 +25,30 @@ ThresholdPanel::ThresholdPanel(QWidget *parent)
 	setLayout(layout);
 }
 
-void ThresholdPanel::setLow(int low)
-{
-	if (m_low != low) {
-		m_low = low;
-		emit thresholdChanged(m_low, m_high);
-	}
+void ThresholdPanel::setLow(int low) {
+	lowSlider->setValue(low);
+	emit thresholdChanged(getLow(), getHigh());
 }
 
 void ThresholdPanel::setHigh(int high)
 {
-	if (m_high != high) {
-		m_high = high;
-		emit thresholdChanged(m_low, m_high);
-	}
+	highSlider->setValue(high);
+	emit thresholdChanged(getLow(), getHigh());
+}
+
+void ThresholdPanel::setThreshold(int low, int high)
+{
+	lowSlider->setValue(low);
+	highSlider->setValue(high);
+	emit thresholdChanged(getLow(), getHigh());
+}
+
+int ThresholdPanel::getLow() 
+{ 
+	return lowSlider->getValue(); 
+}
+
+int ThresholdPanel::getHigh() 
+{ 
+	return highSlider->getValue(); 
 }

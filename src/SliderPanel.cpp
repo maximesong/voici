@@ -11,24 +11,22 @@
 SliderPanel::SliderPanel(const QString &str, QWidget *parent)
 	: QWidget(parent)
 {
-	QLabel *label = new QLabel(str);
+	label = new QLabel(str);
 	label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	QSlider *slider = new QSlider(Qt::Horizontal);
+	slider = new QSlider(Qt::Horizontal);
 	slider->setRange(0, MAX_PIXEL_VALUE);
 	slider->setSizePolicy(QSizePolicy::Minimum, 
 			      QSizePolicy::Fixed);
-	QSpinBox *spinBox = new QSpinBox();
+	spinBox = new QSpinBox();
 	spinBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	spinBox->setRange(0, MAX_PIXEL_VALUE);
 
+	slider->setValue(spinBox->value());
+
 	connect(slider, SIGNAL(valueChanged(int)), 
-		this, SLOT(setValue(int)));
+		this, SLOT(updateValue(int)));
 	connect(spinBox, SIGNAL(valueChanged(int)), 
-		this, SLOT(setValue(int)));
-	connect(this, SIGNAL(valueChanged(int)), 
-		slider, SLOT(setValue(int)));
-	connect(this, SIGNAL(valueChanged(int)), 
-		spinBox, SLOT(setValue(int)));
+		this, SLOT(updateValue(int)));
 
 	QHBoxLayout *layout = new QHBoxLayout();
 	layout->addWidget(label);
@@ -44,8 +42,21 @@ SliderPanel::SliderPanel(QWidget *parent)
 
 void SliderPanel::setValue(int value)
 {
-	if (m_value != value) {
-		m_value = value;
-		emit valueChanged(m_value);
+	if (value != getValue()) {
+		spinBox->setValue(value);
+		slider->setValue(value);
+		emit valueChanged(value);
 	}
+}
+
+int SliderPanel::getValue()
+{
+	return spinBox->value();
+}
+
+void SliderPanel::updateValue(int value)
+{
+	spinBox->setValue(value);
+	slider->setValue(value);
+	emit valueChanged(value);
 }

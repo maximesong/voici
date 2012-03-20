@@ -11,7 +11,7 @@ int RangeThresholdMap::grayDegree(int r, int, int)
 {
 	/* Assume that r == g && g == b */
 	if (r >= m_low && r <= m_high)
-		return 1;
+		return 255;
 	else
 		return 0;
 }

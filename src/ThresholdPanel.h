@@ -3,21 +3,24 @@
 
 #include <QWidget>
 
+class SliderPanel;
+
 class ThresholdPanel : public QWidget
 {
 	Q_OBJECT
 public:
 	ThresholdPanel(QWidget *parent = 0);
+	int getLow();
+	int getHigh();
 signals:
 	void thresholdChanged(int low, int high);
-private slots:
+public slots:
 	void setLow(int low);
 	void setHigh(int high);
-	int getLow() { return m_low; }
-	int getHigh() { return m_high; }
+	void setThreshold(int low, int high);
 private:
-	int m_low;
-	int m_high;
+	SliderPanel *highSlider;
+	SliderPanel *lowSlider;
 };
 
 

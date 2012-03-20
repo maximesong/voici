@@ -85,6 +85,11 @@ void VoiciMainWindow::open()
 		connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
 			paintCanvas, SLOT(drawImage(const ImageCore&)));
 
+		int grayPaintCanvasIndex = displayPanel->indexOf(grayPaintCanvas);
+		if (grayPaintCanvasIndex != -1) {
+			displayPanel->removeTab(grayPaintCanvasIndex);
+			delete grayPaintCanvas;
+		}
 		grayPaintCanvas = new PaintCanvas();
 		connect(grayImageCore, SIGNAL(imageChanged(const ImageCore&)), 
 			grayPaintCanvas, SLOT(drawImage(const ImageCore&)));
@@ -96,6 +101,12 @@ void VoiciMainWindow::open()
 
 		HistogramPanel *histogramPanel = new HistogramPanel(imageCore);
 		controlPanel->addTab(histogramPanel, "Histogram");
+
+		connect(histogramPanel, SIGNAL(thresholdChanged(int, int)), 
+			grayImageCore, SLOT(setThreshold(int,int)));
+		connect(histogramPanel, SIGNAL(unsetThreshold()), 
+			grayImageCore, SLOT(unsetThreshold()));
+
 	}
 }
 

@@ -6,7 +6,7 @@ GrayImageCore::GrayImageCore(const QString &id)
 	: ImageCore(id)
 { 
 	grayProcess = ProcessFactory::getStandardGrayProcess();
-	binaryProcess = ProcessFactory::getBinaryProcess();
+	binaryProcess = 0;
 }
 
 
@@ -30,6 +30,7 @@ void GrayImageCore::setThreshold(int low, int high)
 	delete binaryProcess;
 	binaryProcess = ProcessFactory::getBinaryProcess(low, high);
 	applyProcesses();
+	emit imageChanged(*this);
 }
 
 void GrayImageCore::applyPostProcesses()
@@ -44,4 +45,13 @@ void GrayImageCore::applyPreProcesses()
 	if (grayProcess != 0)
 		applyImageProcess(grayProcess);
 	*/
+}
+
+void GrayImageCore::unsetThreshold()
+{
+	if (binaryProcess != 0)
+		delete binaryProcess;
+	binaryProcess = 0;
+	applyProcesses();
+	emit imageChanged(*this);
 }

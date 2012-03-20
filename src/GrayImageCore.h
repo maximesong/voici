@@ -14,6 +14,7 @@ public:
 public slots:
 	void setColorfulImage(const ImageCore& imageCore);
 	void setThreshold(int low, int high);
+	void unsetThreshold();
 protected:
 	virtual void applyPreProcesses();
 	virtual void applyPostProcesses();
