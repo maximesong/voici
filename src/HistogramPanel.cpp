@@ -28,3 +28,4 @@ void HistogramPanel::updateHistogramPanel(const ImageCore &imageCore)
 {
 	histogramChart->drawChart(imageCore);
 }
+

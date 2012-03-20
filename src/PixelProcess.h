@@ -10,6 +10,7 @@ class PixelProcess : public ImageProcess {
 public:
 	PixelProcess(PixelMap *map);
 	~PixelProcess();
+	void setPixelMap(PixelMap *map);
 protected:
 	virtual QImage generateNewImage(const QImage &image);
 private:

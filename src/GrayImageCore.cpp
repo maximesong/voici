@@ -6,24 +6,15 @@ GrayImageCore::GrayImageCore(const QString &id)
 	: ImageCore(id)
 { 
 	grayProcess = ProcessFactory::getStandardGrayProcess();
+	binaryProcess = ProcessFactory::getBinaryProcess();
 }
 
-/*
-GrayImageCore::GrayImageCore(const ImageCore &imageCore)
-{
-	m_current_image = imageCore.getCurrentImage();
-	m_origin_image = imageCore.getOriginImage();
-	m_id = imageCore.getId();
-	m_processes = imageCore.get;
-	m_current_process = imageCore.m_current_process;
-
-}
-*/
 
 GrayImageCore::~GrayImageCore()
 {
 	delete grayProcess;
 }
+
 
 void GrayImageCore::setColorfulImage(const ImageCore& imageCore)
 {
@@ -31,4 +22,26 @@ void GrayImageCore::setColorfulImage(const ImageCore& imageCore)
 	thisImageCore = imageCore;
 	thisImageCore = imageCore;
 	grayProcess->processImage(this);
+	currentToOrigin();
+}
+
+void GrayImageCore::setThreshold(int low, int high)
+{
+	delete binaryProcess;
+	binaryProcess = ProcessFactory::getBinaryProcess(low, high);
+	applyProcesses();
+}
+
+void GrayImageCore::applyPostProcesses()
+{
+	if (binaryProcess != 0)
+		applyImageProcess(binaryProcess);
+}
+
+void GrayImageCore::applyPreProcesses()
+{
+	/*
+	if (grayProcess != 0)
+		applyImageProcess(grayProcess);
+	*/
 }

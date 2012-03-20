@@ -21,3 +21,9 @@ QImage PixelProcess::generateNewImage(const QImage &image)
 	PixelIterator::iterate(&newImage, m_map);
 	return newImage;
 }
+
+void PixelProcess::setPixelMap(PixelMap *map)
+{
+	delete m_map;
+	m_map = map;
+}

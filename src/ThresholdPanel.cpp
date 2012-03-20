@@ -13,6 +13,9 @@ ThresholdPanel::ThresholdPanel(QWidget *parent)
 	SliderPanel *highSlider = new SliderPanel("High");
 	m_low = 0;
 	m_high = MAX_PIXEL_VALUE;
+	lowSlider->setValue(m_low);
+	highSlider->setValue(m_high);
+
 	connect(lowSlider, SIGNAL(valueChanged(int)),
 		this, SLOT(setLow(int)));
 	connect(highSlider, SIGNAL(valueChanged(int)), 

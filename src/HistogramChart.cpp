@@ -6,12 +6,13 @@
 
 #include "ImageCore.h"
 #include "Histogram.h"
+#include "VoiciGlobal.h"
 
 HistogramChart::HistogramChart(QWidget *parent) :
 	QWidget(parent), m_histogram(QImage())
 {
-	m_low = 30; 	/* for test */
-	m_high = 100; 	/* for test */
+	m_low = 0;
+	m_high = MAX_PIXEL_VALUE;
 	background.setRgb(255, 255, 255);
 	threshold_brush_color.setRgb(100, 100, 100, 100);
 	threshold_pen_color.setRgb(200, 200, 200);
@@ -25,7 +26,7 @@ void HistogramChart::drawChart(const ImageCore &imageCore)
 	this->update();
 }
 
-void HistogramChart::paintEvent(QPaintEvent *event)
+void HistogramChart::paintEvent(QPaintEvent *)
 {
 	drawBackground();
 	drawAxis();

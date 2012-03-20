@@ -17,6 +17,7 @@ class VoiciMainWindow : public QMainWindow {
 public:
 	VoiciMainWindow();
 	~VoiciMainWindow();
+
 private slots:
  	void open();
 	void save();

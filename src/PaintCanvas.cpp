@@ -5,16 +5,20 @@
 
 #include <QPixmap>
 #include <QImage>
+#include <QLabel>
 
 PaintCanvas::PaintCanvas(QWidget *parent):
-	QLabel(parent)
+	QScrollArea(parent)
 {
-	/* empty */
+	canvas = new QLabel(this);
+	setWidget(canvas);
 }
 
 void PaintCanvas::drawImage(const ImageCore &imageCore)
 {
 	const QImage &image = imageCore.getCurrentImage();
-	setPixmap(QPixmap::fromImage(image));
+	QPixmap pixmap = QPixmap::fromImage(image);
+	canvas->setPixmap(pixmap);
+	canvas->setMinimumSize(pixmap.width(), pixmap.height());
 	update();
 }
