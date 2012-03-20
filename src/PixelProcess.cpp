@@ -5,7 +5,8 @@
 #include "PixelIterator.h"
 #include "PixelMap.h"
 
-PixelProcess::PixelProcess(PixelMap *map)
+PixelProcess::PixelProcess(PixelMap *map, const QString &processName)
+	: ImageProcess(processName)
 {
 	m_map = map;
 }

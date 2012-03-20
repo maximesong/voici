@@ -7,9 +7,6 @@
 #include "HistogramChart.h"
 #include "ThresholdPanel.h"
 
-#include <iostream>
-using namespace std;
-
 HistogramPanel::HistogramPanel(ImageCore *imageCore, QWidget *parent)
 	: QWidget(parent) {
 	histogramChart = new HistogramChart();
@@ -18,7 +15,7 @@ HistogramPanel::HistogramPanel(ImageCore *imageCore, QWidget *parent)
 		histogramChart, SLOT(setThreshold(int, int)));
 
 	connect(thresholdPanel, SIGNAL(thresholdChanged(int, int)), 
-		this, SIGNAL(thresholdChanged(int, int)));
+		this, SLOT(setThreshold(int, int)));
 	
 
 	checkbox = new QCheckBox("Apply Threshold");
@@ -50,7 +47,6 @@ void HistogramPanel::enableThreshold(int state)
 
 void HistogramPanel::setThreshold(int low, int high)
 {
-	cout << low << " "  << high << endl;
 	if (checkbox->checkState()== Qt::Checked) {
 		thresholdPanel->setThreshold(low, high);
 		emit thresholdChanged(low, high);

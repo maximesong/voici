@@ -2,6 +2,7 @@
 #define _PIXELITERATOR_H_
 
 class QImage;
+
 class PixelMap;
 
 class PixelIterator {

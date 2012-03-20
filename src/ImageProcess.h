@@ -8,8 +8,8 @@ class ImageCore;
 
 class ImageProcess {
 public:
-	ImageProcess(const QString processName = "Magic Process") :
-		m_process_name(processName) { /* empty */ }
+	ImageProcess(const QString processName = "Magic Process")
+		: m_process_name(processName) { /* empty */ }
 	
 	virtual QString getProcessName() { return m_process_name; }
 

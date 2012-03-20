@@ -18,6 +18,8 @@ public slots:
 	void setLow(int low);
 	void setHigh(int high);
 	void setThreshold(int low, int high);
+private slots:
+	void updateThreshold(int low, int high);
 private:
 	SliderPanel *highSlider;
 	SliderPanel *lowSlider;
