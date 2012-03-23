@@ -38,11 +38,18 @@ void ThresholdPanel::setHigh(int high)
 
 void ThresholdPanel::setThreshold(int low, int high)
 {
-	if (low != getLow() && high != getHigh())
-	{
+	if (low != getLow() || high != getHigh()) {
 		lowSlider->setValue(low);
 		highSlider->setValue(high);
-		emit thresholdChanged(getLow(), getHigh());
+		emit thresholdChanged(low, high);
+	}
+}
+
+void ThresholdPanel::quietlySetThreshold(int low, int high)
+{
+	if (low != getLow() || high != getHigh()) {
+		lowSlider->setValue(low);
+		highSlider->setValue(high);
 	}
 }
 
@@ -57,6 +64,11 @@ int ThresholdPanel::getHigh()
 }
 
 void ThresholdPanel::updateThreshold(int low, int high)
+{
+	emit thresholdChanged(low, high);
+}
+
+void ThresholdPanel::refreshThreshold()
 {
 	emit thresholdChanged(getLow(), getHigh());
 }

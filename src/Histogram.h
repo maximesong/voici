@@ -7,7 +7,6 @@ class QImage;
 
 class Histogram {
 public:
-	enum ColorChannel { Red, Green, Blue, Gray };
 
 	Histogram(const QImage &image, double r = 11 / 32.0, double g = 16 / 32.0,
 		  double b = 5 / 32.0);

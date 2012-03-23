@@ -18,6 +18,8 @@ public slots:
 	void setLow(int low);
 	void setHigh(int high);
 	void setThreshold(int low, int high);
+	void quietlySetThreshold(int low, int high);
+	void refreshThreshold();
 private slots:
 	void updateThreshold(int low, int high);
 private:

@@ -12,6 +12,7 @@ class HistogramChart : public QWidget
 	Q_OBJECT
 public:
 	HistogramChart(QWidget * parent = 0);
+	Histogram getHistogram() { return m_histogram; }
 public slots:
 	void drawChart(const ImageCore &imageCore);
 	void setLowThreshold(int low);

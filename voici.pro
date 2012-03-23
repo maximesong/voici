@@ -32,6 +32,7 @@ HEADERS += src/Exceptions.h \
            src/BlockIterator.h \
            src/BlockProcess.h \
            src/BlockMap.h \
+           src/OtsuAlgorithm.h \
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -54,3 +55,4 @@ SOURCES += src/main.cpp \
            src/MatrixBlockMap.cpp \
            src/BlockIterator.cpp \
            src/BlockProcess.cpp \
+           src/OtsuAlgorithm.cpp \
