@@ -75,9 +75,8 @@ void HistogramChart::drawData()
 {
 	QPainter painter(this);
 	painter.setPen(histogram_pen_color);
-	const int *grayHistogram = m_histogram.getGrayHistogram();
-	for (int i = 0; i != SCALE_DEPTH; ++i) {
-		painter.drawLine(i, 300 - grayHistogram[i] / 10, i, 300);
+	for (int i = 0; i <= MAX_PIXEL_VALUE; ++i) {
+		painter.drawLine(i, 300 - m_histogram.getCount(i, Histogram::Gray) / 10, i, 300);
 	}
 }
 
