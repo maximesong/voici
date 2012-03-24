@@ -8,6 +8,7 @@
 #include "HistogramChart.h"
 #include "ThresholdPanel.h"
 #include "OtsuAlgorithm.h"
+#include "EntropyMethod.h"
 
 HistogramPanel::HistogramPanel(ImageCore *imageCore, QWidget *parent)
 	: QWidget(parent) {
@@ -24,6 +25,8 @@ HistogramPanel::HistogramPanel(ImageCore *imageCore, QWidget *parent)
 		this, SLOT(setOtsu()));
 
 	entropyButton = new QPushButton("Entropy");
+	connect(entropyButton, SIGNAL(clicked()), 
+		this, SLOT(setEntropy()));
 
 	checkbox = new QCheckBox("Apply Threshold");
 	connect(checkbox, SIGNAL(stateChanged(int)), 
@@ -75,5 +78,7 @@ void HistogramPanel::setOtsu()
 
 void HistogramPanel::setEntropy()
 {
-	
+	Histogram histogram = histogramChart->getHistogram();
+	int threshold = EntropyMethod::computeThreshold(histogram);
+	setThreshold(0, threshold);
 }

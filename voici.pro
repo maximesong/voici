@@ -33,6 +33,7 @@ HEADERS += src/Exceptions.h \
            src/BlockProcess.h \
            src/BlockMap.h \
            src/OtsuAlgorithm.h \
+           src/EntropyMethod.h \
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -56,3 +57,4 @@ SOURCES += src/main.cpp \
            src/BlockIterator.cpp \
            src/BlockProcess.cpp \
            src/OtsuAlgorithm.cpp \
+           src/EntropyMethod.cpp 

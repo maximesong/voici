@@ -3,6 +3,6 @@
 
 const int MAX_PIXEL_VALUE = 255;
 
-enum ColorChannel { Red, Green, Blue, Gray };
+enum ColorChannel { RED, GREEN, BLUE, GRAY };
 
 #endif /* _VOICIGLOBAL_H_ */

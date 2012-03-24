@@ -81,13 +81,13 @@ double Histogram::getMeanIntensity(int from, int to, ColorChannel type) const
 const int *Histogram::getHistogram(ColorChannel type) const 
 { 
 	switch(type) {
-	case Red:
+	case RED:
 		return r_histogram;
-	case Green:
+	case GREEN:
 		return g_histogram;
-	case Blue:
+	case BLUE:
 		return b_histogram;
-	case Gray:
+	case GRAY:
 		return gray_histogram;
 	default:
 		return gray_histogram;

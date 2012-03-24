@@ -19,12 +19,12 @@ int OtsuAlgorithm::computeThreshold(const Histogram &histogram)
 
 double OtsuAlgorithm::computeEvaluation(const Histogram &histogram, int threshold)
 {
-	double u1 = histogram.getMeanIntensity(0, threshold, Gray);
-	double w1 = histogram.getWeight(0, threshold, Gray);
+	double u1 = histogram.getMeanIntensity(0, threshold, GRAY);
+	double w1 = histogram.getWeight(0, threshold, GRAY);
 	double u2 = histogram.getMeanIntensity(threshold + 1, MAX_PIXEL_VALUE,
-					Gray);
+					GRAY);
 	double w2 = histogram.getWeight(threshold + 1, MAX_PIXEL_VALUE,
-					Gray);
+					GRAY);
 	double u_diff = u1 - u2;
 
 	return w1 * w2 * u_diff * u_diff;
