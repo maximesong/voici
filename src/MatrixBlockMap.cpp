@@ -1,17 +1,12 @@
 #include "MatrixBlockMap.h"
 
-MatrixBlockMap::MatrixBlockMap(int m, int n, double *matrix)
+MatrixBlockMap::MatrixBlockMap(int m, int n, const QVector<double> &matrix)
 {
 	m_m = m;
 	m_n = n;
 	m_matrix = matrix;
 }
 
-
-MatrixBlockMap::~MatrixBlockMap()
-{
-	delete m_matrix;
-}
 
 QRgb MatrixBlockMap::map(int x_offset, int y_offset, QImage *image)
 {

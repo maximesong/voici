@@ -5,6 +5,9 @@
 #include "ImageProcess.h"
 #include "RatePixelMap.h"
 #include "RangeThresholdMap.h"
+#include "MatrixBlockMap.h"
+#include "BlockIterator.h"
+#include "BlockProcess.h"
 
 ImageProcess *ProcessFactory::getStandardGrayProcess()
 {
@@ -22,4 +25,14 @@ ImageProcess *ProcessFactory::getBinaryProcess(int low, int high)
 ImageProcess *ProcessFactory::buildFromPixelMap(PixelMap *map)
 {
 	return new PixelProcess(map);
+}
+
+ImageProcess *ProcessFactory::getConvolutionProcess(int rows, int columns,
+						    int centerRow, int centerColumn,
+						    const QVector<double> &matrix)
+{
+	BlockIterator *iter = new BlockIterator(rows, columns, centerRow, centerColumn);
+	BlockMap *map = new MatrixBlockMap(rows, columns, matrix);
+	BlockProcess *process = new BlockProcess(iter, map, "Convolution");
+	return process;
 }
