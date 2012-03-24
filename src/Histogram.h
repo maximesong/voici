@@ -20,10 +20,10 @@ public:
 	double getMeanIntensity(int from, int to, ColorChannel type) const;
 private:
 	const int *getHistogram(ColorChannel type) const;
-	int r_histogram[MAX_PIXEL_VALUE];
-	int g_histogram[MAX_PIXEL_VALUE];
-	int b_histogram[MAX_PIXEL_VALUE];
-	int gray_histogram[MAX_PIXEL_VALUE];
+	int r_histogram[MAX_PIXEL_VALUE + 1];
+	int g_histogram[MAX_PIXEL_VALUE + 1];
+	int b_histogram[MAX_PIXEL_VALUE + 1];
+	int gray_histogram[MAX_PIXEL_VALUE + 1];
 	double r_rate;
 	double g_rate;
 	double b_rate;

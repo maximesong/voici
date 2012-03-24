@@ -1,7 +1,5 @@
 #include "HistogramChart.h"
 
-#include <iostream>
-
 #include <QPainter>
 
 #include "ImageCore.h"

@@ -1,7 +1,5 @@
 #include "VoiciMainWindow.h"
 
-#include <iostream>
-
 #include <QAction>
 #include <QToolBar>
 #include <QGridLayout>
@@ -70,7 +68,7 @@ void VoiciMainWindow::open()
 	QString fileName = QFileDialog::getOpenFileName(this,
 							tr("Open Image"), 
 							".",
-							tr("all(*.png)"));
+							tr("all(*.png *.jpg)"));
 	if (!fileName.isEmpty()) {
 		loadFile(fileName);
 		currentFileName = fileName;

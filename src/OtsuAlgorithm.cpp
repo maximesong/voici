@@ -26,5 +26,6 @@ double OtsuAlgorithm::computeEvaluation(const Histogram &histogram, int threshol
 	double w2 = histogram.getWeight(threshold + 1, MAX_PIXEL_VALUE,
 					Gray);
 	double u_diff = u1 - u2;
+
 	return w1 * w2 * u_diff * u_diff;
 }

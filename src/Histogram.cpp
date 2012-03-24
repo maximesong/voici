@@ -1,6 +1,5 @@
 #include "Histogram.h"
 
-#include <iostream>
 #include <QImage>
 
 Histogram::Histogram(const QImage &image, double r, 
@@ -19,7 +18,7 @@ void Histogram::setRate(double r, double g, double b)
 
 void Histogram::loadImage(const QImage &image)
 {
-	for (int i = 0; i != MAX_PIXEL_VALUE; ++i) {
+	for (int i = 0; i <= MAX_PIXEL_VALUE; ++i) {
 		r_histogram[i] = 0;
 		g_histogram[i] = 0;
 		b_histogram[i] = 0;

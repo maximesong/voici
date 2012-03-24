@@ -38,7 +38,14 @@ void ImageCore::load(const QString &filename)
 	m_origin_image.load(filename);
 	if (m_origin_image.isNull())
 		throw FileError();
-	
+
+	/* This conversion is not efficient, to be improved */
+	if (m_origin_image.format() != QImage::Format_ARGB32)
+		m_origin_image = m_origin_image.convertToFormat(QImage::Format_ARGB32);
+
+
+	Histogram histogram(m_origin_image);
+
 	m_current_image = m_origin_image;
 	m_processes.clear();
 	m_current_process = -1;
