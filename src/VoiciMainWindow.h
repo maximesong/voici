@@ -9,6 +9,7 @@ class QAction;
 
 class PaintCanvas;
 class HistogramPanel;
+class ConvolutionPanel;
 class ImageCore;
 class GrayImageCore;
 
@@ -35,6 +36,7 @@ private:
 	PaintCanvas *grayPaintCanvas;
 
 	HistogramPanel *histogramPanel;
+	ConvolutionPanel *convolutionPanel;
 
 	QTabWidget *displayPanel;
 	QTabWidget *controlPanel;

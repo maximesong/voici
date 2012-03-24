@@ -13,6 +13,8 @@
 #include "SliderPanel.h"
 #include "HistogramPanel.h"
 #include "GrayImageCore.h"
+#include "KernelTable.h"
+#include "ConvolutionPanel.h"
 
 VoiciMainWindow::VoiciMainWindow()
 {
@@ -95,6 +97,9 @@ void VoiciMainWindow::open()
 			grayImageCore, SLOT(setThreshold(int,int)));
 		connect(histogramPanel, SIGNAL(unsetThreshold()), 
 			grayImageCore, SLOT(unsetThreshold()));
+
+		replaceTabWidget(controlPanel, &convolutionPanel,
+				 new ConvolutionPanel(), "Convolution");
 
 	}
 }
