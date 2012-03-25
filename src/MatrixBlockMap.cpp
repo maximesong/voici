@@ -16,6 +16,11 @@ QRgb MatrixBlockMap::map(int x_offset, int y_offset, QImage *image)
 			sum += getGrayDegree(x_offset + i, y_offset + j, image) * 
 				m_matrix[i + j * m_m];
 	int gray = int(sum);
+	if (gray > 255)
+		gray = 255;
+	else if (gray < 0)
+		gray = 0;
+
 	return qRgb(gray, gray, gray);
 }
 
