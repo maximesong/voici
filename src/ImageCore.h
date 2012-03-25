@@ -21,15 +21,18 @@ public:
 
 	static ImageCore toGrayImageCore(const ImageCore &imageCore);
 
-	virtual void load(const QString &filename);
-
-	virtual void setOriginImage(const QImage &image);
-
 	const QImage &getOriginImage() const { return m_origin_image; }
 
 	const QImage &getCurrentImage() const { return m_current_image; }
 
 	const QString &getId() const { return m_id; }
+
+	QString getProcessNameN(int n) { return m_processes[n]->getProcessName(); }
+
+public slots:
+	virtual void load(const QString &filename);
+
+	virtual void setOriginImage(const QImage &image);
 
 	void updateCurrentImage(const QImage &image) { m_current_image = image; }
 
@@ -42,8 +45,6 @@ public:
 	void clearImageProcess();
 
 	void goProcessN(int n);
-
-	QString getProcessNameN(int n) { return m_processes[n]->getProcessName(); }
 
 	void originToCurrent() { m_current_image = m_origin_image; }
 

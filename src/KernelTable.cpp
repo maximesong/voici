@@ -6,6 +6,9 @@
 #include <QSize>
 #include <QVBoxLayout>
 
+#include <iostream>
+using namespace std;
+
 KernelTable::KernelTable(int rows, int columns, int centerRow, int centerColumn,
 			 QWidget *parent)
 	: QWidget(parent) {
@@ -21,9 +24,8 @@ void KernelTable::init(int rows, int columns, int centerRow, int centerColumn)
 {
 	tableWidget = new QTableWidget(rows, columns);
 	for (int i = 0; i != rows; ++i)
-		for (int j = 0; j != columns; ++j) {
+		for (int j = 0; j != columns; ++j)
 			tableWidget->setItem(i, j, new QTableWidgetItem("0.0"));
-		}
 	rowsBox = new QSpinBox();
 	rowsBox->setValue(rows);
 	rowsBox->setPrefix("r:");
@@ -78,7 +80,10 @@ QVector<double> KernelTable::getMatrix()
 	int columns = tableWidget->columnCount();
 	for (int i = 0; i != rows; ++i)
 		for (int j = 0; j != columns; ++j) {
-			double item_value = tableWidget->itemAt(i, j)->text().toDouble();
+			QTableWidgetItem *item = tableWidget->item(i, j);
+			double item_value = 0;
+			if (item != 0)
+				item_value = item->text().toDouble();
 			matrix.push_back(item_value);
 		}
 	return matrix;
@@ -92,4 +97,43 @@ int KernelTable::getCenterRow()
 int KernelTable::getCenterColumn()
 {
 	return centerColumnBox->value();
+}
+
+void KernelTable::setKernel(int m, int n, int x, int y, const QVector<double> &matrix)
+{
+	setTableSize(m, n);
+	for (int i = 0; i != m; ++i)
+		for (int j = 0; j != n; ++j) {
+			QTableWidgetItem *item = 
+				new QTableWidgetItem(QString::number(matrix[i * n + j]));
+			tableWidget->setItem(i, j, item); 
+		}
+	setCenter(x, y);
+}
+
+
+void KernelTable::setCenterRow(int row)
+{
+	centerRowBox->setValue(row);
+}
+
+void KernelTable::setCenterColumn(int column)
+{
+	centerColumnBox->setValue(column);
+}
+
+void KernelTable::setCenter(int row, int column)
+{
+	setCenterRow(row);
+	setCenterColumn(column);
+}
+
+int KernelTable::getRows()
+{
+	return rowsBox->value();
+}
+
+int KernelTable::getColumns()
+{
+	return columnsBox->value();
 }

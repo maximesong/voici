@@ -18,12 +18,18 @@ public:
 	QVector<double> getMatrix();
 	int getCenterRow();
 	int getCenterColumn();
+	int getRows();
+	int getColumns();
 signals:
 	void kernelChanged(int rows, int columns, QVector<double> matrix);	
 public slots:
 	void setRows(int rows);
 	void setColumns(int columns);
 	void setTableSize(int rows, int columns);
+	void setCenterRow(int row);
+	void setCenterColumn(int column);
+	void setCenter(int row, int column);
+	void setKernel(int m, int n, int x, int y, const QVector<double> &matrix);
 private:
 	void init(int rows, int columns, int centerRow, int centerColumn);
 	QTableWidget *tableWidget;

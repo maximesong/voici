@@ -101,6 +101,9 @@ void VoiciMainWindow::open()
 		replaceTabWidget(controlPanel, &convolutionPanel,
 				 new ConvolutionPanel(), "Convolution");
 
+		connect(convolutionPanel, SIGNAL(newProcess(ImageProcess *)), 
+			grayImageCore, SLOT(pushImageProcess(ImageProcess *)));
+
 	}
 }
 

@@ -112,6 +112,7 @@ void ImageCore::applyProcesses()
 	applyPreProcesses();
 	applyDynamicProcesses();
 	applyPostProcesses();
+	emit imageChanged(*this);
 }
 
 void ImageCore::setOriginImage(const QImage &image) {
