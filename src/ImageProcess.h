@@ -14,7 +14,7 @@ public:
 	virtual QString getProcessName() { return m_process_name; }
 
 	virtual void processImage(ImageCore *imageCore);
-protected:
+
 	virtual QImage generateNewImage(const QImage &image) = 0;
 private:
 	QString m_process_name;
