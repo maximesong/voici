@@ -18,6 +18,7 @@ class VoiciMainWindow : public QMainWindow {
 public:
 	VoiciMainWindow();
 	~VoiciMainWindow();
+	void loadFile(const QString &filename);
 
 private slots:
  	void open();
@@ -26,7 +27,6 @@ private:
 	void createToolBars();
 	void createActions();
 	void createCentralWidget();
-	void loadFile(const QString &filename);
 	template <class T, class U>
 	static void replaceTabWidget(QTabWidget *tabWidget, T **oldWidget, 
 				     U *newWidget, const QString &label);

@@ -15,6 +15,7 @@
 #include "GrayImageCore.h"
 #include "KernelTable.h"
 #include "ConvolutionPanel.h"
+#include "Exceptions.h"
 
 VoiciMainWindow::VoiciMainWindow()
 {
@@ -71,40 +72,7 @@ void VoiciMainWindow::open()
 							tr("Open Image"), 
 							".",
 							tr("all(*.png *.jpg)"));
-	if (!fileName.isEmpty()) {
 		loadFile(fileName);
-		currentFileName = fileName;
-
-		replaceTabWidget(displayPanel, &paintCanvas, new PaintCanvas(),
-			fileName);
-		connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
-			paintCanvas, SLOT(drawImage(const ImageCore&)));
-
-		replaceTabWidget(displayPanel, &grayPaintCanvas, 
-				 new PaintCanvas(), "Gray");
-		connect(grayImageCore, SIGNAL(imageChanged(const ImageCore&)), 
-			grayPaintCanvas, SLOT(drawImage(const ImageCore&)));
-
-		displayPanel->addTab(paintCanvas, fileName);
-		displayPanel->addTab(grayPaintCanvas, "Gray");
-		paintCanvas->drawImage(*imageCore);
-		grayPaintCanvas->drawImage(*grayImageCore);
-
-		replaceTabWidget(controlPanel, &histogramPanel, 
-				 new HistogramPanel(imageCore), "Histogram");
-
-		connect(histogramPanel, SIGNAL(thresholdChanged(int, int)), 
-			grayImageCore, SLOT(setThreshold(int,int)));
-		connect(histogramPanel, SIGNAL(unsetThreshold()), 
-			grayImageCore, SLOT(unsetThreshold()));
-
-		replaceTabWidget(controlPanel, &convolutionPanel,
-				 new ConvolutionPanel(), "Convolution");
-
-		connect(convolutionPanel, SIGNAL(newProcess(ImageProcess *)), 
-			grayImageCore, SLOT(pushImageProcess(ImageProcess *)));
-
-	}
 }
 
 void VoiciMainWindow::save()
@@ -115,7 +83,40 @@ void VoiciMainWindow::save()
 
 void VoiciMainWindow::loadFile(const QString &filename)
 {
+	if (filename.isEmpty())
+		throw FileError();
+
 	imageCore->load(filename);
+	currentFileName = filename;
+
+	replaceTabWidget(displayPanel, &paintCanvas, new PaintCanvas(),
+			 filename);
+	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
+		paintCanvas, SLOT(drawImage(const ImageCore&)));
+
+	replaceTabWidget(displayPanel, &grayPaintCanvas, 
+			 new PaintCanvas(), "Gray");
+	connect(grayImageCore, SIGNAL(imageChanged(const ImageCore&)), 
+		grayPaintCanvas, SLOT(drawImage(const ImageCore&)));
+
+	displayPanel->addTab(paintCanvas, filename);
+	displayPanel->addTab(grayPaintCanvas, "Gray");
+	paintCanvas->drawImage(*imageCore);
+	grayPaintCanvas->drawImage(*grayImageCore);
+
+	replaceTabWidget(controlPanel, &histogramPanel, 
+			 new HistogramPanel(imageCore), "Histogram");
+
+	connect(histogramPanel, SIGNAL(thresholdChanged(int, int)), 
+		grayImageCore, SLOT(setThreshold(int,int)));
+	connect(histogramPanel, SIGNAL(unsetThreshold()), 
+		grayImageCore, SLOT(unsetThreshold()));
+
+	replaceTabWidget(controlPanel, &convolutionPanel,
+			 new ConvolutionPanel(), "Convolution");
+
+	connect(convolutionPanel, SIGNAL(newProcess(ImageProcess *)), 
+		grayImageCore, SLOT(pushImageProcess(ImageProcess *)));
 }
 
 

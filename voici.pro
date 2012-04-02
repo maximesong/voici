@@ -37,7 +37,8 @@ HEADERS += src/Exceptions.h \
            src/KernelTable.h \
            src/ConvolutionPanel.h
 
-SOURCES += src/PaintCanvas.cpp \
+SOURCES += src/main.cpp \
+           src/PaintCanvas.cpp \
            src/VoiciMainWindow.cpp \
            src/Histogram.cpp \
            src/ImageCore.cpp \

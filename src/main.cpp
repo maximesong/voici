@@ -7,5 +7,6 @@ int main(int argc, char *argv[]) {
 
 	VoiciMainWindow mainWindow;
 	mainWindow.show();
+	mainWindow.loadFile("test1.jpg");
 	return app.exec();
 }
