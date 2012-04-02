@@ -39,7 +39,11 @@ HEADERS += src/Exceptions.h \
            src/ConvolutionPanel.h \
            src/RgbChannelPixelMap.h \
            src/LinearPixelMap.h \
-           src/MidlevelNonlinearMap.h
+           src/MidlevelNonlinearMap.h \
+           src/AlgebraicProcess.h \
+           src/ImageBlendMap.h \
+           src/ImagePixelMap.h \
+           src/PositionalPixelMap.h
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -69,4 +73,8 @@ SOURCES += src/main.cpp \
            src/ConvolutionPanel.cpp \
            src/RgbChannelPixelMap.cpp \
            src/LinearPixelMap.cpp \
-           src/MidlevelNonlinearMap.cpp
+           src/MidlevelNonlinearMap.cpp \
+           src/AlgebraicProcess.cpp \
+           src/ImageBlendMap.cpp \
+           src/ImagePixelMap.cpp \
+           src/PositionalPixelMap.cpp 

@@ -12,6 +12,14 @@ PixelProcess::PixelProcess(PixelMap *map, const QString &processName)
 	m_iter = new PixelIterator();
 }
 
+PixelProcess::PixelProcess(PixelIterator *iter, PixelMap *map, 
+			   const QString &processName)
+	: ImageProcess(processName)
+{
+	m_map = map;
+	m_iter = iter;
+}
+
 PixelProcess::~PixelProcess()
 {
 	delete m_map;

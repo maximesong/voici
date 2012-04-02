@@ -10,6 +10,8 @@
 #include "BlockIterator.h"
 #include "BlockProcess.h"
 #include "MidlevelNonlinearMap.h"
+#include "ImageBlendMap.h"
+#include "AlgebraicProcess.h"
 
 ImageProcess *ProcessFactory::getStandardGrayProcess()
 {
@@ -51,3 +53,12 @@ ImageProcess *ProcessFactory::getMidlevelNonlinearMap(int c, int max_level)
 	return buildFromPixelMap(map);
 }
 
+
+ImageProcess *ProcessFactory::buildAlgebraicProcess(const QImage &image, 
+						   double origin_rate, 
+						   double new_rate)
+{
+	ImagePixelMap *map  = new ImageBlendMap(image, origin_rate, new_rate);
+	AlgebraicProcess *process = new AlgebraicProcess(map);
+	return process;
+}

@@ -2,6 +2,7 @@
 #define _PROCESSFACTORY_H_
 
 #include <QVector>
+#include <QImage>
 
 #include "VoiciGlobal.h"
 
@@ -21,6 +22,9 @@ public:
 	static ImageProcess *getMidlevelNonlinearMap(int c, int max_level);
 private:
 	static ImageProcess *buildFromPixelMap(PixelMap *map);
+	static ImageProcess *buildAlgebraicProcess(const QImage &image, 
+						  double origin_rate, 
+						  double new_rate);
 };
 
 #endif /* _PROCESSFACTORY_H_ */

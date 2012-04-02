@@ -10,6 +10,8 @@ class QImage;
 class PixelProcess : public ImageProcess {
 public:
 	PixelProcess(PixelMap *map, const QString &processName = "Pixel Process");
+	PixelProcess(PixelIterator *iter, PixelMap *map, 
+		     const QString &processName = "Pixel Process");
 	~PixelProcess();
 	void setPixelMap(PixelMap *map);
 	void setIterator(PixelIterator *iter);

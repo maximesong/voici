@@ -37,6 +37,23 @@ void PixelIterator::iterate(QImage *image, PixelMap *map)
 		}
 }
 
+void PixelIterator::iterate(QImage *image, PositionalPixelMap *map)
+{
+	if (m_x >= image->width() || m_y >= image->height())
+		return;
+	int x_end = image->width();
+	if (m_width >= 0 && (m_x + m_width) < image->width())
+		x_end = m_x + m_width;
+
+	int y_end = image->height();
+	if (m_height >= 0 && (m_x + m_height) < image->height())
+		y_end = m_x + m_height;
+
+	for (int i = m_x; i < x_end; ++i)
+		for (int j = m_y; j < y_end; ++j)
+			image->setPixel(i, j, map->map(i, j, *image));
+}
+
 void PixelIterator::setRange(int x, int y, int width, int height)
 {
 	m_x = x >= 0 ? x : 0;

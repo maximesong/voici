@@ -4,6 +4,7 @@
 class QImage;
 
 class PixelMap;
+class PositionalPixelMap;
 
 class PixelIterator {
 public:
@@ -11,6 +12,7 @@ public:
 	PixelIterator(int x = 0, int y = 0, int width = -1, int height = -1);
 	static void rawIterate(QImage *image, PixelMap *map);
 	void iterate(QImage *image, PixelMap *map);
+	void iterate(QImage *image, PositionalPixelMap *map);
 	void setRange(int x, int y, int width, int height);
 	void setWidthAndHeight(int width, int height);
 	void setStartPoint(int x, int y);
