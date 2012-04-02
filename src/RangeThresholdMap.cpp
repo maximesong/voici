@@ -7,10 +7,10 @@ RangeThresholdMap::RangeThresholdMap(int low, int high)
 }
 
 
-int RangeThresholdMap::grayDegree(int r, int, int)
+int RangeThresholdMap::channelMap(int level)
 {
 	/* Assume that r == g && g == b */
-	if (r >= m_low && r <= m_high)
+	if (level >= m_low && level <= m_high)
 		return 255;
 	else
 		return 0;

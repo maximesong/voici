@@ -23,6 +23,7 @@ HEADERS += src/Exceptions.h \
            src/GrayPixelMap.h \
            src/PixelIterator.h \
            src/PixelMap.h \
+           src/GrayImagePixelMap.h \
            src/RatePixelMap.h \
            src/ProcessFactory.h \
            src/PixelProcess.h \
@@ -35,7 +36,10 @@ HEADERS += src/Exceptions.h \
            src/OtsuAlgorithm.h \
            src/EntropyMethod.h \
            src/KernelTable.h \
-           src/ConvolutionPanel.h
+           src/ConvolutionPanel.h \
+           src/RgbChannelPixelMap.h \
+           src/LinearPixelMap.h \
+           src/MidlevelNonlinearMap.h
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -50,6 +54,7 @@ SOURCES += src/main.cpp \
            src/GrayPixelMap.cpp \
            src/PixelIterator.cpp \
            src/PixelMap.cpp \
+           src/GrayImagePixelMap.cpp \
            src/RatePixelMap.cpp \
            src/ProcessFactory.cpp \
            src/PixelProcess.cpp \
@@ -61,4 +66,7 @@ SOURCES += src/main.cpp \
            src/OtsuAlgorithm.cpp \
            src/EntropyMethod.cpp \
            src/KernelTable.cpp \
-           src/ConvolutionPanel.cpp
+           src/ConvolutionPanel.cpp \
+           src/RgbChannelPixelMap.cpp \
+           src/LinearPixelMap.cpp \
+           src/MidlevelNonlinearMap.cpp

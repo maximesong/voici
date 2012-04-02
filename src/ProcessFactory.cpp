@@ -4,10 +4,12 @@
 #include "PixelProcess.h"
 #include "ImageProcess.h"
 #include "RatePixelMap.h"
+#include "LinearPixelMap.h"
 #include "RangeThresholdMap.h"
 #include "MatrixBlockMap.h"
 #include "BlockIterator.h"
 #include "BlockProcess.h"
+#include "MidlevelNonlinearMap.h"
 
 ImageProcess *ProcessFactory::getStandardGrayProcess()
 {
@@ -36,3 +38,16 @@ ImageProcess *ProcessFactory::getConvolutionProcess(int rows, int columns,
 	BlockProcess *process = new BlockProcess(iter, map, "Convolution");
 	return process;
 }
+
+ImageProcess *ProcessFactory::getLinearProcess(int k, int b)
+{
+	PixelMap *map = new LinearPixelMap(k, b);
+	return buildFromPixelMap(map);
+}
+
+ImageProcess *ProcessFactory::getMidlevelNonlinearMap(int c, int max_level)
+{
+	PixelMap *map = new LinearPixelMap(c, max_level);
+	return buildFromPixelMap(map);
+}
+

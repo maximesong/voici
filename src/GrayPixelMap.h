@@ -7,9 +7,9 @@
 
 class GrayPixelMap : public PixelMap {
 public:
-	virtual QRgb map(int r, int g, int b);
+	virtual QRgb map(int r, int g = 0, int b = 0);
 protected:
-	virtual int grayDegree(int r, int g, int b) = 0;
+	virtual int mapToGray(int r, int g, int b) = 0;
 };
 
 

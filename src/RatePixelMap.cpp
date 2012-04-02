@@ -7,6 +7,6 @@ RatePixelMap::RatePixelMap(double rRate, double gRate, double bRate)
 	m_b_rate = bRate;
 }
 
-int RatePixelMap::grayDegree(int r, int g, int b) {
-	return r * m_r_rate + g * m_g_rate + b * m_b_rate;
+int RatePixelMap::mapToGray(int r, int g, int b) {
+	return safe_range(r * m_r_rate + g * m_g_rate + b * m_b_rate);
 }

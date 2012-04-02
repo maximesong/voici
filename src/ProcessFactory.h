@@ -17,6 +17,8 @@ public:
 	static ImageProcess *getConvolutionProcess(int rows, int columns, 
 						   int centerRow, int centerColumn,
 						   const QVector<double> &matrix);
+	static ImageProcess *getLinearProcess(int k, int b);
+	static ImageProcess *getMidlevelNonlinearMap(int c, int max_level);
 private:
 	static ImageProcess *buildFromPixelMap(PixelMap *map);
 };
