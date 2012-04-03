@@ -8,6 +8,7 @@
 
 class ImageProcess;
 class PixelMap;
+class ImageBlendMapPolicy;
 
 class ProcessFactory {
 public:
@@ -18,13 +19,21 @@ public:
 	static ImageProcess *getConvolutionProcess(int rows, int columns, 
 						   int centerRow, int centerColumn,
 						   const QVector<double> &matrix);
-	static ImageProcess *getLinearProcess(int k, int b);
-	static ImageProcess *getMidlevelNonlinearMap(int c, int max_level);
+	static ImageProcess *getLinearProcess(double k, double b);
+	static ImageProcess *getMidlevelNonlinearMap(double c, int max_level);
+	
+	static ImageProcess *getImageLinearBlendProcess(const QImage &image,
+							double rate1, 
+							double rate2);
+
+	static ImageProcess *getImageProductProcess(const QImage &image,
+						    double coefficient = 1.0);
+	static ImageProcess *getImageQuotientProcess(const QImage &image,
+						     double coefficient = 1.0);
 private:
 	static ImageProcess *buildFromPixelMap(PixelMap *map);
 	static ImageProcess *buildAlgebraicProcess(const QImage &image, 
-						  double origin_rate, 
-						  double new_rate);
+						   ImageBlendMapPolicy *policy);
 };
 
 #endif /* _PROCESSFACTORY_H_ */

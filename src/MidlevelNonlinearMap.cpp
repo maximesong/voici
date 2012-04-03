@@ -1,6 +1,6 @@
 #include "MidlevelNonlinearMap.h"
 
-MidlevelNonlinearMap::MidlevelNonlinearMap(int c, int max_level)
+MidlevelNonlinearMap::MidlevelNonlinearMap(double c, int max_level)
 {
 	m_c = c;
 	m_max = max_level;

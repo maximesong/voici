@@ -12,6 +12,10 @@
 #include "MidlevelNonlinearMap.h"
 #include "ImageBlendMap.h"
 #include "AlgebraicProcess.h"
+#include "ImageBlendMapPolicy.h"
+#include "ProductBlendPolicy.h"
+#include "QuotientBlendPolicy.h"
+#include "LinearBlendPolicy.h"
 
 ImageProcess *ProcessFactory::getStandardGrayProcess()
 {
@@ -41,24 +45,45 @@ ImageProcess *ProcessFactory::getConvolutionProcess(int rows, int columns,
 	return process;
 }
 
-ImageProcess *ProcessFactory::getLinearProcess(int k, int b)
+ImageProcess *ProcessFactory::getLinearProcess(double k, double b)
 {
 	PixelMap *map = new LinearPixelMap(k, b);
 	return buildFromPixelMap(map);
 }
 
-ImageProcess *ProcessFactory::getMidlevelNonlinearMap(int c, int max_level)
+ImageProcess *ProcessFactory::getMidlevelNonlinearMap(double c, int max_level)
 {
-	PixelMap *map = new LinearPixelMap(c, max_level);
+	PixelMap *map = new MidlevelNonlinearMap(c, max_level);
 	return buildFromPixelMap(map);
+}
+
+ImageProcess *ProcessFactory::getImageLinearBlendProcess(const QImage &image,
+							 double rate1, 
+							 double rate2)
+{
+	ImageBlendMapPolicy *policy = new LinearBlendPolicy(rate1, rate2);
+	return buildAlgebraicProcess(image, policy);
+}
+
+ImageProcess *ProcessFactory::getImageProductProcess(const QImage &image,
+					    double coefficient)
+{
+	ImageBlendMapPolicy *policy = new ProductBlendPolicy(coefficient);
+	return buildAlgebraicProcess(image, policy);
+}
+
+ImageProcess *ProcessFactory::getImageQuotientProcess(const QImage &image,
+					     double coefficient)
+{
+	ImageBlendMapPolicy *policy = new QuotientBlendPolicy(coefficient);
+	return buildAlgebraicProcess(image, policy);
 }
 
 
 ImageProcess *ProcessFactory::buildAlgebraicProcess(const QImage &image, 
-						   double origin_rate, 
-						   double new_rate)
+						    ImageBlendMapPolicy *policy)
 {
-	ImagePixelMap *map  = new ImageBlendMap(image, origin_rate, new_rate);
+	ImagePixelMap *map  = new ImageBlendMap(image, policy);
 	AlgebraicProcess *process = new AlgebraicProcess(map);
 	return process;
 }

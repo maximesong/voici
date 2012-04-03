@@ -3,15 +3,17 @@
 
 #include "ImagePixelMap.h"
 
+class ImageBlendMapPolicy;
+
 class ImageBlendMap : public ImagePixelMap {
 public:
-	ImageBlendMap(const QImage &image, double origin_rate, double new_rate);
+	ImageBlendMap(const QImage &image, ImageBlendMapPolicy *policy);
+	~ImageBlendMap();
 	virtual QRgb map(int x, int y, int r, int g, int b);
 	virtual QRgb map(int x, int y, const QImage &image);
-	void setBlendRate(double origin_rate, double new_rate);
+	void setPolicy(ImageBlendMapPolicy *policy);
 private:
-	double m_origin_rate;
-	double m_new_rate;
+	ImageBlendMapPolicy *m_policy;
 };
 
 #endif /* _IMAGEBLENDMAP_H_ */

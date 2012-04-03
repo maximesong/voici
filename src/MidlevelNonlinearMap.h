@@ -4,12 +4,13 @@
 #include "RgbChannelPixelMap.h"
 
 class MidlevelNonlinearMap : public RgbChannelPixelMap {
-	MidlevelNonlinearMap(int c, int max_level);
+public:
+	MidlevelNonlinearMap(double c, int max_level);
 protected:
 	virtual int channelMap(int level);
 private:
 	double m_c;
-	double m_max;
+	int m_max;
 };
 
 #endif /* _MIDLEVELNONLINEARMAP_H_ */

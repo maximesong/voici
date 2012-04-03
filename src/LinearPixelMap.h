@@ -5,11 +5,11 @@
 
 class LinearPixelMap : public RgbChannelPixelMap {
 public:
-	LinearPixelMap(int k, int b);
+	LinearPixelMap(double k, double b);
 	virtual int channelMap(int level);
 private:
-	int m_k;
-	int m_b;
+	double m_k;
+	double m_b;
 };
 
 #endif /* _LINEARPIXELMAP_H_ */

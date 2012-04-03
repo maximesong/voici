@@ -2,17 +2,23 @@
 
 #include <QImage>
 
-ImageBlendMap::ImageBlendMap(const QImage &image, 
-			     double origin_rate, double new_rate)
+#include "ImageBlendMapPolicy.h"
+
+ImageBlendMap::ImageBlendMap(const QImage &image, ImageBlendMapPolicy *policy)
 {
 	setImage(image);
-	setBlendRate(origin_rate, new_rate);
+	m_policy = policy;
 }
 
-void ImageBlendMap::setBlendRate(double origin_rate, double new_rate)
+ImageBlendMap::~ImageBlendMap()
 {
-	m_origin_rate = origin_rate;
-	m_new_rate = new_rate;
+	delete m_policy;
+}
+
+void ImageBlendMap::setPolicy(ImageBlendMapPolicy *policy)
+{
+	delete m_policy;
+	m_policy = policy;
 }
 
 QRgb ImageBlendMap::map(int x, int y, const QImage &image)
@@ -28,8 +34,8 @@ QRgb ImageBlendMap::map(int x, int y, int r, int g, int b)
 	double new_g = qGreen(rgb);
 	double new_b = qBlue(rgb);
 
-	int blend_r = safe_range(m_origin_rate * r + m_new_rate * new_r);
-	int blend_g = safe_range(m_origin_rate * g + m_new_rate * new_g);
-	int blend_b = safe_range(m_origin_rate * b + m_new_rate * new_b);
+	int blend_r = m_policy->channelBlend(r, new_r);
+	int blend_g = m_policy->channelBlend(g, new_g);
+	int blend_b = m_policy->channelBlend(b, new_b);
 	return qRgb(blend_r, blend_g, blend_b);
 }

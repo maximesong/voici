@@ -1,6 +1,6 @@
 #include "LinearPixelMap.h"
 
-LinearPixelMap::LinearPixelMap(int k, int b)
+LinearPixelMap::LinearPixelMap(double k, double b)
 {
 	m_k = k;
 	m_b = b;

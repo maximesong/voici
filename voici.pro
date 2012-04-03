@@ -43,7 +43,11 @@ HEADERS += src/Exceptions.h \
            src/AlgebraicProcess.h \
            src/ImageBlendMap.h \
            src/ImagePixelMap.h \
-           src/PositionalPixelMap.h
+           src/PositionalPixelMap.h \
+           src/ImageBlendMapPolicy.h \
+           src/LinearBlendPolicy.h \
+           src/ProductBlendPolicy.h \
+           src/QuotientBlendPolicy.h
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -77,4 +81,7 @@ SOURCES += src/main.cpp \
            src/AlgebraicProcess.cpp \
            src/ImageBlendMap.cpp \
            src/ImagePixelMap.cpp \
-           src/PositionalPixelMap.cpp 
+           src/PositionalPixelMap.cpp \
+           src/LinearBlendPolicy.cpp \
+           src/ProductBlendPolicy.cpp \
+           src/QuotientBlendPolicy.cpp
