@@ -68,23 +68,30 @@ void VoiciMainWindow::createCentralWidget()
 
 void VoiciMainWindow::open()
 {
-	QString fileName = QFileDialog::getOpenFileName(this,
+	QString filename = QFileDialog::getOpenFileName(this,
 							tr("Open Image"), 
 							".",
 							tr("all(*.png *.jpg)"));
-		loadFile(fileName);
+	loadFile(filename);
 }
 
 void VoiciMainWindow::save()
 {
-	/* TO BE IMPLEMENTED */
+	QString filename = QFileDialog::getSaveFileName(this,
+							tr("Save Image"), 
+							".",
+							tr("all(*.png *.jpg)"));
+	if (filename == "")
+		return;
+
+	saveFile(filename);
 }
 
 
 void VoiciMainWindow::loadFile(const QString &filename)
 {
 	if (filename.isEmpty())
-		throw FileError();
+		return;
 
 	imageCore->load(filename);
 	currentFileName = filename;
@@ -119,6 +126,11 @@ void VoiciMainWindow::loadFile(const QString &filename)
 		grayImageCore, SLOT(pushImageProcess(ImageProcess *)));
 }
 
+void VoiciMainWindow::saveFile(const QString &filename)
+{
+	QImage image = grayImageCore->getCurrentImage();
+	image.save(filename);
+}
 
 VoiciMainWindow::~VoiciMainWindow()
 {

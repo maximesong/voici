@@ -19,6 +19,7 @@ public:
 	VoiciMainWindow();
 	~VoiciMainWindow();
 	void loadFile(const QString &filename);
+	void saveFile(const QString &filename);
 
 private slots:
  	void open();
