@@ -9,7 +9,8 @@ INCLUDEPATH += . src
 OBJECTS_DIR += ./objs
 MOC_DIR += ./tmp
 RCC_DIR += ./tmp
-
+TRANSLATIONS = languages/voici_zh.ts
+CODECFORSRC  = UTF-8
 RESOURCES = voici.qrc
 
 # Input

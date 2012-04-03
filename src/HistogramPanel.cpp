@@ -20,15 +20,15 @@ HistogramPanel::HistogramPanel(ImageCore *imageCore, QWidget *parent)
 	connect(thresholdPanel, SIGNAL(thresholdChanged(int, int)), 
 		this, SLOT(setThreshold(int, int)));
 	
-	otsuButton = new QPushButton("OTSU");
+	otsuButton = new QPushButton(tr("OTSU"));
 	connect(otsuButton, SIGNAL(clicked()), 
 		this, SLOT(setOtsu()));
 
-	entropyButton = new QPushButton("Entropy");
+	entropyButton = new QPushButton(tr("Entropy"));
 	connect(entropyButton, SIGNAL(clicked()), 
 		this, SLOT(setEntropy()));
 
-	checkbox = new QCheckBox("Apply Threshold");
+	checkbox = new QCheckBox(tr("Apply Threshold"));
 	connect(checkbox, SIGNAL(stateChanged(int)), 
 		this, SLOT(enableThreshold(int)));
 
