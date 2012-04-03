@@ -1,6 +1,7 @@
 #include "VoiciMainWindow.h"
 
 #include <QAction>
+#include <QIcon>
 #include <QToolBar>
 #include <QGridLayout>
 #include <QFileDialog>
@@ -37,6 +38,7 @@ VoiciMainWindow::VoiciMainWindow()
 void VoiciMainWindow::createToolBars()
 {
 	fileToolBar = this->addToolBar(tr("File"));
+	fileToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	fileToolBar->addAction(openAction);
 	fileToolBar->addAction(saveAction);
 }
@@ -44,10 +46,10 @@ void VoiciMainWindow::createToolBars()
 
 void VoiciMainWindow::createActions()
 {
-	openAction = new QAction("Open", this);
+	openAction = new QAction(QIcon(":/images/open.svg"), tr("Open"), this);
 	connect(openAction, SIGNAL(triggered()), this, SLOT(open()));
 
-	saveAction = new QAction("Save", this);
+	saveAction = new QAction(QIcon(":/images/save.svg"), tr("Save"), this);
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
 }
 

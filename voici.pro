@@ -8,6 +8,9 @@ DEPENDPATH += . src
 INCLUDEPATH += . src
 OBJECTS_DIR += ./objs
 MOC_DIR += ./tmp
+RCC_DIR += ./tmp
+
+RESOURCES = voici.qrc
 
 # Input
 HEADERS += src/Exceptions.h \
