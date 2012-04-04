@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QScrollArea>
 #include <QMouseEvent>
+#include <QCursor>
 
 PaintCanvas::PaintCanvas(QWidget *parent):
 	QWidget(parent)
@@ -16,6 +17,7 @@ PaintCanvas::PaintCanvas(QWidget *parent):
 	setMouseTracking(1);
 	canvas = new QLabel();
 	canvas->setMouseTracking(1);
+	canvas->setCursor(QCursor(Qt::CrossCursor));
 
 	scrollable_canvas = new QScrollArea();
 	scrollable_canvas->setWidget(canvas);
@@ -38,7 +40,7 @@ void PaintCanvas::drawImage(const ImageCore &imageCore)
 	update();
 }
 
-void PaintCanvas::mouseMoveEvent (QMouseEvent * event)
+void PaintCanvas::mouseMoveEvent (QMouseEvent *event)
 {
 	QPoint pixel_point = canvas->mapFrom(scrollable_canvas, event->pos());
 	if (pixel_point.x() < 0)

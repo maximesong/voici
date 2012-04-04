@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QPushButton>
+#include <QGroupBox>
 
 #include "ImageCore.h"
 #include "HistogramChart.h"
@@ -32,11 +33,16 @@ HistogramPanel::HistogramPanel(ImageCore *imageCore, QWidget *parent)
 	connect(checkbox, SIGNAL(stateChanged(int)), 
 		this, SLOT(enableThreshold(int)));
 
+	QGroupBox *buttonGroup = new QGroupBox(tr("Threshold Algorithms"));
+	QVBoxLayout *groupBoxLayout = new QVBoxLayout();
+	buttonGroup->setLayout(groupBoxLayout);
+	groupBoxLayout->addWidget(otsuButton);
+	groupBoxLayout->addWidget(entropyButton);
+
 	QVBoxLayout *layout = new QVBoxLayout();
 	layout->addWidget(histogramChart);
 	layout->addWidget(thresholdPanel);
-	layout->addWidget(otsuButton);
-	layout->addWidget(entropyButton);
+	layout->addWidget(buttonGroup);
 	layout->addWidget(checkbox);
 	setLayout(layout);
 
