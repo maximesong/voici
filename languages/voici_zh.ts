@@ -86,18 +86,30 @@
     </message>
     <message>
         <location filename="../src/KernelTable.cpp" line="34"/>
-        <source>columns:</source>
+        <source>cols:</source>
         <translation>列数:</translation>
     </message>
     <message>
         <location filename="../src/KernelTable.cpp" line="36"/>
-        <source>center row:</source>
+        <source>cx:</source>
         <translation>中心行:</translation>
     </message>
     <message>
         <location filename="../src/KernelTable.cpp" line="38"/>
-        <source>center column:</source>
+        <source>cy:</source>
         <translation>中心列:</translation>
+    </message>
+    <message>
+        <source>columns:</source>
+        <translation type="obsolete">列数:</translation>
+    </message>
+    <message>
+        <source>center row:</source>
+        <translation type="obsolete">中心行:</translation>
+    </message>
+    <message>
+        <source>center column:</source>
+        <translation type="obsolete">中心列:</translation>
     </message>
 </context>
 <context>
@@ -185,7 +197,7 @@
         <location filename="../src/VoiciMainWindow.cpp" line="76"/>
         <location filename="../src/VoiciMainWindow.cpp" line="85"/>
         <source>all(*.png *.jpg)</source>
-        <translation>所有（*.png *.jpg）</translation>
+        <translation>所有(*.png *.jpg)</translation>
     </message>
     <message>
         <location filename="../src/VoiciMainWindow.cpp" line="83"/>

@@ -5,5 +5,6 @@
     <file>images/horizontal.svg</file>
     <file>images/vertical.svg</file>
     <file>images/check.svg</file>
+    <file>languages/voici_zh.qm</file>
 </qresource>
 </RCC>

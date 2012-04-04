@@ -31,11 +31,11 @@ void KernelTable::init(int rows, int columns, int centerRow, int centerColumn)
 	rowsBox->setPrefix(tr("rows:"));
 	columnsBox = new QSpinBox();
 	columnsBox->setValue(columns);
-	columnsBox->setPrefix(tr("columns:"));
+	columnsBox->setPrefix(tr("cols:"));
 	centerRowBox = new QSpinBox();
-	centerRowBox->setPrefix(tr("center row:"));
+	centerRowBox->setPrefix(tr("cx:"));
 	centerColumnBox = new QSpinBox();
-	centerColumnBox->setPrefix(tr("center column:"));
+	centerColumnBox->setPrefix(tr("cy:"));
 	setCenter(centerRow, centerColumn);
 
 	connect(rowsBox, SIGNAL(valueChanged(int)), 

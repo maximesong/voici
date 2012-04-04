@@ -13,6 +13,9 @@ TRANSLATIONS = languages/voici_zh.ts
 CODECFORSRC  = UTF-8
 RESOURCES = voici.qrc
 
+#DEFINES += LANGUAGE_ZH
+#DEFINES += QUICK_TEST
+
 # Input
 HEADERS += src/Exceptions.h \
            src/PaintCanvas.h \
