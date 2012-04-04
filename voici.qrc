@@ -1,10 +1,10 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-    <file>images/open.svg</file>
-    <file>images/save.svg</file>
-    <file>images/horizontal.svg</file>
-    <file>images/vertical.svg</file>
-    <file>images/check.svg</file>
+    <file>images/open.png</file>
+    <file>images/save.png</file>
+    <file>images/horizontal.png</file>
+    <file>images/vertical.png</file>
+    <file>images/check.png</file>
     <file>languages/voici_zh.qm</file>
 </qresource>
 </RCC>

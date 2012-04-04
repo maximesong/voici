@@ -46,10 +46,10 @@ void VoiciMainWindow::createToolBars()
 
 void VoiciMainWindow::createActions()
 {
-	openAction = new QAction(QIcon(":/images/open.svg"), tr("&Open"), this);
+	openAction = new QAction(QIcon(":/images/open.png"), tr("&Open"), this);
 	connect(openAction, SIGNAL(triggered()), this, SLOT(open()));
 
-	saveAction = new QAction(QIcon(":/images/save.svg"), tr("&Save"), this);
+	saveAction = new QAction(QIcon(":/images/save.png"), tr("&Save"), this);
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
 }
 

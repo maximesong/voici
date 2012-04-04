@@ -15,25 +15,25 @@ ConvolutionPanel::ConvolutionPanel(QWidget *parent)
 {
 	kernelTable = new KernelTable();
 
-	robertsHButton = new QPushButton(QIcon(":images/horizontal.svg"), tr("RobertsH"));
-	robertsVButton = new QPushButton(QIcon(":images/vertical.svg"), tr("RobertsV"));
+	robertsHButton = new QPushButton(QIcon(":images/horizontal.png"), tr("RobertsH"));
+	robertsVButton = new QPushButton(QIcon(":images/vertical.png"), tr("RobertsV"));
 	QGroupBox *robertsGroup = new QGroupBox(tr("Roberts Operator"));
 	QHBoxLayout *robertsLayout = new QHBoxLayout();
 	robertsLayout->addWidget(robertsHButton);
 	robertsLayout->addWidget(robertsVButton);
 	robertsGroup->setLayout(robertsLayout);
 
-	prewittHButton = new QPushButton(QIcon(":images/horizontal.svg"), tr("PrewittH"));
-	prewittVButton = new QPushButton(QIcon(":images/vertical.svg"), tr("PrewittV"));
+	prewittHButton = new QPushButton(QIcon(":images/horizontal.png"), tr("PrewittH"));
+	prewittVButton = new QPushButton(QIcon(":images/vertical.png"), tr("PrewittV"));
 	QGroupBox *prewittGroup = new QGroupBox(tr("Prewitt Operator"));
 	QHBoxLayout *prewittLayout = new QHBoxLayout();
 	prewittLayout->addWidget(prewittHButton);
 	prewittLayout->addWidget(prewittVButton);
 	prewittGroup->setLayout(prewittLayout);
 
-	sobelHButton = new QPushButton(QIcon(":images/horizontal.svg"), tr("SobelH"));
-	sobelVButton = new QPushButton(QIcon(":images/vertical.svg"), tr("SobelV"));
-	applyButton = new QPushButton(QIcon(":images/check.svg"), tr("Apply"));
+	sobelHButton = new QPushButton(QIcon(":images/horizontal.png"), tr("SobelH"));
+	sobelVButton = new QPushButton(QIcon(":images/vertical.png"), tr("SobelV"));
+	applyButton = new QPushButton(QIcon(":images/check.png"), tr("Apply"));
 	QGroupBox *sobelGroup = new QGroupBox(tr("Sobel Operator"));
 	QHBoxLayout *sobelLayout = new QHBoxLayout();
 	sobelLayout->addWidget(sobelHButton);

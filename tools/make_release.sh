@@ -55,10 +55,10 @@ done
 
 # cp $TARGET_FILES_LINUX $RELEASE_PATH
 
-# if [[ -e $ROOT_PATH/basketball.exe ]]; then
-#     cp $ROOT_PATH/dll/* $RELEASE_PATH
-#     cp $ROOT_PATH/basketball.exe $RELEASE_PATH
-# fi
+if [[ -e $ROOT_PATH/voici_en.exe ]]; then
+     cp $ROOT_PATH/dll/* $RELEASE_PATH
+     cp $ROOT_PATH/basketball.exe $RELEASE_PATH
+fi
 
 rm -r $RELEASE_PATH/build
 
