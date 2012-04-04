@@ -46,10 +46,10 @@ void VoiciMainWindow::createToolBars()
 
 void VoiciMainWindow::createActions()
 {
-	openAction = new QAction(QIcon(":/images/open.svg"), tr("Open"), this);
+	openAction = new QAction(QIcon(":/images/open.svg"), tr("&Open"), this);
 	connect(openAction, SIGNAL(triggered()), this, SLOT(open()));
 
-	saveAction = new QAction(QIcon(":/images/save.svg"), tr("Save"), this);
+	saveAction = new QAction(QIcon(":/images/save.svg"), tr("&Save"), this);
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
 }
 
@@ -103,18 +103,18 @@ void VoiciMainWindow::loadFile(const QString &filename)
 	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
 		paintCanvas, SLOT(drawImage(const ImageCore&)));
 
+	displayPanel->addTab(paintCanvas, filename);
+
 	replaceTabWidget(displayPanel, &grayPaintCanvas, 
-			 new PaintCanvas(), "Gray");
+			 new PaintCanvas(), tr("Gray"));
 	connect(grayImageCore, SIGNAL(imageChanged(const ImageCore&)), 
 		grayPaintCanvas, SLOT(drawImage(const ImageCore&)));
 
-	displayPanel->addTab(paintCanvas, filename);
-	displayPanel->addTab(grayPaintCanvas, "Gray");
 	paintCanvas->drawImage(*imageCore);
 	grayPaintCanvas->drawImage(*grayImageCore);
 
 	replaceTabWidget(controlPanel, &histogramPanel, 
-			 new HistogramPanel(imageCore), "Histogram");
+			 new HistogramPanel(imageCore), tr("Histogram"));
 
 	connect(histogramPanel, SIGNAL(thresholdChanged(int, int)), 
 		grayImageCore, SLOT(setThreshold(int,int)));
@@ -122,7 +122,7 @@ void VoiciMainWindow::loadFile(const QString &filename)
 		grayImageCore, SLOT(unsetThreshold()));
 
 	replaceTabWidget(controlPanel, &convolutionPanel,
-			 new ConvolutionPanel(), "Convolution");
+			 new ConvolutionPanel(), tr("Convolution"));
 
 	connect(convolutionPanel, SIGNAL(newProcess(ImageProcess *)), 
 		grayImageCore, SLOT(pushImageProcess(ImageProcess *)));

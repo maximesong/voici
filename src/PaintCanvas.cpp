@@ -21,7 +21,7 @@ PaintCanvas::PaintCanvas(QWidget *parent):
 	scrollable_canvas->setWidget(canvas);
 	scrollable_canvas->setMouseTracking(1);
 
-	pixel_bar = new QLabel("Hello");
+	pixel_bar = new QLabel("");
 	QVBoxLayout *layout = new QVBoxLayout();
 	layout->addWidget(scrollable_canvas);
 	layout->addWidget(pixel_bar);
@@ -54,11 +54,11 @@ void PaintCanvas::mouseMoveEvent (QMouseEvent * event)
 	
 	QString label;
 	label += QString::number(image.width()) + 
-		" * " + QString::number(image.height()) + " pixels";
-	label += "\tx:" + QString::number(pixel_point.x());
-	label += "\ty:" + QString::number(pixel_point.y());
-	label += "\t\tr:" + QString::number(qRed(rgb));
-	label += "\tg:" + QString::number(qGreen(rgb));
-	label += "\tb:" + QString::number(qBlue(rgb));
+		" * " + QString::number(image.height()) + " " + tr("Pixels");
+	label += "    " + tr("X:") + QString::number(pixel_point.x());
+	label += "  " + tr("Y:") + QString::number(pixel_point.y());
+	label += "    " + tr("R:") + QString::number(qRed(rgb));
+	label += "    " + tr("G:") + QString::number(qGreen(rgb));
+	label += "    " + tr("B:") + QString::number(qBlue(rgb));
 	pixel_bar->setText(label);
 }

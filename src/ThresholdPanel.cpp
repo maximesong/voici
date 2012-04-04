@@ -9,8 +9,8 @@ ThresholdPanel::ThresholdPanel(QWidget *parent)
 	: QWidget(parent)
 {
 	QVBoxLayout *layout = new QVBoxLayout();
-	lowSlider = new SliderPanel("Low");
-	highSlider = new SliderPanel("High");
+	lowSlider = new SliderPanel(tr("Low"));
+	highSlider = new SliderPanel(tr("High"));
 
 	lowSlider->setValue(0);
 	highSlider->setValue(MAX_PIXEL_VALUE);

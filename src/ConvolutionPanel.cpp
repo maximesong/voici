@@ -2,6 +2,9 @@
 
 #include <QGridLayout>
 #include <QPushButton>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QIcon>
 #include <QVector>
 
 #include "KernelTable.h"
@@ -11,14 +14,31 @@ ConvolutionPanel::ConvolutionPanel(QWidget *parent)
 	: QWidget(parent)
 {
 	kernelTable = new KernelTable();
-	robertsHButton = new QPushButton("RobertsH");
-	robertsVButton = new QPushButton("RobertsV");
-	prewittHButton = new QPushButton("PrewittH");
-	prewittVButton = new QPushButton("PrewittV");
-	sobelHButton = new QPushButton("SobelH");
-	sobelVButton = new QPushButton("SobelV");
-	applyButton = new QPushButton("Apply");
 
+	robertsHButton = new QPushButton(QIcon(":images/horizontal.svg"), tr("RobertsH"));
+	robertsVButton = new QPushButton(QIcon(":images/vertical.svg"), tr("RobertsV"));
+	QGroupBox *robertsGroup = new QGroupBox(tr("Roberts Operator"));
+	QHBoxLayout *robertsLayout = new QHBoxLayout();
+	robertsLayout->addWidget(robertsHButton);
+	robertsLayout->addWidget(robertsVButton);
+	robertsGroup->setLayout(robertsLayout);
+
+	prewittHButton = new QPushButton(QIcon(":images/horizontal.svg"), tr("PrewittH"));
+	prewittVButton = new QPushButton(QIcon(":images/vertical.svg"), tr("PrewittV"));
+	QGroupBox *prewittGroup = new QGroupBox(tr("Prewitt Operator"));
+	QHBoxLayout *prewittLayout = new QHBoxLayout();
+	prewittLayout->addWidget(prewittHButton);
+	prewittLayout->addWidget(prewittVButton);
+	prewittGroup->setLayout(prewittLayout);
+
+	sobelHButton = new QPushButton(QIcon(":images/horizontal.svg"), tr("SobelH"));
+	sobelVButton = new QPushButton(QIcon(":images/vertical.svg"), tr("SobelV"));
+	applyButton = new QPushButton(QIcon(":images/check.svg"), tr("Apply"));
+	QGroupBox *sobelGroup = new QGroupBox(tr("Sobel Operator"));
+	QHBoxLayout *sobelLayout = new QHBoxLayout();
+	sobelLayout->addWidget(sobelHButton);
+	sobelLayout->addWidget(sobelVButton);
+	sobelGroup->setLayout(sobelLayout);
 
 	connect(robertsHButton, SIGNAL(clicked()), 
 		this, SLOT(setRobertsH()));
@@ -44,12 +64,9 @@ ConvolutionPanel::ConvolutionPanel(QWidget *parent)
 
 	QGridLayout *layout = new QGridLayout();
 	layout->addWidget(kernelTable, 0, 0, 4, 6);
-	layout->addWidget(robertsHButton, 5, 0, 1, 1);
-	layout->addWidget(robertsVButton, 5, 1, 1, 1);
-	layout->addWidget(prewittHButton, 6, 0, 1, 1);
-	layout->addWidget(prewittVButton, 6, 1, 1, 1);
-	layout->addWidget(sobelHButton, 7, 0, 1, 1);
-	layout->addWidget(sobelVButton, 7, 1, 1, 1);
+	layout->addWidget(robertsGroup, 5, 0, 1, 1);
+	layout->addWidget(prewittGroup, 6, 0, 1, 1);
+	layout->addWidget(sobelGroup, 7, 0, 1, 1);
 	layout->addWidget(applyButton, 9, 0, 1, 1);
 	
 	setLayout(layout);

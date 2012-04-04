@@ -2,5 +2,8 @@
 <qresource>
     <file>images/open.svg</file>
     <file>images/save.svg</file>
+    <file>images/horizontal.svg</file>
+    <file>images/vertical.svg</file>
+    <file>images/check.svg</file>
 </qresource>
 </RCC>
