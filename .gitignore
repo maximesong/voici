@@ -4,7 +4,7 @@ test.png
 voici
 Makefile
 *.jpg
-*.png
+./*.png
 *~
 *.qm
 release*/*

@@ -3,6 +3,9 @@
 #include "VoiciGlobal.h"
 #include "Histogram.h"
 
+#include <iostream>
+using namespace std;
+
 int OtsuAlgorithm::computeThreshold(const Histogram &histogram)
 {
 	int threshold = 0;
@@ -25,7 +28,9 @@ double OtsuAlgorithm::computeEvaluation(const Histogram &histogram, int threshol
 					GRAY);
 	double w2 = histogram.getWeight(threshold + 1, MAX_PIXEL_VALUE,
 					GRAY);
-	double u_diff = u1 - u2;
+	if (w1 == 0.0 || w2 == 0.0)
+		return 0.0;
+	double u_diff = u1 / w1 - u2 / w2;
 
 	return w1 * w2 * u_diff * u_diff;
 }
