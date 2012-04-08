@@ -11,7 +11,7 @@ class PaintCanvas;
 class HistogramPanel;
 class ConvolutionPanel;
 class AlgebraicProcessPanel;
-class FilterPanel;
+class ProcessPanel;
 
 class ImageCore;
 class GrayImageCore;
@@ -44,7 +44,7 @@ private:
 	HistogramPanel *histogramPanel;
 	ConvolutionPanel *convolutionPanel;
 	AlgebraicProcessPanel *algebraicProcessPanel;
-	FilterPanel *filterPanel;
+	ProcessPanel *processPanel;
 
 	QTabWidget *displayPanel;
 	QTabWidget *controlPanel;

@@ -18,7 +18,7 @@
 #include "ConvolutionPanel.h"
 #include "Exceptions.h"
 #include "AlgebraicProcessPanel.h"
-#include "FilterPanel.h"
+#include "ProcessPanel.h"
 
 VoiciMainWindow::VoiciMainWindow()
 {
@@ -138,10 +138,10 @@ void VoiciMainWindow::loadFile(const QString &filename)
 			 new AlgebraicProcessPanel(), tr("Alebraic Operations"));
 
 	/* Add Filter Panel */
-	replaceTabWidget(controlPanel, &filterPanel,
-			 new FilterPanel(), tr("Filter Panel"));
+	replaceTabWidget(controlPanel, &processPanel,
+			 new ProcessPanel(), tr("Process Panel"));
 
-	connect(filterPanel, SIGNAL(newProcess(ImageProcess *)), 
+	connect(processPanel, SIGNAL(newProcess(ImageProcess *)), 
 		this, SLOT(addProcess(ImageProcess *)));
 
 

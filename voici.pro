@@ -60,6 +60,10 @@ HEADERS += src/Exceptions.h \
            src/ImageUtility.h \
            src/QuickGaussBlurProcess.h \
            src/FilterPanel.h \
+           src/ScaleProcess.h \
+           src/NearestNeighbourScaleProcess.h \
+           src/ProcessPanel.h \
+           src/TransformPanel.h \
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -102,3 +106,7 @@ SOURCES += src/main.cpp \
            src/ImageUtility.cpp \
            src/QuickGaussBlurProcess.cpp \
            src/FilterPanel.cpp \
+           src/ScaleProcess.cpp \
+           src/NearestNeighbourScaleProcess.cpp \
+           src/ProcessPanel.cpp \
+           src/TransformPanel.cpp \
