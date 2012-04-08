@@ -17,11 +17,15 @@
 #include "KernelTable.h"
 #include "ConvolutionPanel.h"
 #include "Exceptions.h"
+#include "AlgebraicProcessPanel.h"
+#include "FilterPanel.h"
 
 VoiciMainWindow::VoiciMainWindow()
 {
 	imageCore = new ImageCore();
 	grayImageCore = new GrayImageCore();
+	currentImageCore = grayImageCore;
+
 	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)),
   		grayImageCore, SLOT(setColorfulImage(const ImageCore&)));
 
@@ -113,6 +117,7 @@ void VoiciMainWindow::loadFile(const QString &filename)
 	paintCanvas->drawImage(*imageCore);
 	grayPaintCanvas->drawImage(*grayImageCore);
 
+	/* Add Histogram Panel */
 	replaceTabWidget(controlPanel, &histogramPanel, 
 			 new HistogramPanel(imageCore), tr("Histogram"));
 
@@ -121,11 +126,25 @@ void VoiciMainWindow::loadFile(const QString &filename)
 	connect(histogramPanel, SIGNAL(unsetThreshold()), 
 		grayImageCore, SLOT(unsetThreshold()));
 
+	/* Add Convolution Panel */
 	replaceTabWidget(controlPanel, &convolutionPanel,
 			 new ConvolutionPanel(), tr("Convolution"));
 
 	connect(convolutionPanel, SIGNAL(newProcess(ImageProcess *)), 
 		grayImageCore, SLOT(pushImageProcess(ImageProcess *)));
+
+	/* Add Alegbraic Process Panel */
+	replaceTabWidget(controlPanel, &algebraicProcessPanel,
+			 new AlgebraicProcessPanel(), tr("Alebraic Operations"));
+
+	/* Add Filter Panel */
+	replaceTabWidget(controlPanel, &filterPanel,
+			 new FilterPanel(), tr("Filter Panel"));
+
+	connect(filterPanel, SIGNAL(newProcess(ImageProcess *)), 
+		this, SLOT(addProcess(ImageProcess *)));
+
+
 }
 
 void VoiciMainWindow::saveFile(const QString &filename)
@@ -151,4 +170,9 @@ void VoiciMainWindow::replaceTabWidget(QTabWidget *tabWidget, T **oldWidget,
 	}
 	*oldWidget = newWidget;
 	tabWidget->addTab(newWidget, label);
+}
+
+void VoiciMainWindow::addProcess(ImageProcess *process)
+{
+	currentImageCore->pushImageProcess(process);
 }

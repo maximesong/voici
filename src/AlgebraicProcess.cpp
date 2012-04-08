@@ -5,6 +5,8 @@
 #include "PixelIterator.h"
 #include "ImagePixelMap.h"
 
+#include "PreviewCanvas.h"
+
 AlgebraicProcess::AlgebraicProcess(ImagePixelMap *map, const QString &processName)
 	: ImageProcess(processName)
 {

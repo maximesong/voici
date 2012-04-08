@@ -16,6 +16,7 @@
 #include "ProductBlendPolicy.h"
 #include "QuotientBlendPolicy.h"
 #include "LinearBlendPolicy.h"
+#include "QuickGaussBlurProcess.h"
 
 ImageProcess *ProcessFactory::getStandardGrayProcess()
 {
@@ -86,4 +87,9 @@ ImageProcess *ProcessFactory::buildAlgebraicProcess(const QImage &image,
 	ImagePixelMap *map  = new ImageBlendMap(image, policy);
 	AlgebraicProcess *process = new AlgebraicProcess(map);
 	return process;
+}
+
+ImageProcess *ProcessFactory::getQuickGaussBlurProcess(double vert, double horz)
+{
+	return new QuickGaussBlurProcess(vert, horz);
 }

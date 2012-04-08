@@ -10,8 +10,12 @@ class QAction;
 class PaintCanvas;
 class HistogramPanel;
 class ConvolutionPanel;
+class AlgebraicProcessPanel;
+class FilterPanel;
+
 class ImageCore;
 class GrayImageCore;
+class ImageProcess;
 
 class VoiciMainWindow : public QMainWindow {
 	Q_OBJECT
@@ -24,6 +28,7 @@ public:
 private slots:
  	void open();
 	void save();
+	void addProcess(ImageProcess *process);
 private:
 	void createToolBars();
 	void createActions();
@@ -38,6 +43,8 @@ private:
 
 	HistogramPanel *histogramPanel;
 	ConvolutionPanel *convolutionPanel;
+	AlgebraicProcessPanel *algebraicProcessPanel;
+	FilterPanel *filterPanel;
 
 	QTabWidget *displayPanel;
 	QTabWidget *controlPanel;
@@ -47,6 +54,7 @@ private:
 
 	ImageCore *imageCore;
 	ImageCore *grayImageCore;
+	ImageCore *currentImageCore;
 
 	QString currentFileName;
 };

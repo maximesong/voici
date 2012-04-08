@@ -14,7 +14,7 @@ CODECFORSRC  = UTF-8
 RESOURCES = voici.qrc
 
 #DEFINES += LANGUAGE_ZH
-#DEFINES += QUICK_TEST
+DEFINES += QUICK_TEST
 
 # Input
 HEADERS += src/Exceptions.h \
@@ -54,7 +54,12 @@ HEADERS += src/Exceptions.h \
            src/ImageBlendMapPolicy.h \
            src/LinearBlendPolicy.h \
            src/ProductBlendPolicy.h \
-           src/QuotientBlendPolicy.h
+           src/QuotientBlendPolicy.h \
+           src/AlgebraicProcessPanel.h \
+           src/PreviewCanvas.h \
+           src/ImageUtility.h \
+           src/QuickGaussBlurProcess.h \
+           src/FilterPanel.h \
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -91,4 +96,9 @@ SOURCES += src/main.cpp \
            src/PositionalPixelMap.cpp \
            src/LinearBlendPolicy.cpp \
            src/ProductBlendPolicy.cpp \
-           src/QuotientBlendPolicy.cpp
+           src/QuotientBlendPolicy.cpp \
+           src/AlgebraicProcessPanel.cpp \
+           src/PreviewCanvas.cpp \
+           src/ImageUtility.cpp \
+           src/QuickGaussBlurProcess.cpp \
+           src/FilterPanel.cpp \

@@ -30,6 +30,8 @@ public:
 						    double coefficient = 1.0);
 	static ImageProcess *getImageQuotientProcess(const QImage &image,
 						     double coefficient = 1.0);
+	
+	static ImageProcess *getQuickGaussBlurProcess(double vert, double horz);
 private:
 	static ImageProcess *buildFromPixelMap(PixelMap *map);
 	static ImageProcess *buildAlgebraicProcess(const QImage &image, 

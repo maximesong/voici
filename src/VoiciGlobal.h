@@ -1,9 +1,14 @@
 #ifndef _VOICIGLOBAL_H_
 #define _VOICIGLOBAL_H_
 
+
 const int MAX_PIXEL_VALUE = 255;
 
+const double PI = 3.1415;
+
 enum ColorChannel { RED, GREEN, BLUE, GRAY };
+
+const char acceptImageLabel[] = "Image Files (*.png *.jpg *.bmp)";
 
 inline int legalized_level(int level)
 {
