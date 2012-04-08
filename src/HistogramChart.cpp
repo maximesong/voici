@@ -71,10 +71,17 @@ void HistogramChart::drawAxis()
 
 void HistogramChart::drawData()
 {
+	int max = 0;
+	for (int i = 0; i <= MAX_PIXEL_VALUE; ++i)
+		if (m_histogram.getCount(i, GRAY) > max)
+			max = m_histogram.getCount(i, GRAY);
+	
 	QPainter painter(this);
 	painter.setPen(histogram_pen_color);
 	for (int i = 0; i <= MAX_PIXEL_VALUE; ++i) {
-		painter.drawLine(i, 300 - m_histogram.getCount(i, GRAY) / 10, i, 300);
+		painter.drawLine(i,
+				 300 - m_histogram.getCount(i, GRAY) * 300 / max, 
+				 i, 300);
 	}
 }
 
