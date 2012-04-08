@@ -55,6 +55,7 @@ signals:
 
 protected:
 	QVector<QSharedPointer<ImageProcess> > m_processes;
+	QVector<QImage> m_images_cache;
 	int m_current_process;
 	QImage m_origin_image;
 	QImage m_current_image;
