@@ -10,6 +10,9 @@
 #include <QScrollArea>
 #include <QMouseEvent>
 #include <QCursor>
+#include <QSizePolicy>
+
+const int MAX_BORDER_DISTANCE = 5;
 
 PaintCanvas::PaintCanvas(QWidget *parent):
 	QWidget(parent)
@@ -18,10 +21,15 @@ PaintCanvas::PaintCanvas(QWidget *parent):
 	canvas = new QLabel();
 	canvas->setMouseTracking(1);
 	canvas->setCursor(QCursor(Qt::CrossCursor));
+	QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+	canvas->setSizePolicy(sizePolicy);
 
 	scrollable_canvas = new QScrollArea();
 	scrollable_canvas->setWidget(canvas);
 	scrollable_canvas->setMouseTracking(1);
+	scrollable_canvas->setWidgetResizable(1);
 
 	pixel_bar = new QLabel("");
 	QVBoxLayout *layout = new QVBoxLayout();
@@ -43,6 +51,20 @@ void PaintCanvas::drawImage(const ImageCore &imageCore)
 void PaintCanvas::mouseMoveEvent (QMouseEvent *event)
 {
 	QPoint pixel_point = canvas->mapFrom(scrollable_canvas, event->pos());
+	pixel_point = canvas->mapFromParent(pixel_point);
+	QString label;
+	label += QString::number(image.width()) + 
+		" * " + QString::number(image.height()) + " " + tr("Pixels");
+
+	/* Mouse out of the painting border */
+	if (pixel_point.x() < -MAX_BORDER_DISTANCE ||
+	    pixel_point.x() >= image.width() + MAX_BORDER_DISTANCE ||
+	    pixel_point.y() < -MAX_BORDER_DISTANCE ||
+	    pixel_point.y() >= image.height() + MAX_BORDER_DISTANCE) {
+		pixel_bar->setText(label);
+		return;
+	}
+
 	if (pixel_point.x() < 0)
 		pixel_point.rx() = 0;
 	if (pixel_point.x() >= image.width())
@@ -54,9 +76,6 @@ void PaintCanvas::mouseMoveEvent (QMouseEvent *event)
 
 	QRgb rgb = image.pixel(pixel_point.x(), pixel_point.y());
 	
-	QString label;
-	label += QString::number(image.width()) + 
-		" * " + QString::number(image.height()) + " " + tr("Pixels");
 	label += "    " + tr("X:") + QString::number(pixel_point.x());
 	label += "  " + tr("Y:") + QString::number(pixel_point.y());
 	label += "    " + tr("R:") + QString::number(qRed(rgb));
