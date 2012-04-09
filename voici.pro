@@ -64,6 +64,7 @@ HEADERS += src/Exceptions.h \
            src/NearestNeighbourScaleProcess.h \
            src/ProcessPanel.h \
            src/TransformPanel.h \
+           src/BilinearScaleProcess.h \
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -110,3 +111,4 @@ SOURCES += src/main.cpp \
            src/NearestNeighbourScaleProcess.cpp \
            src/ProcessPanel.cpp \
            src/TransformPanel.cpp \
+           src/BilinearScaleProcess.cpp \

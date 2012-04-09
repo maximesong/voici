@@ -13,6 +13,7 @@ QImage NearestNeighbourScaleProcess::generateNewImage(const QImage &image)
 	double x_scale = ((double) image.width()) / m_width;
 	double y_scale = ((double) image.height()) / m_height;
 
+        /* calculate the maped coordinate in advance to avoid repeating */
 	int x_map[m_width];
 	int y_map[m_height];
 
@@ -33,8 +34,8 @@ QImage NearestNeighbourScaleProcess::generateNewImage(const QImage &image)
 	uchar *pd;
 	
 	for (int j = 0; j != m_height; ++j) {
-		ps = src + y_map[j] * bytes;
-		pd = dest + j * bytes;
+		ps = src + y_map[j] * bytes * image.width();
+		pd = dest + j * bytes * m_width;
 		for (int i = 0; i != m_width; ++i) {
 			memcpy(pd + bytes * i, ps + bytes * x_map[i], bytes);
 		}
