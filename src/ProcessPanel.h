@@ -5,6 +5,7 @@
 
 class QPushButton;
 class QStackedWidget;
+class QImage;
 
 class ImageProcess;
 class FilterPanel;
@@ -13,7 +14,7 @@ class TransformPanel;
 class ProcessPanel : public QWidget {
 	Q_OBJECT
 public:
-	ProcessPanel(QWidget *parent = 0);
+	ProcessPanel(const QImage &image, QWidget *parent = 0);
 //	virtual ~ProcessPanel();
 signals:
 	void newProcess(ImageProcess *process);

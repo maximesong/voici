@@ -2,7 +2,7 @@
 
 #include <QImage>
 
-const int  BILINEAR_SHIFT = 16;
+const int  BILINEAR_SHIFT = 4;
 
 BilinearScaleProcess::BilinearScaleProcess(int width, int height)
 	: ScaleProcess(width, height)
@@ -16,8 +16,8 @@ BilinearScaleProcess::BilinearScaleProcess(int width, int height)
  */
 QImage BilinearScaleProcess::generateNewImage(const QImage &image)
 {
-	double x_scale = ((double) image.width()) / m_width;
-	double y_scale = ((double) image.height()) / m_height;
+	double x_scale = ((double) m_width) / image.width();
+	double y_scale = ((double) m_height) / image.height();
 
 	/* calculate values in advance to avoid repeating */
 	int x_map[m_width];
@@ -59,10 +59,10 @@ QImage BilinearScaleProcess::generateNewImage(const QImage &image)
 		pd = dest + j * bytes * m_width;
 		for (int i = 0; i != m_width; ++i) {
 			for (int k = 0; k != bytes; ++k) {
-				x0y0 = *(ps + i * bytes + k);
-				x0y1 = *(ps + (i + image.width()) * bytes + k);
-				x1y0 = *(ps + (i + 1) * bytes + k);
-				x1y1 = *(ps + (i + 1 + image.width()) * bytes + k);
+				x0y0 = *(ps + x_map[i] * bytes + k);
+				x0y1 = *(ps + (x_map[i] + image.width()) * bytes + k);
+				x1y0 = *(ps + (x_map[i] + 1) * bytes + k);
+				x1y1 = *(ps + (x_map[i] + 1 + image.width()) * bytes + k);
 				uchar result = ((x0y0 * right_interv_shifted[i] +
 						 x1y0 * left_interv_shifted[i]) *
 						up_interv_shifted[j] +

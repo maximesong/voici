@@ -5,7 +5,8 @@
 
 class QImage;
 
-class NearestNeighbourScaleProcess : ScaleProcess {
+class NearestNeighbourScaleProcess : public ScaleProcess {
+public:
 	NearestNeighbourScaleProcess(int width, int height);
 	virtual QImage generateNewImage(const QImage &image);
 };

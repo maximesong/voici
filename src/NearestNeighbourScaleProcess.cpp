@@ -10,8 +10,8 @@ NearestNeighbourScaleProcess::NearestNeighbourScaleProcess(int width, int height
 
 QImage NearestNeighbourScaleProcess::generateNewImage(const QImage &image)
 {
-	double x_scale = ((double) image.width()) / m_width;
-	double y_scale = ((double) image.height()) / m_height;
+	double x_scale = ((double) m_width) / image.width();
+	double y_scale = ((double) m_height) / image.height();
 
         /* calculate the maped coordinate in advance to avoid repeating */
 	int x_map[m_width];
@@ -19,6 +19,7 @@ QImage NearestNeighbourScaleProcess::generateNewImage(const QImage &image)
 
 	for (int i = 0; i != m_width; ++i)
 		x_map[i] = (int) (i / x_scale);
+
 
 	for (int i = 0; i != m_height; ++i)
 		y_map[i] = (int) (i / y_scale);

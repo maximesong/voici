@@ -1,8 +1,6 @@
 #include "QuickGaussBlurProcess.h"
 
 #include <cmath>
-#include <iostream>
-using namespace std;
 
 #include "ImageUtility.h"
 #include "VoiciGlobal.h"

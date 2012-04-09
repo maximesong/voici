@@ -6,6 +6,7 @@
 class QImage;
 
 class BilinearScaleProcess : public ScaleProcess {
+public:
 	BilinearScaleProcess(int width, int height);
 	virtual QImage generateNewImage(const QImage &image);
 };

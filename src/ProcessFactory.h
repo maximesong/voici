@@ -32,6 +32,11 @@ public:
 						     double coefficient = 1.0);
 	
 	static ImageProcess *getQuickGaussBlurProcess(double vert, double horz);
+
+	static ImageProcess *getBilinearScaleProcess(int width, int height);
+
+	static ImageProcess *getNearestNeighbourScaleProcess(int width, 
+							     int height);
 private:
 	static ImageProcess *buildFromPixelMap(PixelMap *map);
 	static ImageProcess *buildAlgebraicProcess(const QImage &image, 

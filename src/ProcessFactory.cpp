@@ -17,6 +17,8 @@
 #include "QuotientBlendPolicy.h"
 #include "LinearBlendPolicy.h"
 #include "QuickGaussBlurProcess.h"
+#include "NearestNeighbourScaleProcess.h"
+#include "BilinearScaleProcess.h"
 
 ImageProcess *ProcessFactory::getStandardGrayProcess()
 {
@@ -92,4 +94,15 @@ ImageProcess *ProcessFactory::buildAlgebraicProcess(const QImage &image,
 ImageProcess *ProcessFactory::getQuickGaussBlurProcess(double horz, double vert)
 {
 	return new QuickGaussBlurProcess(horz, vert);
+}
+
+ImageProcess *ProcessFactory::getBilinearScaleProcess(int width, int height)
+{
+	return new BilinearScaleProcess(width, height);
+}
+
+ImageProcess *ProcessFactory::getNearestNeighbourScaleProcess(int width, 
+							      int height)
+{
+	return new NearestNeighbourScaleProcess(width, height);
 }

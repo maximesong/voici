@@ -101,6 +101,7 @@ void VoiciMainWindow::loadFile(const QString &filename)
 
 	imageCore->load(filename);
 	currentFileName = filename;
+	QImage image = imageCore->getCurrentImage();
 
 	replaceTabWidget(displayPanel, &paintCanvas, new PaintCanvas(),
 			 filename);
@@ -116,6 +117,13 @@ void VoiciMainWindow::loadFile(const QString &filename)
 
 	paintCanvas->drawImage(*imageCore);
 	grayPaintCanvas->drawImage(*grayImageCore);
+
+	/* Add Process Panel */
+	replaceTabWidget(controlPanel, &processPanel,
+			 new ProcessPanel(image), tr("Process Panel"));
+
+	connect(processPanel, SIGNAL(newProcess(ImageProcess *)), 
+		this, SLOT(addProcess(ImageProcess *)));
 
 	/* Add Histogram Panel */
 	replaceTabWidget(controlPanel, &histogramPanel, 
@@ -140,12 +148,7 @@ void VoiciMainWindow::loadFile(const QString &filename)
 	connect(algebraicProcessPanel, SIGNAL(newProcess(ImageProcess *)), 
 		this, SLOT(addProcess(ImageProcess *)));
 
-	/* Add Filter Panel */
-	replaceTabWidget(controlPanel, &processPanel,
-			 new ProcessPanel(), tr("Process Panel"));
 
-	connect(processPanel, SIGNAL(newProcess(ImageProcess *)), 
-		this, SLOT(addProcess(ImageProcess *)));
 }
 
 void VoiciMainWindow::saveFile(const QString &filename)

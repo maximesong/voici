@@ -10,14 +10,14 @@
 #include "FilterPanel.h"
 #include "TransformPanel.h"
 
-ProcessPanel::ProcessPanel(QWidget *parent)
+ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 	: QWidget(parent)
 {
 	filterPanel = new FilterPanel();
 	connect(filterPanel, SIGNAL(newProcess(ImageProcess *)), 
 		this, SIGNAL(newProcess(ImageProcess *)));
 
-	transformPanel = new TransformPanel();
+	transformPanel = new TransformPanel(image.width() / 2, image.height() / 2);
 	connect(transformPanel, SIGNAL(newProcess(ImageProcess *)), 
 		this, SIGNAL(newProcess(ImageProcess *)));
 
