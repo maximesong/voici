@@ -7,7 +7,7 @@
 
 class QuickGaussBlurProcess : public ImageProcess {
 public:
-	QuickGaussBlurProcess(double vertical, double horizontal,
+	QuickGaussBlurProcess(double horizontal, double vertical,
 			      const QString processName = "Quick Gauss");
 	virtual QImage generateNewImage(const QImage &image);
 private:

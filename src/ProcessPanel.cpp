@@ -14,7 +14,14 @@ ProcessPanel::ProcessPanel(QWidget *parent)
 	: QWidget(parent)
 {
 	filterPanel = new FilterPanel();
+	connect(filterPanel, SIGNAL(newProcess(ImageProcess *)), 
+		this, SIGNAL(newProcess(ImageProcess *)));
+
 	transformPanel = new TransformPanel();
+	connect(transformPanel, SIGNAL(newProcess(ImageProcess *)), 
+		this, SIGNAL(newProcess(ImageProcess *)));
+
+
 
 	QPushButton *filterPanelButton = new QPushButton(tr("Filter Panel"));
 	connect(filterPanelButton, SIGNAL(clicked()), 

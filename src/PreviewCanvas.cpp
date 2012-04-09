@@ -8,7 +8,7 @@ using namespace std;
 PreviewCanvas::PreviewCanvas(QWidget *parent)
 	:QLabel(parent)
 {
-	standard_width = 200;
+	standard_width = 250;
 	standard_height = 200;
 	setMinimumSize(standard_width, standard_height);
 }

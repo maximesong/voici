@@ -14,11 +14,13 @@ FilterPanel::FilterPanel(QWidget *parent)
 
 	gaussVerticalBox = new QDoubleSpinBox();
 	gaussVerticalBox->setPrefix(tr("Vertical:"));
-	gaussVerticalBox->setValue(3.0);
+	gaussVerticalBox->setMaximum(9999);
+	gaussVerticalBox->setValue(5.0);
 
 	gaussHorizontalBox = new QDoubleSpinBox();
 	gaussHorizontalBox->setPrefix(tr("Horizontal:"));
-	gaussHorizontalBox->setValue(3.0);
+	gaussHorizontalBox->setMaximum(9999);
+	gaussHorizontalBox->setValue(5.0);
 
 	layout->addWidget(quickGaussBlurButton, 0, 0);
 	layout->addWidget(gaussVerticalBox);

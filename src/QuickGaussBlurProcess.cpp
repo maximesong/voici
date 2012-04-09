@@ -1,11 +1,13 @@
 #include "QuickGaussBlurProcess.h"
 
 #include <cmath>
+#include <iostream>
+using namespace std;
 
 #include "ImageUtility.h"
 #include "VoiciGlobal.h"
 
-QuickGaussBlurProcess::QuickGaussBlurProcess(double vertical, double horizontal, 
+QuickGaussBlurProcess::QuickGaussBlurProcess(double horizontal, double vertical, 
 					     const QString processName)
 	: ImageProcess(processName)
 {
@@ -226,7 +228,7 @@ QImage QuickGaussBlurProcess::gauss_iir(const QImage &image)
 			memset (val_p, 0, width * bytes * sizeof (double));
 			memset (val_m, 0, width * bytes * sizeof (double));
 
-			ImageUtility::getRow(image, src, x1, row + y1, width);
+			ImageUtility::getRow(dest_image, src, x1, row + y1, width);
 /*
 			if (has_alpha)
 			multiply_alpha (src, width, bytes);

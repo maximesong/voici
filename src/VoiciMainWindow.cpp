@@ -137,14 +137,15 @@ void VoiciMainWindow::loadFile(const QString &filename)
 	replaceTabWidget(controlPanel, &algebraicProcessPanel,
 			 new AlgebraicProcessPanel(), tr("Alebraic Operations"));
 
+	connect(algebraicProcessPanel, SIGNAL(newProcess(ImageProcess *)), 
+		this, SLOT(addProcess(ImageProcess *)));
+
 	/* Add Filter Panel */
 	replaceTabWidget(controlPanel, &processPanel,
 			 new ProcessPanel(), tr("Process Panel"));
 
 	connect(processPanel, SIGNAL(newProcess(ImageProcess *)), 
 		this, SLOT(addProcess(ImageProcess *)));
-
-
 }
 
 void VoiciMainWindow::saveFile(const QString &filename)

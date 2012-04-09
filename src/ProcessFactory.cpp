@@ -89,7 +89,7 @@ ImageProcess *ProcessFactory::buildAlgebraicProcess(const QImage &image,
 	return process;
 }
 
-ImageProcess *ProcessFactory::getQuickGaussBlurProcess(double vert, double horz)
+ImageProcess *ProcessFactory::getQuickGaussBlurProcess(double horz, double vert)
 {
-	return new QuickGaussBlurProcess(vert, horz);
+	return new QuickGaussBlurProcess(horz, vert);
 }

@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class ImageProcess;
+
 class TransformPanel : public QWidget {
 	Q_OBJECT
 public:
@@ -10,7 +12,7 @@ public:
 //	virtual ~TransformPanel();
 	
 signals:
-		
+	void newProcess(ImageProcess *process);
 public slots:
 	
 private:
