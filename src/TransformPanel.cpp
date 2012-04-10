@@ -3,6 +3,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QSpinBox>
+#include <QDoubleSpinBox>
 #include <QGroupBox>
 #include <QGridLayout>
 
@@ -32,6 +33,15 @@ TransformPanel::TransformPanel(int defaultImageWidth, int defaultImageHeight,
 		this, SLOT(sendBilinearScaleProcess()));
 
 
+	QPushButton *nearestNeighbourRotateButton = new QPushButton(tr("Nearest Neighbour Rotate"));
+
+	rotateAngleBox = new QDoubleSpinBox();
+	rotateAngleBox->setMaximum(360);
+	rotateAngleBox->setValue(90);
+	connect(nearestNeighbourRotateButton, SIGNAL(clicked()), 
+		this, SLOT(sendNearestNeighbourRotateProcess()));
+
+
 	QGroupBox *scaleGroupBox = new QGroupBox(tr("Scale"));
 	QGridLayout *scaleLayout = new QGridLayout();
 	scaleLayout->addWidget(scaleWidthBox, 0, 0);
@@ -40,8 +50,15 @@ TransformPanel::TransformPanel(int defaultImageWidth, int defaultImageHeight,
 	scaleLayout->addWidget(bilinearScaleButton, 1, 1);
 	scaleGroupBox->setLayout(scaleLayout);
 	
+	QGroupBox *rotateGroupBox = new QGroupBox(tr("Rotate"));
+	QGridLayout *rotateLayout = new QGridLayout();
+	rotateLayout->addWidget(rotateAngleBox, 0, 0);
+	rotateLayout->addWidget(nearestNeighbourRotateButton, 1, 0);
+	rotateGroupBox->setLayout(rotateLayout);
+
 	QVBoxLayout *layout = new QVBoxLayout();
 	layout->addWidget(scaleGroupBox);
+	layout->addWidget(rotateGroupBox);
 
 	setLayout(layout);
 }
@@ -64,6 +81,14 @@ void TransformPanel::sendNearestNeighbourScaleProcess()
 	emit newProcess(process);
 }
 
+void TransformPanel::sendNearestNeighbourRotateProcess()
+{
+	ImageProcess *process = ProcessFactory::getNearestNeighbourRotateProcess(
+		getRotateAngle());
+
+	emit newProcess(process);
+}
+
 
 int TransformPanel::getScaleWidth()
 {
@@ -73,4 +98,10 @@ int TransformPanel::getScaleWidth()
 int TransformPanel::getScaleHeight()
 {
 	return scaleHeightBox->value();
+}
+
+
+double TransformPanel::getRotateAngle()
+{
+	return rotateAngleBox->value();
 }

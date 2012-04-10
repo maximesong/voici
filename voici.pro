@@ -65,6 +65,8 @@ HEADERS += src/Exceptions.h \
            src/ProcessPanel.h \
            src/TransformPanel.h \
            src/BilinearScaleProcess.h \
+           src/RotateProcess.h \
+           src/NearestNeighbourRotateProcess.h \
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -112,3 +114,5 @@ SOURCES += src/main.cpp \
            src/ProcessPanel.cpp \
            src/TransformPanel.cpp \
            src/BilinearScaleProcess.cpp \
+           src/RotateProcess.cpp \
+           src/NearestNeighbourRotateProcess.cpp \

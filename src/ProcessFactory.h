@@ -37,6 +37,8 @@ public:
 
 	static ImageProcess *getNearestNeighbourScaleProcess(int width, 
 							     int height);
+
+	static ImageProcess *getNearestNeighbourRotateProcess(double rotateAngle);
 private:
 	static ImageProcess *buildFromPixelMap(PixelMap *map);
 	static ImageProcess *buildAlgebraicProcess(const QImage &image, 

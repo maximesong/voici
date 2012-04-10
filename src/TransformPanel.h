@@ -5,6 +5,7 @@
 
 class QPushButton;
 class QSpinBox;
+class QDoubleSpinBox;
 
 class ImageProcess;
 
@@ -16,16 +17,20 @@ public:
 //	virtual ~TransformPanel();
 	int getScaleWidth();
 	int getScaleHeight();
+	double getRotateAngle();
 signals:
 	void newProcess(ImageProcess *process);
 public slots:
 	void sendBilinearScaleProcess();
 	void sendNearestNeighbourScaleProcess();
+	void sendNearestNeighbourRotateProcess();
 private:
 	QSpinBox *scaleWidthBox;
 	QSpinBox *scaleHeightBox;
+	QDoubleSpinBox *rotateAngleBox;
 	QPushButton *nearestNeighbourScaleButton;
 	QPushButton *bilinearScaleButton;
+	QPushButton *nearestNeighbourRotateProcess;
 };
 
 #endif /* _TRANSFORMPANEL_H_ */

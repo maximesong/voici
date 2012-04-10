@@ -19,6 +19,7 @@
 #include "QuickGaussBlurProcess.h"
 #include "NearestNeighbourScaleProcess.h"
 #include "BilinearScaleProcess.h"
+#include "NearestNeighbourRotateProcess.h"
 
 ImageProcess *ProcessFactory::getStandardGrayProcess()
 {
@@ -105,4 +106,9 @@ ImageProcess *ProcessFactory::getNearestNeighbourScaleProcess(int width,
 							      int height)
 {
 	return new NearestNeighbourScaleProcess(width, height);
+}
+
+ImageProcess *ProcessFactory::getNearestNeighbourRotateProcess(double rotateAngle)
+{
+	return new NearestNeighbourRotateProcess(rotateAngle);
 }
