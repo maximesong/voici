@@ -9,3 +9,4 @@ Makefile
 *.qm
 release*/*
 *.exe
+idea_box/*
