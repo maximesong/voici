@@ -20,6 +20,8 @@
 #include "NearestNeighbourScaleProcess.h"
 #include "BilinearScaleProcess.h"
 #include "NearestNeighbourRotateProcess.h"
+#include "MedianBlockMap.h"
+#include "MeanBlockMap.h"
 
 ImageProcess *ProcessFactory::getStandardGrayProcess()
 {
@@ -111,4 +113,20 @@ ImageProcess *ProcessFactory::getNearestNeighbourScaleProcess(int width,
 ImageProcess *ProcessFactory::getNearestNeighbourRotateProcess(double rotateAngle)
 {
 	return new NearestNeighbourRotateProcess(rotateAngle);
+}
+
+ImageProcess *ProcessFactory::getMedianFilterProcess(int m, int n)
+{
+	BlockIterator *iter = new BlockIterator(m, n, (m + 1) / 2, (n + 1) / 2);
+	BlockMap *map = new MedianBlockMap(m, n);
+	BlockProcess *process = new BlockProcess(iter, map, "Median Filter");
+	return process;
+}
+
+ImageProcess *ProcessFactory::getMeanFilterProcess(int m, int n)
+{
+	BlockIterator *iter = new BlockIterator(m, n, (m + 1) / 2, (n + 1) / 2);
+	BlockMap *map = new MeanBlockMap(m, n);
+	BlockProcess *process = new BlockProcess(iter, map, "Median Filter");
+	return process;
 }

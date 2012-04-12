@@ -6,6 +6,7 @@
 class QPushButton;
 class ImageProcess;
 class QDoubleSpinBox;
+class QSpinBox;
 
 class FilterPanel : public QWidget {
 	Q_OBJECT
@@ -17,10 +18,17 @@ signals:
 	void newProcess(ImageProcess *process);
 public slots:
 	void addGaussProcess();
+	void addMeanFilterProcess();
+	void addMedianFilterProcess();
 private:
 	QPushButton *quickGaussBlurButton;
 	QDoubleSpinBox *gaussHorizontalBox;
 	QDoubleSpinBox *gaussVerticalBox;
+
+	QSpinBox *rowCountBox;
+	QSpinBox *columnCountBox;
+	QPushButton *meanFilterButton;
+	QPushButton *medianFilterButton;
 };
 
 #endif /* _FILTERPANEL_H_ */

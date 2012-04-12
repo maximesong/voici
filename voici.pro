@@ -67,6 +67,8 @@ HEADERS += src/Exceptions.h \
            src/BilinearScaleProcess.h \
            src/RotateProcess.h \
            src/NearestNeighbourRotateProcess.h \
+           src/MeanBlockMap.h \
+           src/MedianBlockMap.h \
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -116,3 +118,5 @@ SOURCES += src/main.cpp \
            src/BilinearScaleProcess.cpp \
            src/RotateProcess.cpp \
            src/NearestNeighbourRotateProcess.cpp \
+           src/MeanBlockMap.cpp \
+           src/MedianBlockMap.cpp \

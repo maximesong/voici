@@ -10,6 +10,10 @@ public:
 	RotateProcess(double rotateAngle, 
 		      const QString &processName = "Rotate Process");
 	virtual QImage generateNewImage(const QImage &image) = 0;
+
+	virtual bool canApplyToRgb() { return 1; }
+
+	virtual bool canApplyToGray() { return 1; }
 protected:
 	double counter_clock_rotate_angle;
 };

@@ -1,5 +1,8 @@
 #include "VoiciMainWindow.h"
 
+#include <iostream>
+using namespace std;
+
 #include <QAction>
 #include <QIcon>
 #include <QToolBar>
@@ -24,7 +27,7 @@ VoiciMainWindow::VoiciMainWindow()
 {
 	imageCore = new ImageCore();
 	grayImageCore = new GrayImageCore();
-	currentImageCore = grayImageCore;
+	currentImageCore = imageCore;
 
 	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)),
   		grayImageCore, SLOT(setColorfulImage(const ImageCore&)));
@@ -178,5 +181,28 @@ void VoiciMainWindow::replaceTabWidget(QTabWidget *tabWidget, T **oldWidget,
 
 void VoiciMainWindow::addProcess(ImageProcess *process)
 {
-	currentImageCore->pushImageProcess(process);
+	if (currentImageCore == imageCore) {
+		if (process->canApplyToRgb()) {
+			currentImageCore->pushImageProcess(process);
+			return;
+		} else {
+			int result = 
+				QMessageBox::question(this,
+						      tr("Apply to gray image?"), 
+						      tr("This process can not be applied to Rgb image. Would you like it be applied to gray image?"),
+						      QMessageBox::Yes | QMessageBox::No,
+						      QMessageBox::Yes);
+			switch (result) {
+			case QMessageBox::Yes:
+				currentImageCore = grayImageCore;
+				displayPanel->setCurrentWidget(grayPaintCanvas);
+				currentImageCore->pushImageProcess(process);
+				return;
+			case QMessageBox::No:
+				return;
+			}
+		}
+	}
+	
+
 }

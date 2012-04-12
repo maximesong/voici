@@ -39,6 +39,9 @@ public:
 							     int height);
 
 	static ImageProcess *getNearestNeighbourRotateProcess(double rotateAngle);
+
+	static ImageProcess *getMedianFilterProcess(int m, int n);
+	static ImageProcess *getMeanFilterProcess(int m, int n);
 private:
 	static ImageProcess *buildFromPixelMap(PixelMap *map);
 	static ImageProcess *buildAlgebraicProcess(const QImage &image, 

@@ -16,6 +16,10 @@ public:
 	virtual void processImage(ImageCore *imageCore);
 
 	virtual QImage generateNewImage(const QImage &image) = 0;
+
+	virtual bool canApplyToRgb() { return 0; }
+
+	virtual bool canApplyToGray() { return 0; }
 private:
 	QString m_process_name;
 };
