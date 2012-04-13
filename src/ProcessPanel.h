@@ -10,6 +10,7 @@ class QImage;
 class ImageProcess;
 class FilterPanel;
 class TransformPanel;
+class PointOperatorPanel;
 
 class ProcessPanel : public QWidget {
 	Q_OBJECT
@@ -21,11 +22,14 @@ signals:
 public slots:
 	void switchToFilterPanel();
 	void switchToTransformPanel();
+	void switchToPointOperatorPanel();
 private:
+
 	QWidget *buttonsWidget;
 	QStackedWidget *stackedWidget;
 	FilterPanel *filterPanel;
 	TransformPanel *transformPanel;
+	PointOperatorPanel *pointOperatorPanel;
 };
 
 #endif /* _PROCESSPANEL_H_ */

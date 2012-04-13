@@ -69,6 +69,7 @@ HEADERS += src/Exceptions.h \
            src/NearestNeighbourRotateProcess.h \
            src/MeanBlockMap.h \
            src/MedianBlockMap.h \
+           src/PointOperatorPanel.h \
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -120,3 +121,4 @@ SOURCES += src/main.cpp \
            src/NearestNeighbourRotateProcess.cpp \
            src/MeanBlockMap.cpp \
            src/MedianBlockMap.cpp \
+           src/PointOperatorPanel.cpp \

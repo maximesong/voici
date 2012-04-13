@@ -10,6 +10,8 @@ using namespace std;
 #include <QFileDialog>
 #include <QLabel>
 #include <QMessageBox>
+#include <QDesktopWidget>
+#include <QApplication>
 
 #include "PaintCanvas.h"
 #include "ThresholdPanel.h"
@@ -38,7 +40,8 @@ VoiciMainWindow::VoiciMainWindow()
 
 
 	setWindowTitle(tr("Voici Image Processor"));
-	resize(800, 600);
+	QRect rect = QApplication::desktop()->availableGeometry();
+	resize(rect.width(), rect.height());
 }
 
 

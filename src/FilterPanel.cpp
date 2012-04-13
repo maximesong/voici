@@ -39,11 +39,11 @@ FilterPanel::FilterPanel(QWidget *parent)
 
 	rowCountBox = new QSpinBox();
 	rowCountBox->setPrefix(tr("rows:"));
-	rowCountBox->setValue(1);
+	rowCountBox->setValue(3);
 
 	columnCountBox = new QSpinBox();
 	columnCountBox->setPrefix(tr("cols:"));
-	columnCountBox->setValue(1);
+	columnCountBox->setValue(3);
 
 	QGridLayout *meanAndMedianGroupLayout = new QGridLayout();
 	meanAndMedianGroupLayout->addWidget(rowCountBox, 0, 0);

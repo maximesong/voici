@@ -1,8 +1,9 @@
-#include <QPainter>
-
 #include "PaintCanvas.h"
-#include "ImageCore.h"
 
+#include <iostream>
+using namespace std;
+
+#include <QPainter>
 #include <QImage>
 #include <QPixmap>
 #include <QLabel>
@@ -11,6 +12,8 @@
 #include <QMouseEvent>
 #include <QCursor>
 #include <QSizePolicy>
+
+#include "ImageCore.h"
 
 const int MAX_BORDER_DISTANCE = 5;
 
@@ -51,7 +54,6 @@ void PaintCanvas::drawImage(const ImageCore &imageCore)
 void PaintCanvas::mouseMoveEvent (QMouseEvent *event)
 {
 	QPoint pixel_point = canvas->mapFrom(scrollable_canvas, event->pos());
-	pixel_point = canvas->mapFromParent(pixel_point);
 	QString label;
 	label += QString::number(image.width()) + 
 		" * " + QString::number(image.height()) + " " + tr("Pixels");

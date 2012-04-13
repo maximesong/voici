@@ -9,6 +9,7 @@
 #include "ImageProcess.h"
 #include "FilterPanel.h"
 #include "TransformPanel.h"
+#include "PointOperatorPanel.h"
 
 ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 	: QWidget(parent)
@@ -21,6 +22,9 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 	connect(transformPanel, SIGNAL(newProcess(ImageProcess *)), 
 		this, SIGNAL(newProcess(ImageProcess *)));
 
+	pointOperatorPanel = new PointOperatorPanel();
+	connect(pointOperatorPanel, SIGNAL(newProcess(ImageProcess *)), 
+		this, SIGNAL(newProcess(ImageProcess*)));
 
 
 	QPushButton *filterPanelButton = new QPushButton(tr("Filter Panel"));
@@ -31,6 +35,10 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 	connect(transformPanelButton, SIGNAL(clicked()), 
 		this, SLOT(switchToTransformPanel()));
 
+	
+	QPushButton *pointOperatorPanelButton = new QPushButton(tr("Point Operator Panel"));
+	connect(pointOperatorPanelButton, SIGNAL(clicked()), 
+		this, SLOT(switchToPointOperatorPanel()));
 
         /* Buttons Layout */
 	buttonsWidget = new QWidget();
@@ -40,10 +48,12 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 
 	buttonsLayout->addWidget(filterPanelButton);
 	buttonsLayout->addWidget(transformPanelButton);
+	buttonsLayout->addWidget(pointOperatorPanelButton);
 
 	stackedWidget = new QStackedWidget();
 	stackedWidget->addWidget(filterPanel);
 	stackedWidget->addWidget(transformPanel);
+	stackedWidget->addWidget(pointOperatorPanel);
 
 	QVBoxLayout *panelLayout = new QVBoxLayout();
 	QSplitter *splitter = new QSplitter(Qt::Vertical);
@@ -61,4 +71,9 @@ void ProcessPanel::switchToFilterPanel()
 void ProcessPanel::switchToTransformPanel()
 {
 	stackedWidget->setCurrentWidget(transformPanel);
+}
+
+void ProcessPanel::switchToPointOperatorPanel()
+{
+	stackedWidget->setCurrentWidget(pointOperatorPanel);
 }
