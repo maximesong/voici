@@ -13,6 +13,9 @@ public:
 	SliderPanel(QWidget *parent);
 	SliderPanel(const QString &str = "", QWidget *parent = 0);
 	int getValue();
+	void setMaximum(int value);
+	void setMinimum(int value);
+	void setRange(int min, int max);
 signals:
 	void valueChanged(int value);
 public slots:

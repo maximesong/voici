@@ -4,8 +4,8 @@
 #include <QWidget>
 
 class QPushButton;
-class QSpinBox;
-class QDoubleSpinBox;
+class SliderPanel;
+class DoubleSliderPanel;
 
 class ImageProcess;
 
@@ -25,9 +25,9 @@ public slots:
 	void sendNearestNeighbourScaleProcess();
 	void sendNearestNeighbourRotateProcess();
 private:
-	QSpinBox *scaleWidthBox;
-	QSpinBox *scaleHeightBox;
-	QDoubleSpinBox *rotateAngleBox;
+	SliderPanel *scaleWidthBox;
+	SliderPanel *scaleHeightBox;
+	DoubleSliderPanel *rotateAngleBox;
 	QPushButton *nearestNeighbourScaleButton;
 	QPushButton *bilinearScaleButton;
 	QPushButton *nearestNeighbourRotateProcess;

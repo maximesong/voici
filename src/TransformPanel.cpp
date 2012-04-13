@@ -9,18 +9,18 @@
 
 #include "ImageProcess.h"
 #include "ProcessFactory.h"
+#include "SliderPanel.h"
+#include "DoubleSliderPanel.h"
 
 TransformPanel::TransformPanel(int defaultImageWidth, int defaultImageHeight,
 			       QWidget *parent)
 	: QWidget(parent)
 {
-	scaleWidthBox = new QSpinBox();
-	scaleWidthBox->setPrefix(tr("Width:"));
+	scaleWidthBox = new SliderPanel(tr("Width"));
 	scaleWidthBox->setMaximum(9999);
 	scaleWidthBox->setValue(defaultImageWidth);
 
-	scaleHeightBox = new QSpinBox();
-	scaleHeightBox->setPrefix(tr("Height:"));
+	scaleHeightBox = new SliderPanel(tr("Height"));
 	scaleHeightBox->setMaximum(9999);
 	scaleHeightBox->setValue(defaultImageHeight);
 
@@ -35,7 +35,7 @@ TransformPanel::TransformPanel(int defaultImageWidth, int defaultImageHeight,
 
 	QPushButton *nearestNeighbourRotateButton = new QPushButton(tr("Nearest Neighbour Rotate"));
 
-	rotateAngleBox = new QDoubleSpinBox();
+	rotateAngleBox = new DoubleSliderPanel("Angle");
 	rotateAngleBox->setMaximum(360);
 	rotateAngleBox->setValue(90);
 	connect(nearestNeighbourRotateButton, SIGNAL(clicked()), 
@@ -44,10 +44,10 @@ TransformPanel::TransformPanel(int defaultImageWidth, int defaultImageHeight,
 
 	QGroupBox *scaleGroupBox = new QGroupBox(tr("Scale"));
 	QGridLayout *scaleLayout = new QGridLayout();
-	scaleLayout->addWidget(scaleWidthBox, 0, 0);
-	scaleLayout->addWidget(scaleHeightBox, 0, 1);
-	scaleLayout->addWidget(nearestNeighbourScaleButton, 1, 0);
-	scaleLayout->addWidget(bilinearScaleButton, 1, 1);
+	scaleLayout->addWidget(scaleWidthBox, 0, 0, 2, 1);
+	scaleLayout->addWidget(scaleHeightBox, 1, 0, 2, 1);
+	scaleLayout->addWidget(nearestNeighbourScaleButton, 2, 0, 1, 1);
+	scaleLayout->addWidget(bilinearScaleButton, 2, 1, 1, 1);
 	scaleGroupBox->setLayout(scaleLayout);
 	
 	QGroupBox *rotateGroupBox = new QGroupBox(tr("Rotate"));
@@ -92,16 +92,16 @@ void TransformPanel::sendNearestNeighbourRotateProcess()
 
 int TransformPanel::getScaleWidth()
 {
-	return scaleWidthBox->value();
+	return scaleWidthBox->getValue();
 }
 
 int TransformPanel::getScaleHeight()
 {
-	return scaleHeightBox->value();
+	return scaleHeightBox->getValue();
 }
 
 
 double TransformPanel::getRotateAngle()
 {
-	return rotateAngleBox->value();
+	return rotateAngleBox->getValue();
 }

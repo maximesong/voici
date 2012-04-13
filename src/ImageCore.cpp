@@ -4,10 +4,15 @@
 #include "RatePixelMap.h"
 #include "ProcessFactory.h"
 
+#include <iostream>
+using namespace std;
+
+
 ImageCore::ImageCore(const QString &id)
 	: QObject()
 {
 	m_id = id;
+	m_current_process = -1;
 }
 
 ImageCore::ImageCore(const ImageCore &imageCore)
@@ -138,7 +143,14 @@ void ImageCore::setOriginImage(const QImage &image) {
 
 void ImageCore::applyDynamicProcesses()
 {
-	m_current_image = m_origin_image;
+	if (m_current_process < 0) {
+		m_current_image = m_origin_image;
+		return;
+	}
+
+	if (m_current_process < m_images_cache.size())
+		m_current_image = m_images_cache[m_current_process];
+
 	for (int i = m_images_cache.size(); i <= m_current_process; ++i) {
 		applyImageProcess(m_processes[i].data());
 		m_images_cache.push_back(m_current_image);

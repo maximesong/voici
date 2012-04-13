@@ -20,7 +20,7 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 	connect(filterPanel, SIGNAL(newProcess(ImageProcess *)), 
 		this, SIGNAL(newProcess(ImageProcess *)));
 
-	transformPanel = new TransformPanel(image.width() / 2, image.height() / 2);
+	transformPanel = new TransformPanel(image.width(), image.height());
 	connect(transformPanel, SIGNAL(newProcess(ImageProcess *)), 
 		this, SIGNAL(newProcess(ImageProcess *)));
 

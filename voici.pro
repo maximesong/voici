@@ -15,6 +15,7 @@ RESOURCES = voici.qrc
 
 #DEFINES += LANGUAGE_ZH
 DEFINES += QUICK_TEST
+CONFIG += debug
 
 # Input
 HEADERS += src/Exceptions.h \
@@ -70,6 +71,7 @@ HEADERS += src/Exceptions.h \
            src/MeanBlockMap.h \
            src/MedianBlockMap.h \
            src/PointOperatorPanel.h \
+           src/DoubleSliderPanel.h \
 
 SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
@@ -122,3 +124,4 @@ SOURCES += src/main.cpp \
            src/MeanBlockMap.cpp \
            src/MedianBlockMap.cpp \
            src/PointOperatorPanel.cpp \
+           src/DoubleSliderPanel.cpp \

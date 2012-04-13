@@ -1,5 +1,8 @@
 #include "RangeThresholdMap.h"
 
+#include <iostream>
+using namespace std;
+
 RangeThresholdMap::RangeThresholdMap(int low, int high)
 {
 	m_low = low;
