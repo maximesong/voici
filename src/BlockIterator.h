@@ -12,7 +12,7 @@ public:
 	 */
 	BlockIterator(int m, int n, int x, int y);
 
-	void iterate(QImage *image, BlockMap *map);
+	void iterate(const QImage *src, QImage *image, BlockMap *map);
 private:
 	int m_m;
 	int m_n;

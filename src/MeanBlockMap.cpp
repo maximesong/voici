@@ -9,7 +9,7 @@ MeanBlockMap::MeanBlockMap(int m, int n)
 	m_n = n;
 }
 
-QRgb MeanBlockMap::map(int x_offset, int y_offset, QImage *image)
+QRgb MeanBlockMap::map(int x_offset, int y_offset, const QImage *image)
 {
 	int bytes = image->depth() / 8;
 	const uchar *src = image->constBits();

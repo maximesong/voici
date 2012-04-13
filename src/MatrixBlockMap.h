@@ -9,9 +9,9 @@
 class MatrixBlockMap : public BlockMap {
 public:
 	MatrixBlockMap(int m, int n, const QVector<double> &matrix);
-	virtual QRgb map(int x_offset, int y_offset, QImage *image);
+	virtual QRgb map(int x_offset, int y_offset, const QImage *image);
 private:
-	int getGrayDegree(int i, int j, QImage *image);
+	int getGrayDegree(int i, int j, const QImage *image);
 	int m_m;
 	int m_n;
 	QVector<double> m_matrix;

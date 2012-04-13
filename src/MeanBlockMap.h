@@ -6,7 +6,7 @@
 class MeanBlockMap : public BlockMap {
 public:
 	MeanBlockMap(int m, int n);
-	virtual QRgb map(int x_offset, int y_offset, QImage *image);
+	virtual QRgb map(int x_offset, int y_offset, const QImage *image);
 private:
 	int m_m;
 	int m_n;

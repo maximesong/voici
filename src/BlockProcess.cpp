@@ -14,7 +14,7 @@ BlockProcess::BlockProcess(BlockIterator *iter, BlockMap *map,
 QImage BlockProcess::generateNewImage(const QImage &image)
 {
 	QImage newImage = image;
-	m_iter->iterate(&newImage, m_map);
+	m_iter->iterate(&image, &newImage, m_map);
 	return newImage;
 }
 
