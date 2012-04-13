@@ -24,12 +24,15 @@ public slots:
 	void switchToTransformPanel();
 	void switchToPointOperatorPanel();
 private:
-
+	void uncheckAllButton();
 	QWidget *buttonsWidget;
 	QStackedWidget *stackedWidget;
 	FilterPanel *filterPanel;
 	TransformPanel *transformPanel;
 	PointOperatorPanel *pointOperatorPanel;
+	QPushButton *filterPanelButton;
+	QPushButton *transformPanelButton;
+	QPushButton *pointOperatorPanelButton;
 };
 
 #endif /* _PROCESSPANEL_H_ */

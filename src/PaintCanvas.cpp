@@ -12,6 +12,7 @@ using namespace std;
 #include <QMouseEvent>
 #include <QCursor>
 #include <QSizePolicy>
+#include <QScrollBar>
 
 #include "ImageCore.h"
 
@@ -20,10 +21,12 @@ const int MAX_BORDER_DISTANCE = 5;
 PaintCanvas::PaintCanvas(QWidget *parent):
 	QWidget(parent)
 {
+	is_in_drag = 0;
+
 	setMouseTracking(1);
 	canvas = new QLabel();
 	canvas->setMouseTracking(1);
-	canvas->setCursor(QCursor(Qt::CrossCursor));
+	canvas->setCursor(QCursor(Qt::OpenHandCursor));
 	QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -53,7 +56,34 @@ void PaintCanvas::drawImage(const ImageCore &imageCore)
 
 void PaintCanvas::mouseMoveEvent (QMouseEvent *event)
 {
-	QPoint pixel_point = canvas->mapFrom(scrollable_canvas, event->pos());
+	QPoint pos = event->pos();
+	QPoint pixel_point = canvas->mapFrom(scrollable_canvas, pos);
+	updateInfoLabel(pixel_point);
+	if (is_in_drag) {
+		QScrollBar *vbar = scrollable_canvas->verticalScrollBar();
+		QScrollBar *hbar = scrollable_canvas->horizontalScrollBar();
+		vbar->setValue(vbar->value() + drag_start_pos.y() - pos.y());
+		hbar->setValue(hbar->value() + drag_start_pos.x() - pos.x());
+		drag_start_pos = pos;
+	}
+}
+
+
+void PaintCanvas::mousePressEvent(QMouseEvent *event)
+{
+	drag_start_pos = event->pos();
+	is_in_drag = 1;
+	canvas->setCursor(Qt::ClosedHandCursor);
+}
+
+void PaintCanvas::mouseReleaseEvent(QMouseEvent *)
+{
+	is_in_drag = 0;
+	canvas->setCursor(Qt::OpenHandCursor);
+}
+
+void PaintCanvas::updateInfoLabel(QPoint pixel_point)
+{
 	QString label;
 	label += QString::number(image.width()) + 
 		" * " + QString::number(image.height()) + " " + tr("Pixels");

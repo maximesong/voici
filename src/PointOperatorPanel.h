@@ -30,6 +30,7 @@ private:
 	QSpinBox *maxLevelBox;
 	QPushButton *pointLinearButton;
 	QPushButton *midlevelNonlinearButton;
+	QPushButton *pointOperatorPanelButton;
 };
 
 #endif /* _POINTOPERATORPANEL_H_ */

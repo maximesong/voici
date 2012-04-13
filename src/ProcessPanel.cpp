@@ -2,6 +2,8 @@
 
 #include <QStackedWidget>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
 #include <QGroupBox>
 #include <QPushButton>
 #include <QSplitter>
@@ -27,22 +29,27 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 		this, SIGNAL(newProcess(ImageProcess*)));
 
 
-	QPushButton *filterPanelButton = new QPushButton(tr("Filter Panel"));
+	filterPanelButton = new QPushButton(tr("Filter Panel"));
+	filterPanelButton->setCheckable(1);
+	filterPanelButton->setChecked(1);
 	connect(filterPanelButton, SIGNAL(clicked()), 
 		this, SLOT(switchToFilterPanel()));
 
-	QPushButton *transformPanelButton = new QPushButton(tr("Transform Panel"));
+	transformPanelButton = new QPushButton(tr("Transform Panel"));
+	transformPanelButton->setCheckable(1);
 	connect(transformPanelButton, SIGNAL(clicked()), 
 		this, SLOT(switchToTransformPanel()));
 
 	
-	QPushButton *pointOperatorPanelButton = new QPushButton(tr("Point Operator Panel"));
+	
+	pointOperatorPanelButton = new QPushButton(tr("Point Operator Panel"));
+	pointOperatorPanelButton->setCheckable(1);
 	connect(pointOperatorPanelButton, SIGNAL(clicked()), 
 		this, SLOT(switchToPointOperatorPanel()));
 
         /* Buttons Layout */
 	buttonsWidget = new QWidget();
-	QVBoxLayout *buttonsLayout = new QVBoxLayout();
+	QHBoxLayout *buttonsLayout = new QHBoxLayout();
 	buttonsWidget->setLayout(buttonsLayout);	
 
 
@@ -65,15 +72,28 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 
 void ProcessPanel::switchToFilterPanel()
 {
+	uncheckAllButton();
+	filterPanelButton->setChecked(1);
 	stackedWidget->setCurrentWidget(filterPanel);
 }
 
 void ProcessPanel::switchToTransformPanel()
 {
+	uncheckAllButton();
+	transformPanelButton->setChecked(1);
 	stackedWidget->setCurrentWidget(transformPanel);
 }
 
 void ProcessPanel::switchToPointOperatorPanel()
 {
+	uncheckAllButton();
+	pointOperatorPanelButton->setChecked(1);
 	stackedWidget->setCurrentWidget(pointOperatorPanel);
+}
+
+void ProcessPanel::uncheckAllButton()
+{
+	filterPanelButton->setChecked(0);
+	transformPanelButton->setChecked(0);
+	pointOperatorPanelButton->setChecked(0);
 }
