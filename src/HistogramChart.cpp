@@ -15,6 +15,8 @@ HistogramChart::HistogramChart(QWidget *parent) :
 	threshold_brush_color.setRgb(100, 100, 100, 100);
 	threshold_pen_color.setRgb(200, 200, 200);
 	histogram_pen_color.setRgb(150, 150, 150);
+	setMinimumSize(300, 300);
+	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
 

@@ -16,11 +16,6 @@ QRgb MatrixBlockMap::map(int x_offset, int y_offset, const QImage *image)
 	double sum = 0;
 	for (int i = 0; i != m_m; ++i)
 		for (int j = 0; j !=  m_n; ++j) {
-/*
-			cout << x_offset << "\t" << y_offset << endl
-			     << i << "\t" << j << "\t" <<m_matrix[i + j * m_m] 
-			     << "\t" << getGrayDegree(x_offset + i, y_offset + j, image) << endl << endl;
-*/
 			sum += getGrayDegree(x_offset + i, y_offset + j, image) * 
 				m_matrix[i + j * m_m];
 		}
