@@ -65,6 +65,9 @@ void VoiciMainWindow::createCentralWidget()
 	QWidget *centerWidget = new QWidget(this);
 
 	displayPanel = new QTabWidget();
+	connect(displayPanel, SIGNAL(currentChanged(int)), 
+		this, SLOT(paintCanvasChanged()));
+
 	controlPanel = new QTabWidget();
 
 
@@ -185,7 +188,7 @@ void VoiciMainWindow::addProcess(ImageProcess *process)
 		if (process->canApplyToRgb()) {
 			currentImageCore->pushImageProcess(process);
 			return;
-		} else {
+		} else if (process->canApplyToGray()) {
 			int result = 
 				QMessageBox::question(this,
 						      tr("Apply to gray image?"), 
@@ -202,7 +205,36 @@ void VoiciMainWindow::addProcess(ImageProcess *process)
 				return;
 			}
 		}
+	} else {
+		if (process->canApplyToGray()) {
+			currentImageCore->pushImageProcess(process);
+			return;
+		} else if (process->canApplyToRgb()) {
+			int result = 
+				QMessageBox::question(this,
+						      tr("Apply to rgb image?"), 
+						      tr("This process can not be applied to gray image. Would you like it be applied to rgb image?"),
+						      QMessageBox::Yes | QMessageBox::No,
+						      QMessageBox::Yes);
+			switch (result) {
+			case QMessageBox::Yes:
+				currentImageCore = imageCore;
+				displayPanel->setCurrentWidget(paintCanvas);
+				currentImageCore->pushImageProcess(process);
+				return;
+			case QMessageBox::No:
+				return;
+			}
+		}
 	}
 	
 
+}
+
+void VoiciMainWindow::paintCanvasChanged()
+{
+	if (displayPanel->currentWidget() == grayPaintCanvas)
+		currentImageCore = grayImageCore;
+	else if (displayPanel->currentWidget() == paintCanvas)
+		currentImageCore = imageCore;
 }

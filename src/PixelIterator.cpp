@@ -11,11 +11,18 @@ PixelIterator::PixelIterator(int x, int y, int width, int height)
 
 void PixelIterator::rawIterate(QImage *image, PixelMap *map)
 {
-	for (int i = 0; i != image->width(); ++i)
-		for (int j = 0; j != image->height(); ++j) {
-			QRgb rgb = image->pixel(i, j);
-			image->setPixel(i, j, map->map(rgb));
+	/* This may need to be fixed */
+	QRgb *rgb = (QRgb *) image->bits();
+	QRgb *y_rgb;
+	QRgb *x_rgb;
+	for (int j = 0; j != image->height(); ++j) {
+		y_rgb = rgb + j * image->width();
+		for (int i = 0; i != image->width(); ++i) {
+			x_rgb = (y_rgb + i);
+			QRgb map_value = map->map(*x_rgb);
+			memcpy(x_rgb, &map_value, sizeof(QRgb));
 		}
+	}
 }
 
 void PixelIterator::iterate(QImage *image, PixelMap *map)
@@ -30,11 +37,18 @@ void PixelIterator::iterate(QImage *image, PixelMap *map)
 	if (m_height >= 0 && (m_x + m_height) < image->height())
 		y_end = m_x + m_height;
 
-	for (int i = m_x; i < x_end; ++i)
-		for (int j = m_y; j < y_end; ++j) {
-			QRgb rgb = image->pixel(i, j);
-			image->setPixel(i, j, map->map(rgb));
+	/* This may need to be fixed */
+	QRgb *rgb = (QRgb *) image->bits();
+	QRgb *y_rgb;
+	QRgb *x_rgb;
+	for (int j = m_y; j < y_end; ++j) {
+		y_rgb = rgb + j * image->width();
+		for (int i = m_x; i < x_end; ++i) {
+			x_rgb = (y_rgb + i);
+			QRgb map_value = map->map(*x_rgb);
+			memcpy(x_rgb, &map_value, sizeof(QRgb));
 		}
+	}
 }
 
 void PixelIterator::iterate(QImage *image, PositionalPixelMap *map)
@@ -71,3 +85,4 @@ void PixelIterator::setStartPoint(int x, int y)
 {
 	setRange(x, y, m_width, m_height);
 }
+

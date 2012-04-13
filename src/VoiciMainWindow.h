@@ -29,6 +29,7 @@ private slots:
  	void open();
 	void save();
 	void addProcess(ImageProcess *process);
+	void paintCanvasChanged();
 private:
 	void createToolBars();
 	void createActions();

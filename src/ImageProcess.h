@@ -17,9 +17,9 @@ public:
 
 	virtual QImage generateNewImage(const QImage &image) = 0;
 
-	virtual bool canApplyToRgb() { return 0; }
+	virtual bool canApplyToRgb() { return 1; }
 
-	virtual bool canApplyToGray() { return 0; }
+	virtual bool canApplyToGray() { return 1; }
 private:
 	QString m_process_name;
 };
