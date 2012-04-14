@@ -125,3 +125,12 @@ SOURCES += src/main.cpp \
            src/MedianBlockMap.cpp \
            src/PointOperatorPanel.cpp \
            src/DoubleSliderPanel.cpp \
+
+
+HEADERS += src/Process.h \
+           src/ImageFamily.h \
+           src/ImageProcesser.h \
+
+SOURCES += src/Process.cpp \
+           src/ImageFamily.cpp \
+           src/ImageProcesser.cpp \
