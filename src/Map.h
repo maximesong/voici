@@ -29,7 +29,7 @@ private:
 };
 
 
-class ImageBlendRgbMap : PositionalRgbMap {
+class ImageBlendRgbMap : public PositionalRgbMap {
 public:
 	ImageBlendRgbMap(const QImage &image, double firstRate, double secondRate);
 	virtual QRgb map(uchar r, uchar g, uchar b, uchar a, int x, int y);
@@ -40,9 +40,9 @@ private:
 };
 
 
-class ImageProductRgbMap : PositionalRgbMap {
+class ImageProductRgbMap : public PositionalRgbMap {
 public:
-	ImageProductRgbMap();
+	ImageProductRgbMap(const QImage &image, double coefficient = 1.0);
 	virtual QRgb map(uchar r, uchar g, uchar b, uchar a, int x, int y);
 private:
 	double m_coefficient;
@@ -50,10 +50,12 @@ private:
 };
 
 
-class ImageQuotientRgbMap : PositionalRgbMap {
+class ImageQuotientRgbMap : public PositionalRgbMap {
 public:
+	ImageQuotientRgbMap(const QImage &image, double coefficient = 1.0);
 	virtual QRgb map(uchar r, uchar g, uchar b, uchar a, int x, int y);
 private:
+	double m_coefficient;
 	QImage m_image;
 };
 

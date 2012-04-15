@@ -10,7 +10,6 @@
 
 #include "PreviewCanvas.h"
 #include "VoiciGlobal.h"
-#include "ImageProcess.h"
 #include "ProcessFactory.h"
 
 AlgebraicProcessPanel::AlgebraicProcessPanel(QWidget *parent)
@@ -67,7 +66,7 @@ void AlgebraicProcessPanel::sendAddProcess()
 {
 	if (previewImage.isNull())
 		return;
-	ImageProcess *process = 
+	SharedProcess process = 
 		ProcessFactory::getImageLinearBlendProcess(previewImage, 1, 1);
 	emit newProcess(process);
 }
@@ -76,7 +75,7 @@ void AlgebraicProcessPanel::sendSubstractProcess()
 {
 	if (previewImage.isNull())
 		return;
-	ImageProcess *process = 
+	SharedProcess process = 
 		ProcessFactory::getImageLinearBlendProcess(previewImage, 1, -1);
 	emit newProcess(process);
 }
@@ -85,7 +84,7 @@ void AlgebraicProcessPanel::sendProductProcess()
 {
 	if (previewImage.isNull())
 		return;
-	ImageProcess *process = ProcessFactory::getImageProductProcess(previewImage);
+	SharedProcess process = ProcessFactory::getImageProductProcess(previewImage);
 	emit newProcess(process);
 }
 
@@ -93,6 +92,6 @@ void AlgebraicProcessPanel::sendQuotientProcess()
 {
 	if (previewImage.isNull())
 		return;
-	ImageProcess *process = ProcessFactory::getImageQuotientProcess(previewImage);
+	SharedProcess process = ProcessFactory::getImageQuotientProcess(previewImage);
 	emit newProcess(process);
 }

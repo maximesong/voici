@@ -8,7 +8,6 @@
 #include <QPushButton>
 #include <QSplitter>
 
-#include "ImageProcess.h"
 #include "FilterPanel.h"
 #include "TransformPanel.h"
 #include "PointOperatorPanel.h"
@@ -17,15 +16,15 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 	: QWidget(parent)
 {
 	filterPanel = new FilterPanel();
-	connect(filterPanel, SIGNAL(newProcess(ImageProcess *)), 
-		this, SIGNAL(newProcess(ImageProcess *)));
+	connect(filterPanel, SIGNAL(newProcess(SharedProcess )), 
+		this, SIGNAL(newProcess(SharedProcess)));
 
 	transformPanel = new TransformPanel(image.width(), image.height());
-	connect(transformPanel, SIGNAL(newProcess(ImageProcess *)), 
-		this, SIGNAL(newProcess(ImageProcess *)));
+	connect(transformPanel, SIGNAL(newProcess(SharedProcess)), 
+		this, SIGNAL(newProcess(SharedProcess)));
 
 	pointOperatorPanel = new PointOperatorPanel();
-	connect(pointOperatorPanel, SIGNAL(newProcess(ImageProcess *)), 
+	connect(pointOperatorPanel, SIGNAL(newProcess(SharedProcess)), 
 		this, SIGNAL(newProcess(ImageProcess*)));
 
 

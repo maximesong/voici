@@ -27,36 +27,38 @@ typedef QSharedPointer<ImageFamilyProcess> SharedProcess;
 
 class DynamicImageProcess : public ImageFamilyProcess {
 public:
-	DynamicImageProcess(SharedImageProcessor imageProcesser,
+	DynamicImageProcess(SharedImageProcesser imageProcesser,
 			    const QString &processName = "");
 
 	virtual void applyToImageFamily(ImageFamily *imageFamily);
 
 	void setProcesser(SharedImageProcesser processer);
 private:
-	SharedImageProcessor m_image_processer;
+	SharedImageProcesser m_image_processer;
 };
 
 
 class PreImageProcess : public ImageFamilyProcess {
-	PreImageProcess(PreProcesser id, SharedImageProcessor imageProcesser,
+public:
+	PreImageProcess(PreProcesser id, SharedImageProcesser imageProcesser,
 			const QString &processName = "");
 	virtual void applyToImageFamily(ImageFamily *imageFamily);
 
 	void setPreProcesser(PreProcesser id, SharedImageProcesser processer);
 private:
-	SharedImageProcessor m_image_processer;
+	SharedImageProcesser m_image_processer;
 	PreProcesser m_id;
 };
 
 class PostImageProcess : public ImageFamilyProcess {
-	PostImageProcess(PostProcesser id, SharedImageProcessor imageProcessor,
+public:
+	PostImageProcess(PostProcesser id, SharedImageProcesser imageProcesser,
 			const QString &processName = "");
 	virtual void applyToImageFamily(ImageFamily *imageFamily);
 
 	void setPostProcesser(PostProcesser id, SharedImageProcesser processer);
 private:
-	SharedImageProcessor m_image_processer;
+	SharedImageProcesser m_image_processer;
 	PostProcesser m_id;
 };
 

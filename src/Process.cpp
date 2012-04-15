@@ -17,11 +17,11 @@ QString ImageFamilyProcess::getProcessName() const
 	return m_process_name;
 }
 
-DynamicImageProcess::DynamicImageProcess(SharedImageProcessor imageProcesser,
+DynamicImageProcess::DynamicImageProcess(SharedImageProcesser imageProcesser,
 					 const QString &processName)
-	: ImageFamilyProcess(processName)
 {
 	m_image_processer = imageProcesser;
+	setProcessName(processName);
 }
 
 void DynamicImageProcess::applyToImageFamily(ImageFamily *imageFamily)
@@ -29,36 +29,40 @@ void DynamicImageProcess::applyToImageFamily(ImageFamily *imageFamily)
 	imageFamily->pushDynamicImageProcesser(m_image_processer);
 }
 
-PreImageProcess::PreImageProcess(PreProcesser id, SharedImageProcessor imageProcesser,
-				 const QString &processName = "")
+PreImageProcess::PreImageProcess(PreProcesser id, 
+				 SharedImageProcesser imageProcesser,
+				 const QString &processName)
 {
-	m_id = id;
-	setPreProcesser(imageProcesser);
+	setPreProcesser(id, imageProcesser);
+	setProcessName(processName);
 }
 
 void PreImageProcess::applyToImageFamily(ImageFamily *imageFamily)
 {
-	imageFamily->setPreProcesser(m_image_processer);
+	imageFamily->setPreProcesser(m_id, m_image_processer);
 }
 
 void PreImageProcess::setPreProcesser(PreProcesser id, SharedImageProcesser processer)
 {
+	m_id = id;
 	m_image_processer = processer;
 }
 
-PostImageProcess::PostImageProcess(PostProcesser id, SharedImageProcessor imageProcesser,
-				 const QString &processName = "")
+PostImageProcess::PostImageProcess(PostProcesser id, 
+				   SharedImageProcesser imageProcesser,
+				   const QString &processName)
 {
-	m_id = id;
-	setPostProcesser(imageProcesser);
+	setPostProcesser(id, imageProcesser);
+	setProcessName(processName);
 }
 
 void PostImageProcess::applyToImageFamily(ImageFamily *imageFamily)
 {
-	imageFamily->setPostProcesser(m_image_processer);
+	imageFamily->setPostProcesser(m_id, m_image_processer);
 }
 
 void PostImageProcess::setPostProcesser(PostProcesser id, SharedImageProcesser processer)
 {
+	m_id = id;
 	m_image_processer = processer;
 }

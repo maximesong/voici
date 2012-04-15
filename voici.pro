@@ -22,11 +22,9 @@ HEADERS += src/Exceptions.h \
            src/PaintCanvas.h \
            src/VoiciMainWindow.h \
            src/Histogram.h \
-           src/ImageCore.h \
            src/HistogramChart.h \
            src/ThresholdPanel.h \
            src/SliderPanel.h src/VoiciGlobal.h \
-           src/ImageProcess.h \
            src/HistogramPanel.h \
            src/GrayPixelMap.h \
            src/PixelIterator.h \
@@ -34,12 +32,9 @@ HEADERS += src/Exceptions.h \
            src/GrayImagePixelMap.h \
            src/RatePixelMap.h \
            src/ProcessFactory.h \
-           src/PixelProcess.h \
-           src/GrayImageCore.h \
            src/RangeThresholdMap.h \
            src/MatrixBlockMap.h \
            src/BlockIterator.h \
-           src/BlockProcess.h \
            src/BlockMap.h \
            src/OtsuAlgorithm.h \
            src/EntropyMethod.h \
@@ -48,7 +43,6 @@ HEADERS += src/Exceptions.h \
            src/RgbChannelPixelMap.h \
            src/LinearPixelMap.h \
            src/MidlevelNonlinearMap.h \
-           src/AlgebraicProcess.h \
            src/ImageBlendMap.h \
            src/ImagePixelMap.h \
            src/PositionalPixelMap.h \
@@ -59,15 +53,9 @@ HEADERS += src/Exceptions.h \
            src/AlgebraicProcessPanel.h \
            src/PreviewCanvas.h \
            src/ImageUtility.h \
-           src/QuickGaussBlurProcess.h \
            src/FilterPanel.h \
-           src/ScaleProcess.h \
-           src/NearestNeighbourScaleProcess.h \
            src/ProcessPanel.h \
            src/TransformPanel.h \
-           src/BilinearScaleProcess.h \
-           src/RotateProcess.h \
-           src/NearestNeighbourRotateProcess.h \
            src/MeanBlockMap.h \
            src/MedianBlockMap.h \
            src/PointOperatorPanel.h \
@@ -77,11 +65,9 @@ SOURCES += src/main.cpp \
            src/PaintCanvas.cpp \
            src/VoiciMainWindow.cpp \
            src/Histogram.cpp \
-           src/ImageCore.cpp \
            src/HistogramChart.cpp \
            src/ThresholdPanel.cpp \
            src/SliderPanel.cpp \
-           src/ImageProcess.cpp \
            src/HistogramPanel.cpp \
            src/GrayPixelMap.cpp \
            src/PixelIterator.cpp \
@@ -89,12 +75,9 @@ SOURCES += src/main.cpp \
            src/GrayImagePixelMap.cpp \
            src/RatePixelMap.cpp \
            src/ProcessFactory.cpp \
-           src/PixelProcess.cpp \
-           src/GrayImageCore.cpp \
            src/RangeThresholdMap.cpp \
            src/MatrixBlockMap.cpp \
            src/BlockIterator.cpp \
-           src/BlockProcess.cpp \
            src/OtsuAlgorithm.cpp \
            src/EntropyMethod.cpp \
            src/KernelTable.cpp \
@@ -102,7 +85,6 @@ SOURCES += src/main.cpp \
            src/RgbChannelPixelMap.cpp \
            src/LinearPixelMap.cpp \
            src/MidlevelNonlinearMap.cpp \
-           src/AlgebraicProcess.cpp \
            src/ImageBlendMap.cpp \
            src/ImagePixelMap.cpp \
            src/PositionalPixelMap.cpp \
@@ -112,15 +94,9 @@ SOURCES += src/main.cpp \
            src/AlgebraicProcessPanel.cpp \
            src/PreviewCanvas.cpp \
            src/ImageUtility.cpp \
-           src/QuickGaussBlurProcess.cpp \
            src/FilterPanel.cpp \
-           src/ScaleProcess.cpp \
-           src/NearestNeighbourScaleProcess.cpp \
            src/ProcessPanel.cpp \
            src/TransformPanel.cpp \
-           src/BilinearScaleProcess.cpp \
-           src/RotateProcess.cpp \
-           src/NearestNeighbourRotateProcess.cpp \
            src/MeanBlockMap.cpp \
            src/MedianBlockMap.cpp \
            src/PointOperatorPanel.cpp \
@@ -133,6 +109,7 @@ HEADERS += src/Process.h \
            src/AbstractMap.h \
            src/Iterator.h \
            src/IteratorArea.h \
+           src/Map.h \
 
 SOURCES += src/Process.cpp \
            src/ImageFamily.cpp \
@@ -140,3 +117,4 @@ SOURCES += src/Process.cpp \
            src/AbstractMap.cpp \
            src/Iterator.cpp \
            src/IteratorArea.cpp \
+           src/Map.cpp \

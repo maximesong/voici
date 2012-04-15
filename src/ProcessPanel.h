@@ -3,11 +3,12 @@
 
 #include <QWidget>
 
+#include "Process.h"
+
 class QPushButton;
 class QStackedWidget;
 class QImage;
 
-class ImageProcess;
 class FilterPanel;
 class TransformPanel;
 class PointOperatorPanel;
@@ -18,7 +19,7 @@ public:
 	ProcessPanel(const QImage &image, QWidget *parent = 0);
 //	virtual ~ProcessPanel();
 signals:
-	void newProcess(ImageProcess *process);
+	void newProcess(SharedProcess process);
 public slots:
 	void switchToFilterPanel();
 	void switchToTransformPanel();

@@ -2,124 +2,166 @@
 
 #include "Map.h"
 #include "Iterator.h"
+#include "VoiciGlobal.h"
 
-SharedImageProcesser ProcessFactory::getStandardGrayProcess(Iterator *iter)
+
+SharedProcess ProcessFactory::getStandardGrayProcess(IteratorArea *area)
 {
-	RgbMap *map = GrayRgbMap(0.299, 0.587, 0.114, 1);
-	return buildFromPixelMap(map);
+	Iterator *iter = new Iterator(area);
+	RgbMap *map = new GrayRgbMap(0.299, 0.587, 0.114, 1);
+	RgbImageProcesser *processer = 
+		new RgbImageProcesser(iter, map, tr("Graying"));
+	return buildPreProcess(Graying, SharedImageProcesser(processer));
 }
 
 
-SharedImageProcesser ProcessFactory::getBinaryProcess(int low, int high)
+SharedProcess ProcessFactory::getBinaryProcess(int low, int high,
+					       IteratorArea *area)
 {
-	PixelMap *map = new RangeThresholdMap(low, high);
-	return buildFromPixelMap(map);
+	Iterator *iter = new Iterator(area);
+	ByteMap *map = new ThresholdRangeByteMap(low, high);
+	ByteImageProcesser *processer = 
+		new ByteImageProcesser(iter, map, tr("Thredshold"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
 
 
-SharedImageProcesser ProcessFactory::getConvolutionProcess(int rows, int columns,
-						    int centerRow, int centerColumn,
-						    const QVector<double> &matrix)
+SharedProcess ProcessFactory::getConvolutionProcess(int rows, int columns,
+						    int centerRow, 
+						    int centerColumn,
+						    const QVector<double> &matrix,
+						    IteratorArea *area)
 {
-	BlockIterator *iter = new BlockIterator(rows, columns, centerRow, centerColumn);
-	BlockMap *map = new MatrixBlockMap(rows, columns, matrix);
-	BlockProcess *process = new BlockProcess(iter, map, "Convolution");
-	return process;
+	AreaIterator *iter = 
+		new AreaIterator(rows, columns, centerRow, centerColumn, area);
+	AreaRgbMap *map = new MatrixRgbMap(rows, columns, matrix);
+	AreaRgbImageProcesser *processer = 
+		new AreaRgbImageProcesser(iter, map, tr("Convolution"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
-SharedImageProcesser ProcessFactory::getLinearProcess(double k, double b)
+SharedProcess ProcessFactory::getLinearProcess(double k, double b,
+					       IteratorArea *area)
 {
-	PixelMap *map = new LinearPixelMap(k, b);
-	return buildFromPixelMap(map);
+	Iterator *iter = new Iterator(area);
+	ByteMap *map = new LinearByteMap(k, b);
+	ByteImageProcesser *processer = 
+		new ByteImageProcesser(iter, map, tr("Linear Process"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
-SharedImageProcesser ProcessFactory::getMidlevelNonlinearMap(double c, int max_level)
+SharedProcess ProcessFactory::getMidlevelNonlinearMap(double c, double max,
+						      IteratorArea *area)
 {
-	PixelMap *map = new MidlevelNonlinearMap(c, max_level);
-	return buildFromPixelMap(map);
+	Iterator *iter = new Iterator(area);
+	ByteMap *map = new MidlevelNonlinearByteMap(c, max);
+	ByteImageProcesser *processer = 
+		new ByteImageProcesser(iter, map, tr("Midlevel Nonlinear"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
-SharedImageProcesser ProcessFactory::getImageLinearBlendProcess(const QImage &image,
+SharedProcess ProcessFactory::getImageLinearBlendProcess(const QImage &image,
 							 double rate1, 
-							 double rate2)
+							 double rate2,
+							 IteratorArea *area)
 {
-	ImageBlendMapPolicy *policy = new LinearBlendPolicy(rate1, rate2);
-	return buildAlgebraicProcess(image, policy);
+	Iterator *iter = new Iterator(area);
+	PositionalRgbMap *map = new ImageBlendRgbMap(image, rate1, rate2);
+	RgbImageProcesser *processer = 
+		new RgbImageProcesser(iter, map, tr("Image Linear Blend"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
-SharedImageProcesser ProcessFactory::getImageProductProcess(const QImage &image,
-					    double coefficient)
+SharedProcess ProcessFactory::getImageProductProcess(const QImage &image,
+						     double coefficient,
+						     IteratorArea *area)
 {
-	ImageBlendMapPolicy *policy = new ProductBlendPolicy(coefficient);
-	return buildAlgebraicProcess(image, policy);
+	Iterator *iter = new Iterator(area);
+	PositionalRgbMap *map = new ImageProductRgbMap(image, coefficient);
+	RgbImageProcesser *processer = 
+		new RgbImageProcesser(iter, map, tr("Image Product"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
-SharedImageProcesser ProcessFactory::getImageQuotientProcess(const QImage &image,
-					     double coefficient)
+SharedProcess ProcessFactory::getImageQuotientProcess(const QImage &image,
+						      double coefficient,
+						      IteratorArea *area)
 {
-	ImageBlendMapPolicy *policy = new QuotientBlendPolicy(coefficient);
-	return buildAlgebraicProcess(image, policy);
+	Iterator *iter = new Iterator(area);
+	PositionalRgbMap *map = new ImageQuotientRgbMap(image, coefficient);
+	RgbImageProcesser *processer = 
+		new RgbImageProcesser(iter, map, tr("Image Product"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
-
-SharedImageProcesser ProcessFactory::buildAlgebraicProcess(const QImage &image, 
-						    ImageBlendMapPolicy *policy)
+SharedProcess ProcessFactory::getQuickGaussBlurProcess(double horz, double vert)
 {
-	ImagePixelMap *map  = new ImageBlendMap(image, policy);
-	AlgebraicProcess *process = new AlgebraicProcess(map);
-	return process;
+	ImageProcesser *processer = new QuickGaussBlurProcesser(horz, vert);
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
-SharedImageProcesser ProcessFactory::getQuickGaussBlurProcess(double horz, double vert)
+SharedProcess ProcessFactory::getBilinearScaleProcess(int width, int height)
 {
-	return new QuickGaussBlurProcess(horz, vert);
+	ImageProcesser *processer = new BilinearScaleProcesser(width, height);
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
-SharedImageProcesser ProcessFactory::getBilinearScaleProcess(int width, int height)
-{
-	return new BilinearScaleProcess(width, height);
-}
-
-SharedImageProcesser ProcessFactory::getNearestNeighbourScaleProcess(int width, 
+SharedProcess ProcessFactory::getNearestNeighbourScaleProcess(int width, 
 							      int height)
 {
-	return new NearestNeighbourScaleProcess(width, height);
+	ImageProcesser *processer = new NearestNeighbourScaleProcesser(width, height);
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
-SharedImageProcesser ProcessFactory::getNearestNeighbourRotateProcess(double rotateAngle)
+SharedProcess ProcessFactory::getNearestNeighbourRotateProcess(double rotateAngle)
 {
-	return new NearestNeighbourRotateProcess(rotateAngle);
+	ImageProcesser *processer = new NearestNeighbourRotateProcesser(rotateAngle);
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
-SharedImageProcesser ProcessFactory::getMedianFilterProcess(int m, int n)
+SharedProcess ProcessFactory::getMedianFilterProcess(int m, int n,
+						     IteratorArea *area)
 {
-	BlockIterator *iter = new BlockIterator(m, n, (m + 1) / 2, (n + 1) / 2);
-	BlockMap *map = new MedianBlockMap(m, n);
-	BlockProcess *process = new BlockProcess(iter, map, "Median Filter");
-	return process;
+	AreaIterator *iter = 
+		new AreaIterator(m, n, (m + 1) / 2, (n + 1) / 2, area);
+	AreaRgbMap *map = new MedianRgbMap(m, n);
+	AreaRgbImageProcesser *processer = 
+		new AreaRgbImageProcesser(iter, map, tr("Median Filter"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
-SharedImageProcesser ProcessFactory::getMeanFilterProcess(int m, int n)
+SharedProcess ProcessFactory::getMeanFilterProcess(int m, int n, 
+						   IteratorArea *area)
 {
-	BlockIterator *iter = new BlockIterator(m, n, (m + 1) / 2, (n + 1) / 2);
-	BlockMap *map = new MeanBlockMap(m, n);
-	BlockProcess *process = new BlockProcess(iter, map, "Median Filter");
-	return process;
+	AreaIterator *iter = 
+		new AreaIterator(m, n, (m + 1) / 2, (n + 1) / 2, area);
+	AreaRgbMap *map = new MeanRgbMap(m, n);
+	AreaRgbImageProcesser *processer = 
+		new AreaRgbImageProcesser(iter, map, tr("Mean Filter"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
 }
 
 
 SharedProcess ProcessFactory::buildDynamicProcess(SharedImageProcesser processer)
 {
-	return new DynamicImageProcess(processer, tr("Dynamic Image Process"));
+	ImageFamilyProcess *process = 
+		new DynamicImageProcess(processer, tr("Dynamic Image Process"));
+	return SharedProcess(process);
 }
 
-SharedProcess ProcessFactory::buildPreProcess(SharedImageProcesser processer)
+SharedProcess ProcessFactory::buildPreProcess(PreProcesser id,
+					      SharedImageProcesser processer)
 {
-	return new PreImageProcess(processer, tr("Pre Image Process"));
+	ImageFamilyProcess *process = 
+		new PreImageProcess(id, processer, tr("Pre Image Process"));
+	return SharedProcess(process);
 }
 
-SharedProcess ProcessFactory::buildPostProcess(SharedImageProcesser processer)
+SharedProcess ProcessFactory::buildPostProcess(PostProcesser id,
+					       SharedImageProcesser processer)
 {
-	return new PostImageProcess(processer, tr("Post Image Process"));	
+	ImageFamilyProcess *process = 
+		new PostImageProcess(id, processer, tr("Post Image Process"));	
+	return SharedProcess(process);
 }

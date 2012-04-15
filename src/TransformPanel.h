@@ -3,11 +3,11 @@
 
 #include <QWidget>
 
+#include "Process.h"
+
 class QPushButton;
 class SliderPanel;
 class DoubleSliderPanel;
-
-class ImageProcess;
 
 class TransformPanel : public QWidget {
 	Q_OBJECT
@@ -19,7 +19,7 @@ public:
 	int getScaleHeight();
 	double getRotateAngle();
 signals:
-	void newProcess(ImageProcess *process);
+	void newProcess(SharedProcess process);
 public slots:
 	void sendBilinearScaleProcess();
 	void sendNearestNeighbourScaleProcess();

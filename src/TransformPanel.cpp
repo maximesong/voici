@@ -7,7 +7,6 @@
 #include <QGroupBox>
 #include <QGridLayout>
 
-#include "ImageProcess.h"
 #include "ProcessFactory.h"
 #include "SliderPanel.h"
 #include "DoubleSliderPanel.h"
@@ -65,7 +64,7 @@ TransformPanel::TransformPanel(int defaultImageWidth, int defaultImageHeight,
 
 void TransformPanel::sendBilinearScaleProcess()
 {
-	ImageProcess *process = ProcessFactory::getBilinearScaleProcess(
+	SharedProcess process = ProcessFactory::getBilinearScaleProcess(
 		getScaleWidth(), 
 		getScaleHeight());
 
@@ -74,7 +73,7 @@ void TransformPanel::sendBilinearScaleProcess()
 
 void TransformPanel::sendNearestNeighbourScaleProcess()
 {
-	ImageProcess *process = ProcessFactory::getNearestNeighbourScaleProcess(
+	SharedProcess process = ProcessFactory::getNearestNeighbourScaleProcess(
 		getScaleWidth(), 
 		getScaleHeight());
 
@@ -83,7 +82,7 @@ void TransformPanel::sendNearestNeighbourScaleProcess()
 
 void TransformPanel::sendNearestNeighbourRotateProcess()
 {
-	ImageProcess *process = ProcessFactory::getNearestNeighbourRotateProcess(
+	SharedProcess process = ProcessFactory::getNearestNeighbourRotateProcess(
 		getRotateAngle());
 
 	emit newProcess(process);

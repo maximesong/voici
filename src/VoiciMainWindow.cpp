@@ -25,8 +25,8 @@ using namespace std;
 
 VoiciMainWindow::VoiciMainWindow()
 {
-	imageFamily = new ImageFamily();
-	grayImageFamily = new ImageFamily();
+	imageFamily = new ImageFamily(QImage(), tr("Colorful"));
+	grayImageFamily = new ImageFamily(QImage(), tr("Gray"));
 	currentImageFamily = imageFamily;
 
 	createActions();
@@ -184,6 +184,8 @@ void VoiciMainWindow::replaceTabWidget(QTabWidget *tabWidget, T **oldWidget,
 
 void VoiciMainWindow::addProcess(SharedProcess process)
 {
+	process->applyToImageFamily(currentImageFamily);
+/*
 	if (currentImageFamily == imageFamily) {
 		if (process->canApplyToRgb()) {
 			currentImageFamily->pushImageProcess(process);
@@ -227,7 +229,7 @@ void VoiciMainWindow::addProcess(SharedProcess process)
 			}
 		}
 	}
-	
+*/	
 
 }
 

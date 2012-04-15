@@ -3,8 +3,9 @@
 
 #include <QWidget>
 
+#include "Process.h"
+
 class QPushButton;
-class ImageProcess;
 class QDoubleSpinBox;
 class QSpinBox;
 
@@ -15,7 +16,7 @@ public:
 //	virtual ~FilterPanel();
 	
 signals:
-	void newProcess(ImageProcess *process);
+	void newProcess(SharedProcess process);
 public slots:
 	void addGaussProcess();
 	void addMeanFilterProcess();

@@ -23,7 +23,7 @@ LinearByteMap::LinearByteMap(double k, double b)
 
 uchar LinearByteMap::map(uchar src)
 {
-	return ensure_in_range(k * src + b);
+	return ensure_in_range(m_k * src + m_b);
 }
 
 GrayRgbMap::GrayRgbMap(double rRate, double gRate, double bRate, double aRate)
@@ -52,14 +52,18 @@ ImageBlendRgbMap::ImageBlendRgbMap(const QImage &image,
 
 QRgb ImageBlendRgbMap::map(uchar r, uchar g, uchar b, uchar a, int x, int y)
 {
-	if (! m_image.contains(x, y))
+	if (! m_image.valid(x, y))
 		return qRgba(r, g, b, a);
 
-	QRgb rgb = m_image.pixel();
-	uchar blend_r = ensure_in_range(r * firstRate + qRed(rgb) * secondRate);
-	uchar blend_g = ensure_in_range(g * firstRate + qGreen(rgb) * secondRate);
-	uchar blend_b = ensure_in_range(b * firstRate + qBlue(rgb) * secondRate);
-	uchar blend_a = ensure_in_range(a * firstRate + qAlpha(rgb) * secondRate);
+	QRgb rgb = m_image.pixel(x, y);
+	uchar blend_r = ensure_in_range(r * m_first_rate + 
+					qRed(rgb) * m_second_rate);
+	uchar blend_g = ensure_in_range(g * m_first_rate + 
+					qGreen(rgb) * m_second_rate);
+	uchar blend_b = ensure_in_range(b * m_first_rate + 
+					qBlue(rgb) * m_second_rate);
+	uchar blend_a = ensure_in_range(a * m_first_rate + 
+					qAlpha(rgb) * m_second_rate);
 
 	return qRgba(blend_r, blend_g, blend_b, blend_a);
 }
@@ -74,10 +78,10 @@ ImageProductRgbMap::ImageProductRgbMap(const QImage &image, double coefficient)
 
 QRgb ImageProductRgbMap::map(uchar r, uchar g, uchar b, uchar a, int x, int y)
 {
-	if (! m_image.contains(x, y))
+	if (! m_image.valid(x, y))
 		return qRgba(r, g, b, a);
 
-	QRgb rgb = m_image.pixel();
+	QRgb rgb = m_image.pixel(x, y);
 	uchar product_r = ensure_in_range(m_coefficient * r * qRed(rgb));
 	uchar product_g = ensure_in_range(m_coefficient * g * qGreen(rgb));
 	uchar product_b = ensure_in_range(m_coefficient * b * qBlue(rgb));
@@ -95,10 +99,10 @@ ImageQuotientRgbMap::ImageQuotientRgbMap(const QImage &image, double coefficient
 
 QRgb ImageQuotientRgbMap::map(uchar r, uchar g, uchar b, uchar a, int x, int y)
 {
-	if (! m_image.contains(x, y))
+	if (! m_image.valid(x, y))
 		return qRgba(r, g, b, a);
 
-	QRgb rgb = m_image.pixel();
+	QRgb rgb = m_image.pixel(x, y);
 	uchar quotient_r = ensure_in_range(m_coefficient * r / qRed(rgb));
 	uchar quotient_g = ensure_in_range(m_coefficient * g / qGreen(rgb));
 	uchar quotient_b = ensure_in_range(m_coefficient * b / qBlue(rgb));
@@ -232,7 +236,7 @@ ThresholdRangeByteMap::ThresholdRangeByteMap(uchar low, uchar high)
 	m_high = high;
 }
 
-virtual uchar map(uchar src)
+uchar ThresholdRangeByteMap::map(uchar src)
 {
 	if (src >= m_low && src <= m_high)
 		return 255;

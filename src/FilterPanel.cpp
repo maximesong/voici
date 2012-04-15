@@ -75,7 +75,7 @@ void FilterPanel::addGaussProcess()
 {
 	double horz = gaussHorizontalBox->value();
 	double vert = gaussVerticalBox->value();
-	ImageProcess *process = ProcessFactory::getQuickGaussBlurProcess(horz,
+	SharedProcess process = ProcessFactory::getQuickGaussBlurProcess(horz,
 									 vert);
 	emit newProcess(process);
 }
@@ -84,7 +84,7 @@ void FilterPanel::addMeanFilterProcess()
 {
 	int row_count = rowCountBox->value();
 	int column_count = columnCountBox->value();
-	ImageProcess *process = ProcessFactory::getMeanFilterProcess(row_count,
+	SharedProcess process = ProcessFactory::getMeanFilterProcess(row_count,
 								     column_count);
 	emit newProcess(process);
 }
@@ -93,7 +93,7 @@ void FilterPanel::addMedianFilterProcess()
 {
 	int row_count = rowCountBox->value();
 	int column_count = columnCountBox->value();
-	ImageProcess *process = ProcessFactory::getMedianFilterProcess(row_count,
+	SharedProcess process = ProcessFactory::getMedianFilterProcess(row_count,
 								       column_count);
 	emit newProcess(process);
 }

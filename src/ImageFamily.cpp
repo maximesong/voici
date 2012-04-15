@@ -1,6 +1,7 @@
 #include "ImageFamily.h"
 
 #include "Exceptions.h"
+#include "VoiciGlobal.h"
 
 ImageFamily::ImageFamily(const QImage &originImage, const QString &familyName)
 {
@@ -98,7 +99,7 @@ void ImageFamily::setFamilyName(const QString &name)
 }
 
 
-void ImageFamily::pushDynamicImageProcesser(SharedImageProcessor processer)
+void ImageFamily::pushDynamicImageProcesser(SharedImageProcesser processer)
 {
 	if (m_dynamic_processer_index + 1 < m_dynamic_image_list.size()) {
 		int expired_processer_count = m_dynamic_processer_list.size() - 1 - 

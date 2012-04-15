@@ -4,9 +4,10 @@
 #include <QWidget>
 #include <QImage>
 
+#include "Process.h"
+
 class PreviewCanvas;
 class QPushButton;
-class ImageProcess;
 
 class AlgebraicProcessPanel : public QWidget {
 	Q_OBJECT
@@ -14,7 +15,7 @@ public:
 	AlgebraicProcessPanel(QWidget *parent = 0);
 //	virtual ~AlgebraicProcessPanel();
 signals:
-	void newProcess(ImageProcess *process);
+	void newProcess(SharedProcess process);
 public slots:
 	void selectImage();
 	void sendAddProcess();

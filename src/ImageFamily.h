@@ -35,7 +35,7 @@ public slots:
 
 	void setFamilyName(const QString &name);
 
-	void pushDynamicImageProcesser(SharedImageProcessor processer);
+	void pushDynamicImageProcesser(SharedImageProcesser processer);
 
 	void setPreProcesser(PreProcesser id, SharedImageProcesser processer);
 	
@@ -53,9 +53,9 @@ private:
 	void initFamily();
 
 	QString m_family_name;
-	QVector<SharedImageProcessor> m_dynamic_processer_list;
-	QVector<SharedImageProcessor> m_pre_processer_list;
-	QVector<SharedImageProcessor> m_post_processer_list;
+	QVector<SharedImageProcesser> m_dynamic_processer_list;
+	QVector<SharedImageProcesser> m_pre_processer_list;
+	QVector<SharedImageProcesser> m_post_processer_list;
 	QImage m_origin_image;
 	QImage m_pre_processed_image;
 	QVector<QImage> m_dynamic_image_list;

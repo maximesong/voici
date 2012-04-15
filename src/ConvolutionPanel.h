@@ -3,17 +3,18 @@
 
 #include <QWidget>
 
+#include "Process.h"
+
 class QPushButton;
 
 class KernelTable;
-class ImageProcess;
 
 class ConvolutionPanel : public QWidget {
 	Q_OBJECT
 public:
 	ConvolutionPanel(QWidget *parent = 0);
 signals:
-	void newProcess(ImageProcess *process);
+	void newProcess(SharedProcess process);
 
 public slots:
 	void setSobelH();

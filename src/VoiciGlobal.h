@@ -21,7 +21,9 @@ inline int legalized_level(int level)
 
 const int PRE_PROCESSER_NR = 10;
 
-const int POST_PRECESSER_NR = 10;
+const int POST_PROCESSER_NR = 10;
+
+const int  BILINEAR_SHIFT = 4;
 
 enum PreProcesser { Graying };
 

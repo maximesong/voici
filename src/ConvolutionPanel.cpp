@@ -139,6 +139,6 @@ void ConvolutionPanel::applyProcess()
 	int n = kernelTable->getColumns();
 	int x = kernelTable->getCenterRow();
 	int y = kernelTable->getCenterColumn();
-	ImageProcess *process = ProcessFactory::getConvolutionProcess(m, n, x, y, matrix);
+	SharedProcess process = ProcessFactory::getConvolutionProcess(m, n, x, y, matrix);
 	emit newProcess(process);
 }

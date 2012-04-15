@@ -3,11 +3,11 @@
 
 #include <QWidget>
 
+#include "Process.h"
+
 class QDoubleSpinBox;
 class QSpinBox;
 class QPushButton;
-
-class ImageProcess;
 
 class PointOperatorPanel : public QWidget {
 	Q_OBJECT
@@ -19,7 +19,7 @@ public:
 		MidlevelNonlinear,
 	};
 signals:
-	void newProcess(ImageProcess *process);	
+	void newProcess(SharedProcess process);	
 public slots:
 	void sendPointLinearProcess();
 	void sendMidlevelNonlinearProcess();

@@ -7,7 +7,6 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 
-#include "ImageProcess.h"
 #include "ProcessFactory.h"
 
 PointOperatorPanel::PointOperatorPanel(QWidget *parent)
@@ -75,7 +74,7 @@ PointOperatorPanel::PointOperatorPanel(QWidget *parent)
 
 void PointOperatorPanel::sendPointLinearProcess()
 {
-	ImageProcess *process = ProcessFactory::getLinearProcess(kBox->value(),
+	SharedProcess process = ProcessFactory::getLinearProcess(kBox->value(),
 								 bBox->value());
 
 	emit newProcess(process);
@@ -83,7 +82,7 @@ void PointOperatorPanel::sendPointLinearProcess()
 
 void PointOperatorPanel::sendMidlevelNonlinearProcess()
 {
-	ImageProcess *process = ProcessFactory::getMidlevelNonlinearMap(
+	SharedProcess process = ProcessFactory::getMidlevelNonlinearMap(
 		cBox->value(),
 		maxLevelBox->value());
 

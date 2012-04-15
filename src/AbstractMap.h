@@ -22,7 +22,7 @@ public:
 };
 
 
-class RgbMap {
+class RgbMap : public PositionalRgbMap {
 public:
 	virtual QRgb map(uchar r, uchar g, uchar b, uchar a, int x, int y);
 	virtual QRgb map(uchar r, uchar g, uchar b, uchar a) = 0;

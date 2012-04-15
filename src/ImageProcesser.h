@@ -3,6 +3,7 @@
 
 #include <QSharedPointer>
 #include <QString>
+#include <cmath>
 
 #include "Map.h"
 #include "Iterator.h"
@@ -20,7 +21,7 @@ private:
 	QString m_processer_name;
 };
 
-typedef QSharedPointer<ImageProcesser> SharedImageProcessor;
+typedef QSharedPointer<ImageProcesser> SharedImageProcesser;
 
 
 class RgbImageProcesser : public ImageProcesser {
@@ -36,7 +37,7 @@ private:
 
 class ByteImageProcesser : public ImageProcesser {
 public:
-	ByteImageProcesser(Iterator *iter, PositionalByteRgbMap *map,
+	ByteImageProcesser(Iterator *iter, PositionalByteMap *map,
 			  const QString &processerName  = "");
 	~ByteImageProcesser();
 	virtual QImage produceProcessedImage(const QImage &src);
@@ -46,13 +47,62 @@ private:
 };
 
 class AreaRgbImageProcesser : public ImageProcesser {
-	AreaRgbImageProcesser(Iterator *iter, AreaRgbMap *map,
+public:
+	AreaRgbImageProcesser(AreaIterator *iter, AreaRgbMap *map,
 			  const QString &processerName  = "");
 	~AreaRgbImageProcesser();
 	virtual QImage produceProcessedImage(const QImage &src);
 private:
-	Iterator *m_iter;
+	AreaIterator *m_iter;
 	AreaRgbMap *m_map;
+};
+
+class QuickGaussBlurProcesser : public ImageProcesser {
+public:
+	QuickGaussBlurProcesser(double horizontal, double vertical);
+	virtual QImage produceProcessedImage(const QImage &image);
+private:
+	QImage gauss_iir(const QImage &image);
+
+	void find_iir_constants(double std_dev);
+	static void transfer_pixels (const double *src1, const double *src2,
+				     uchar *dest, int bytes, int width);
+	double n_p[5];
+	double n_m[5];
+	double bd_p[5];
+	double bd_m[5];
+	double d_p[5];
+	double d_m[5];
+	double vert;
+	double horz;
+};
+
+class BilinearScaleProcesser : public ImageProcesser {
+public:
+	BilinearScaleProcesser(int width, int height);
+	virtual QImage produceProcessedImage(const QImage &image);
+private:
+	int m_width;
+	int m_height;
+};
+
+class NearestNeighbourScaleProcesser : public ImageProcesser {
+public:
+	NearestNeighbourScaleProcesser(int width, int height);
+	virtual QImage produceProcessedImage(const QImage &image);
+private:
+	int m_width;
+	int m_height;
+};
+
+class NearestNeighbourRotateProcesser : public ImageProcesser {
+public:
+	NearestNeighbourRotateProcesser(double rotateAngle);
+	virtual QImage produceProcessedImage(const QImage &image);
+private:
+	int m_width;
+	int m_height;
+	double m_rotate_angle;
 };
 
 #endif /* _IMAGEPROCESSER_H_ */
