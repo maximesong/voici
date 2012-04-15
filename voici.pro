@@ -130,7 +130,13 @@ SOURCES += src/main.cpp \
 HEADERS += src/Process.h \
            src/ImageFamily.h \
            src/ImageProcesser.h \
+           src/AbstractMap.h \
+           src/Iterator.h \
+           src/IteratorArea.h \
 
 SOURCES += src/Process.cpp \
            src/ImageFamily.cpp \
            src/ImageProcesser.cpp \
+           src/AbstractMap.cpp \
+           src/Iterator.cpp \
+           src/IteratorArea.cpp \
