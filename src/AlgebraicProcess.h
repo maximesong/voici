@@ -1,13 +1,13 @@
 #ifndef _ALGEBRAICPROCESS_H_
 #define _ALGEBRAICPROCESS_H_
 
-#include "PixelProcess.h"
+#include "ImageProcesser.h"
+#include "Map.h"
+#include "Iterator.h"
 
 class QImage;
-class ImagePixelMap;
-class PixelIterator;
 
-class AlgebraicProcess : public ImageProcess {
+class AlgebraicProcess : public ImageProcesser {
 public:
 	AlgebraicProcess(ImagePixelMap *map, const QString &processName = "Algebraic Process");
 	~AlgebraicProcess();

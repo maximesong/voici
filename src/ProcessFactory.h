@@ -5,46 +5,47 @@
 #include <QImage>
 
 #include "VoiciGlobal.h"
-
-class ImageProcess;
-class PixelMap;
-class ImageBlendMapPolicy;
+#include "ImageProcesser.h"
 
 class ProcessFactory {
 public:
 	ProcessFactory();
-	static ImageProcess *getStandardGrayProcess();
-	static ImageProcess *getBinaryProcess(int low = 0, 
+	static SharedImageProcesser getStandardGrayProcess();
+	static SharedImageProcesser getBinaryProcess(int low = 0, 
 						 int high = MAX_PIXEL_VALUE);
-	static ImageProcess *getConvolutionProcess(int rows, int columns, 
+	static SharedImageProcesser getConvolutionProcess(int rows, int columns, 
 						   int centerRow, int centerColumn,
 						   const QVector<double> &matrix);
-	static ImageProcess *getLinearProcess(double k, double b);
-	static ImageProcess *getMidlevelNonlinearMap(double c, int max_level);
+	static SharedImageProcesser getLinearProcess(double k, double b);
+	static SharedImageProcesser getMidlevelNonlinearMap(double c, int max_level);
 	
-	static ImageProcess *getImageLinearBlendProcess(const QImage &image,
+	static SharedImageProcesser getImageLinearBlendProcess(const QImage &image,
 							double rate1, 
 							double rate2);
 
-	static ImageProcess *getImageProductProcess(const QImage &image,
+	static SharedImageProcesser getImageProductProcess(const QImage &image,
 						    double coefficient = 1.0);
-	static ImageProcess *getImageQuotientProcess(const QImage &image,
+	static SharedImageProcesser getImageQuotientProcess(const QImage &image,
 						     double coefficient = 1.0);
 	
-	static ImageProcess *getQuickGaussBlurProcess(double vert, double horz);
+	static SharedImageProcesser getQuickGaussBlurProcess(double vert, double horz);
 
-	static ImageProcess *getBilinearScaleProcess(int width, int height);
+	static SharedImageProcesser getBilinearScaleProcess(int width, int height);
 
-	static ImageProcess *getNearestNeighbourScaleProcess(int width, 
+	static SharedImageProcesser getNearestNeighbourScaleProcess(int width, 
 							     int height);
 
-	static ImageProcess *getNearestNeighbourRotateProcess(double rotateAngle);
+	static SharedImageProcesser getNearestNeighbourRotateProcess(double rotateAngle);
 
-	static ImageProcess *getMedianFilterProcess(int m, int n);
-	static ImageProcess *getMeanFilterProcess(int m, int n);
+	static SharedImageProcesser getMedianFilterProcess(int m, int n);
+	static SharedImageProcesser getMeanFilterProcess(int m, int n);
 private:
-	static ImageProcess *buildFromPixelMap(PixelMap *map);
-	static ImageProcess *buildAlgebraicProcess(const QImage &image, 
+	static SharedImageProcesser buildDynamicProcess(SharedImageProcesser processer);
+	static SharedImageProcesser buildPreProcess(SharedImageProcesser processer);
+	static SharedImageProcesser buildPostProcess(SharedImageProcesser processer);
+
+	static SharedImageProcesser buildFromPixelMap(PixelMap *map);
+	static SharedImageProcesser buildAlgebraicProcess(const QImage &image, 
 						   ImageBlendMapPolicy *policy);
 };
 

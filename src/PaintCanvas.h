@@ -4,19 +4,20 @@
 #include <QWidget>
 #include <QPoint>
 
+#include "ImageFamily.h"
+
 class QLabel;
 class QScrollArea;
 class QMouseEvent;
 class QImage;
 
-class ImageCore;
 
 class PaintCanvas : public QWidget {
 	Q_OBJECT
 public:
 	PaintCanvas(QWidget *parent = 0);
 public slots:
-	virtual void drawImage(const ImageCore &imageCore);
+	virtual void drawImage(const ImageFamily &imageCore);
 protected:
 	virtual void mouseMoveEvent (QMouseEvent *event);
 	void updateInfoLabel(QPoint pixel_point);

@@ -22,7 +22,9 @@ void ImageFamily::initFamily()
 {
 	m_dynamic_processer_list.clear();
 	m_pre_processer_list.clear();
+	m_pre_processer_list.fill(SharedImageProcesser(), PRE_PROCESSER_NR);
 	m_post_processer_list.clear();
+	m_post_processer_list.fill(SharedImageProcesser(), POST_PROCESSER_NR);
 	m_dynamic_image_list.clear();
 	m_pre_processed_image = m_post_processed_image 
 		= m_dynamic_image = m_origin_image;
@@ -36,7 +38,7 @@ ImageFamily::ImageFamily(const ImageFamily &imageFamily)
 }
 
 
-ImageCore ImageFamily::&operator=(const ImageFamily &imageFamily)
+ImageFamily ImageFamily::&operator=(const ImageFamily &imageFamily)
 {
 }
 */
@@ -174,3 +176,13 @@ void ImageFamily::applyAllProcessers(bool needApplyPreProcessers)
 	applyPostProcessers();
 }
 
+
+void ImageFamily::setPreProcesser(PreProcesser id, SharedImageProcesser processer)
+{
+	m_pre_processer_list[id] = processer;
+}
+	
+void ImageFamily::setPostProcesser(PostProcesser id, SharedImageProcesser processer)
+{
+	m_post_processer_list[id] = processer;
+}

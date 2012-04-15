@@ -1,47 +1,24 @@
 #include "ProcessFactory.h"
 
-#include "PixelMap.h"
-#include "PixelProcess.h"
-#include "ImageProcess.h"
-#include "RatePixelMap.h"
-#include "LinearPixelMap.h"
-#include "RangeThresholdMap.h"
-#include "MatrixBlockMap.h"
-#include "BlockIterator.h"
-#include "BlockProcess.h"
-#include "MidlevelNonlinearMap.h"
-#include "ImageBlendMap.h"
-#include "AlgebraicProcess.h"
-#include "ImageBlendMapPolicy.h"
-#include "ProductBlendPolicy.h"
-#include "QuotientBlendPolicy.h"
-#include "LinearBlendPolicy.h"
-#include "QuickGaussBlurProcess.h"
-#include "NearestNeighbourScaleProcess.h"
-#include "BilinearScaleProcess.h"
-#include "NearestNeighbourRotateProcess.h"
-#include "MedianBlockMap.h"
-#include "MeanBlockMap.h"
+#include "Map.h"
+#include "Iterator.h"
 
-ImageProcess *ProcessFactory::getStandardGrayProcess()
+SharedImageProcesser ProcessFactory::getStandardGrayProcess(Iterator *iter)
 {
-	PixelMap *map = new RatePixelMap(0.299, 0.587, 0.114);
+	RgbMap *map = GrayRgbMap(0.299, 0.587, 0.114, 1);
 	return buildFromPixelMap(map);
 }
 
 
-ImageProcess *ProcessFactory::getBinaryProcess(int low, int high)
+SharedImageProcesser ProcessFactory::getBinaryProcess(int low, int high)
 {
 	PixelMap *map = new RangeThresholdMap(low, high);
 	return buildFromPixelMap(map);
 }
 
-ImageProcess *ProcessFactory::buildFromPixelMap(PixelMap *map)
-{
-	return new PixelProcess(map);
-}
 
-ImageProcess *ProcessFactory::getConvolutionProcess(int rows, int columns,
+
+SharedImageProcesser ProcessFactory::getConvolutionProcess(int rows, int columns,
 						    int centerRow, int centerColumn,
 						    const QVector<double> &matrix)
 {
@@ -51,19 +28,19 @@ ImageProcess *ProcessFactory::getConvolutionProcess(int rows, int columns,
 	return process;
 }
 
-ImageProcess *ProcessFactory::getLinearProcess(double k, double b)
+SharedImageProcesser ProcessFactory::getLinearProcess(double k, double b)
 {
 	PixelMap *map = new LinearPixelMap(k, b);
 	return buildFromPixelMap(map);
 }
 
-ImageProcess *ProcessFactory::getMidlevelNonlinearMap(double c, int max_level)
+SharedImageProcesser ProcessFactory::getMidlevelNonlinearMap(double c, int max_level)
 {
 	PixelMap *map = new MidlevelNonlinearMap(c, max_level);
 	return buildFromPixelMap(map);
 }
 
-ImageProcess *ProcessFactory::getImageLinearBlendProcess(const QImage &image,
+SharedImageProcesser ProcessFactory::getImageLinearBlendProcess(const QImage &image,
 							 double rate1, 
 							 double rate2)
 {
@@ -71,14 +48,14 @@ ImageProcess *ProcessFactory::getImageLinearBlendProcess(const QImage &image,
 	return buildAlgebraicProcess(image, policy);
 }
 
-ImageProcess *ProcessFactory::getImageProductProcess(const QImage &image,
+SharedImageProcesser ProcessFactory::getImageProductProcess(const QImage &image,
 					    double coefficient)
 {
 	ImageBlendMapPolicy *policy = new ProductBlendPolicy(coefficient);
 	return buildAlgebraicProcess(image, policy);
 }
 
-ImageProcess *ProcessFactory::getImageQuotientProcess(const QImage &image,
+SharedImageProcesser ProcessFactory::getImageQuotientProcess(const QImage &image,
 					     double coefficient)
 {
 	ImageBlendMapPolicy *policy = new QuotientBlendPolicy(coefficient);
@@ -86,7 +63,7 @@ ImageProcess *ProcessFactory::getImageQuotientProcess(const QImage &image,
 }
 
 
-ImageProcess *ProcessFactory::buildAlgebraicProcess(const QImage &image, 
+SharedImageProcesser ProcessFactory::buildAlgebraicProcess(const QImage &image, 
 						    ImageBlendMapPolicy *policy)
 {
 	ImagePixelMap *map  = new ImageBlendMap(image, policy);
@@ -94,28 +71,28 @@ ImageProcess *ProcessFactory::buildAlgebraicProcess(const QImage &image,
 	return process;
 }
 
-ImageProcess *ProcessFactory::getQuickGaussBlurProcess(double horz, double vert)
+SharedImageProcesser ProcessFactory::getQuickGaussBlurProcess(double horz, double vert)
 {
 	return new QuickGaussBlurProcess(horz, vert);
 }
 
-ImageProcess *ProcessFactory::getBilinearScaleProcess(int width, int height)
+SharedImageProcesser ProcessFactory::getBilinearScaleProcess(int width, int height)
 {
 	return new BilinearScaleProcess(width, height);
 }
 
-ImageProcess *ProcessFactory::getNearestNeighbourScaleProcess(int width, 
+SharedImageProcesser ProcessFactory::getNearestNeighbourScaleProcess(int width, 
 							      int height)
 {
 	return new NearestNeighbourScaleProcess(width, height);
 }
 
-ImageProcess *ProcessFactory::getNearestNeighbourRotateProcess(double rotateAngle)
+SharedImageProcesser ProcessFactory::getNearestNeighbourRotateProcess(double rotateAngle)
 {
 	return new NearestNeighbourRotateProcess(rotateAngle);
 }
 
-ImageProcess *ProcessFactory::getMedianFilterProcess(int m, int n)
+SharedImageProcesser ProcessFactory::getMedianFilterProcess(int m, int n)
 {
 	BlockIterator *iter = new BlockIterator(m, n, (m + 1) / 2, (n + 1) / 2);
 	BlockMap *map = new MedianBlockMap(m, n);
@@ -123,10 +100,26 @@ ImageProcess *ProcessFactory::getMedianFilterProcess(int m, int n)
 	return process;
 }
 
-ImageProcess *ProcessFactory::getMeanFilterProcess(int m, int n)
+SharedImageProcesser ProcessFactory::getMeanFilterProcess(int m, int n)
 {
 	BlockIterator *iter = new BlockIterator(m, n, (m + 1) / 2, (n + 1) / 2);
 	BlockMap *map = new MeanBlockMap(m, n);
 	BlockProcess *process = new BlockProcess(iter, map, "Median Filter");
 	return process;
+}
+
+
+SharedProcess ProcessFactory::buildDynamicProcess(SharedImageProcesser processer)
+{
+	return new DynamicImageProcess(processer, tr("Dynamic Image Process"));
+}
+
+SharedProcess ProcessFactory::buildPreProcess(SharedImageProcesser processer)
+{
+	return new PreImageProcess(processer, tr("Pre Image Process"));
+}
+
+SharedProcess ProcessFactory::buildPostProcess(SharedImageProcesser processer)
+{
+	return new PostImageProcess(processer, tr("Post Image Process"));	
 }

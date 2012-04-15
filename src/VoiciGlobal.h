@@ -19,4 +19,12 @@ inline int legalized_level(int level)
 	return level;
 }
 
+const int PRE_PROCESSER_NR = 10;
+
+const int POST_PRECESSER_NR = 10;
+
+enum PreProcesser { Graying };
+
+enum PostProcesser { Thresholding };
+
 #endif /* _VOICIGLOBAL_H_ */

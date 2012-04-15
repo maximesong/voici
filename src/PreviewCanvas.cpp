@@ -1,6 +1,5 @@
 #include "PreviewCanvas.h"
 
-#include "ImageCore.h"
 
 #include <iostream>
 using namespace std;
@@ -13,7 +12,7 @@ PreviewCanvas::PreviewCanvas(QWidget *parent)
 	setMinimumSize(standard_width, standard_height);
 }
 
-void PreviewCanvas::drawImage(const ImageCore &imageCore)
+void PreviewCanvas::drawImage(const ImageFamily &imageCore)
 {
 	QImage image = imageCore.getCurrentImage();
 	drawImage(image);

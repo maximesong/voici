@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 
+#include "Process.h"
+#include "ImageFamily.h"
+
 class QLabel;
 class QToolBar;
 class QAction;
@@ -12,10 +15,6 @@ class HistogramPanel;
 class ConvolutionPanel;
 class AlgebraicProcessPanel;
 class ProcessPanel;
-
-class ImageCore;
-class GrayImageCore;
-class ImageProcess;
 
 class VoiciMainWindow : public QMainWindow {
 	Q_OBJECT
@@ -28,7 +27,7 @@ public:
 private slots:
  	void open();
 	void save();
-	void addProcess(ImageProcess *process);
+	void addProcess(SharedProcess process);
 	void paintCanvasChanged();
 private:
 	void createToolBars();
@@ -53,9 +52,9 @@ private:
 	QAction *openAction;
 	QAction *saveAction;
 
-	ImageCore *imageCore;
-	ImageCore *grayImageCore;
-	ImageCore *currentImageCore;
+	ImageFamily *imageFamily;
+	ImageFamily *grayImageFamily;
+	ImageFamily *currentImageFamily;
 
 	QString currentFileName;
 };

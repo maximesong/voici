@@ -3,22 +3,23 @@
 
 #include <QWidget>
 
+#include "ImageFamily.h"
+
 class QCheckBox;
 class QPushButton;
 
-class ImageCore;
 class HistogramChart;
 class ThresholdPanel;
 
 class HistogramPanel : public QWidget {
 	Q_OBJECT
 public:
-	HistogramPanel(ImageCore *imageCore, QWidget *parent = 0);
+	HistogramPanel(ImageFamily *imageCore, QWidget *parent = 0);
 signals:
 	void thresholdChanged(int low, int high);
 	void unsetThreshold();
 public slots:
-	void updateHistogramPanel(const ImageCore &imageCore);
+	void updateHistogramPanel(const ImageFamily &imageCore);
 	void enableThreshold(int state);
 	void setThreshold(int low, int high);
 	void setOtsu();

@@ -15,7 +15,7 @@ public:
 	ImageFamily(const QImage &originImage, const QString &familyName = "");
 	ImageFamily(const QString &originImageFilename, const QString &familyName = "");
 //	ImageFamily(const ImageFamily &imageFamily);
-//	ImageCore &operator=(const ImageFamily &imageFamily);
+//	ImageFamily &operator=(const ImageFamily &imageFamily);
 
 	QImage getOriginImage() const;
 
@@ -36,6 +36,10 @@ public slots:
 	void setFamilyName(const QString &name);
 
 	void pushDynamicImageProcesser(SharedImageProcessor processer);
+
+	void setPreProcesser(PreProcesser id, SharedImageProcesser processer);
+	
+	void setPostProcesser(PostProcesser id, SharedImageProcesser processer);
 
 	void popDynamicImageProcesser();
 

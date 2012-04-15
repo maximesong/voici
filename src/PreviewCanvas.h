@@ -4,7 +4,7 @@
 #include <QLabel>
 #include <QImage>
 
-class ImageCore;
+#include "ImageFamily.h"
 
 class PreviewCanvas : public QLabel {
 	Q_OBJECT
@@ -12,7 +12,7 @@ public:
 	PreviewCanvas(QWidget *parent = 0);
 //	virtual ~PreviewCanvas();
 public slots:
-	virtual void drawImage(const ImageCore &imageCore);
+	virtual void drawImage(const ImageFamily &imageCore);
 	virtual void drawImage(const QImage &image);
 	void setStandardSize(int width, int height);
 	void setStandardWidth(int width);

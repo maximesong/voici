@@ -14,8 +14,6 @@ using namespace std;
 #include <QSizePolicy>
 #include <QScrollBar>
 
-#include "ImageCore.h"
-
 const int MAX_BORDER_DISTANCE = 5;
 
 PaintCanvas::PaintCanvas(QWidget *parent):
@@ -45,7 +43,7 @@ PaintCanvas::PaintCanvas(QWidget *parent):
 	setLayout(layout);
 }
 
-void PaintCanvas::drawImage(const ImageCore &imageCore)
+void PaintCanvas::drawImage(const ImageFamily &imageCore)
 {
 	image = imageCore.getCurrentImage();
 	QPixmap pixmap = QPixmap::fromImage(image);

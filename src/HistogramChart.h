@@ -5,7 +5,7 @@
 
 #include "Histogram.h"
 
-class ImageCore;
+#include "ImageFamily.h"
 
 class HistogramChart : public QWidget
 {
@@ -14,7 +14,7 @@ public:
 	HistogramChart(QWidget * parent = 0);
 	Histogram getHistogram() { return m_histogram; }
 public slots:
-	void drawChart(const ImageCore &imageCore);
+	void drawChart(const ImageFamily &imageCore);
 	void setLowThreshold(int low);
 	void setHighThreshold(int high);
 	void setThreshold(int low, int high);

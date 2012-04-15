@@ -5,13 +5,13 @@
 #include <QPushButton>
 #include <QGroupBox>
 
-#include "ImageCore.h"
+#include "ImageFamily.h"
 #include "HistogramChart.h"
 #include "ThresholdPanel.h"
 #include "OtsuAlgorithm.h"
 #include "EntropyMethod.h"
 
-HistogramPanel::HistogramPanel(ImageCore *imageCore, QWidget *parent)
+HistogramPanel::HistogramPanel(ImageFamily *imageCore, QWidget *parent)
 	: QWidget(parent) {
 	histogramChart = new HistogramChart();
 	thresholdPanel = new ThresholdPanel();
@@ -49,7 +49,7 @@ HistogramPanel::HistogramPanel(ImageCore *imageCore, QWidget *parent)
 	updateHistogramPanel(*imageCore);
 }
 
-void HistogramPanel::updateHistogramPanel(const ImageCore &imageCore)
+void HistogramPanel::updateHistogramPanel(const ImageFamily &imageCore)
 {
 	histogramChart->drawChart(imageCore);
 }

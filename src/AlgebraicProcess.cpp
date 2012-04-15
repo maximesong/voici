@@ -31,7 +31,7 @@ void AlgebraicProcess::setPixelIterator(PixelIterator *iter)
 	m_iter = iter;
 }
 
-QImage AlgebraicProcess::generateNewImage(const QImage &image)
+QImage AlgebraicProcess::produceProcessedImage(const QImage &image)
 {
 	QImage newImage = image;
 	int width = qMin(image.width(), m_map->getWidth());

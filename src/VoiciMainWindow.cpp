@@ -15,10 +15,8 @@ using namespace std;
 
 #include "PaintCanvas.h"
 #include "ThresholdPanel.h"
-#include "ImageCore.h"
 #include "SliderPanel.h"
 #include "HistogramPanel.h"
-#include "GrayImageCore.h"
 #include "KernelTable.h"
 #include "ConvolutionPanel.h"
 #include "Exceptions.h"
@@ -27,12 +25,9 @@ using namespace std;
 
 VoiciMainWindow::VoiciMainWindow()
 {
-	imageCore = new ImageCore();
-	grayImageCore = new GrayImageCore();
-	currentImageCore = imageCore;
-
-	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)),
-  		grayImageCore, SLOT(setColorfulImage(const ImageCore&)));
+	imageFamily = new ImageFamily();
+	grayImageFamily = new ImageFamily();
+	currentImageFamily = imageFamily;
 
 	createActions();
 	createToolBars();
@@ -108,67 +103,69 @@ void VoiciMainWindow::loadFile(const QString &filename)
 	if (filename.isEmpty())
 		return;
 
-	imageCore->load(filename);
+	imageFamily->loadOriginImage(filename);
+	grayImageFamily->loadOriginImage(filename);
+
 	currentFileName = filename;
-	QImage image = imageCore->getCurrentImage();
+	QImage image = imageFamily->getCurrentImage();
 
 	replaceTabWidget(displayPanel, &paintCanvas, new PaintCanvas(),
 			 filename);
-	connect(imageCore, SIGNAL(imageChanged(const ImageCore&)), 
-		paintCanvas, SLOT(drawImage(const ImageCore&)));
+	connect(imageFamily, SIGNAL(imageChanged(const ImageFamily&)), 
+		paintCanvas, SLOT(drawImage(const ImageFamily&)));
 
 	displayPanel->addTab(paintCanvas, filename);
 
 	replaceTabWidget(displayPanel, &grayPaintCanvas, 
 			 new PaintCanvas(), tr("Gray"));
-	connect(grayImageCore, SIGNAL(imageChanged(const ImageCore&)), 
-		grayPaintCanvas, SLOT(drawImage(const ImageCore&)));
+	connect(grayImageFamily, SIGNAL(imageChanged(const ImageFamily&)), 
+		grayPaintCanvas, SLOT(drawImage(const ImageFamily&)));
 
-	paintCanvas->drawImage(*imageCore);
-	grayPaintCanvas->drawImage(*grayImageCore);
+	paintCanvas->drawImage(*imageFamily);
+	grayPaintCanvas->drawImage(*grayImageFamily);
 
 	/* Add Process Panel */
 	replaceTabWidget(controlPanel, &processPanel,
 			 new ProcessPanel(image), tr("Process Panel"));
 
-	connect(processPanel, SIGNAL(newProcess(ImageProcess *)), 
-		this, SLOT(addProcess(ImageProcess *)));
+	connect(processPanel, SIGNAL(newProcess(SharedProcess)), 
+		this, SLOT(addProcess(SharedProcess)));
 
 	/* Add Histogram Panel */
 	replaceTabWidget(controlPanel, &histogramPanel, 
-			 new HistogramPanel(imageCore), tr("Histogram"));
+			 new HistogramPanel(imageFamily), tr("Histogram"));
 
 	connect(histogramPanel, SIGNAL(thresholdChanged(int, int)), 
-		grayImageCore, SLOT(setThreshold(int,int)));
+		grayImageFamily, SLOT(setThreshold(int,int)));
 	connect(histogramPanel, SIGNAL(unsetThreshold()), 
-		grayImageCore, SLOT(unsetThreshold()));
+		grayImageFamily, SLOT(unsetThreshold()));
 
 	/* Add Convolution Panel */
 	replaceTabWidget(controlPanel, &convolutionPanel,
 			 new ConvolutionPanel(), tr("Convolution"));
 
-	connect(convolutionPanel, SIGNAL(newProcess(ImageProcess *)), 
-		grayImageCore, SLOT(pushImageProcess(ImageProcess *)));
+	connect(convolutionPanel, SIGNAL(newProcess(SharedProcess)), 
+		grayImageFamily, SLOT(pushImageProcess(SharedProcess)));
 
 	/* Add Alegbraic Process Panel */
 	replaceTabWidget(controlPanel, &algebraicProcessPanel,
 			 new AlgebraicProcessPanel(), tr("Alebraic Operations"));
 
-	connect(algebraicProcessPanel, SIGNAL(newProcess(ImageProcess *)), 
-		this, SLOT(addProcess(ImageProcess *)));
+	connect(algebraicProcessPanel, SIGNAL(newProcess(SharedProcess)), 
+		this, SLOT(addProcess(SharedProcess)));
 
 
 }
 
 void VoiciMainWindow::saveFile(const QString &filename)
 {
-	QImage image = grayImageCore->getCurrentImage();
+	QImage image = grayImageFamily->getCurrentImage();
 	image.save(filename);
 }
 
 VoiciMainWindow::~VoiciMainWindow()
 {
-	delete imageCore;
+	delete imageFamily;
 }
 
 
@@ -185,11 +182,11 @@ void VoiciMainWindow::replaceTabWidget(QTabWidget *tabWidget, T **oldWidget,
 	tabWidget->addTab(newWidget, label);
 }
 
-void VoiciMainWindow::addProcess(ImageProcess *process)
+void VoiciMainWindow::addProcess(SharedProcess process)
 {
-	if (currentImageCore == imageCore) {
+	if (currentImageFamily == imageFamily) {
 		if (process->canApplyToRgb()) {
-			currentImageCore->pushImageProcess(process);
+			currentImageFamily->pushImageProcess(process);
 			return;
 		} else if (process->canApplyToGray()) {
 			int result = 
@@ -200,9 +197,9 @@ void VoiciMainWindow::addProcess(ImageProcess *process)
 						      QMessageBox::Yes);
 			switch (result) {
 			case QMessageBox::Yes:
-				currentImageCore = grayImageCore;
+				currentImageFamily = grayImageFamily;
 				displayPanel->setCurrentWidget(grayPaintCanvas);
-				currentImageCore->pushImageProcess(process);
+				currentImageFamily->pushImageProcess(process);
 				return;
 			case QMessageBox::No:
 				return;
@@ -210,7 +207,7 @@ void VoiciMainWindow::addProcess(ImageProcess *process)
 		}
 	} else {
 		if (process->canApplyToGray()) {
-			currentImageCore->pushImageProcess(process);
+			currentImageFamily->pushImageProcess(process);
 			return;
 		} else if (process->canApplyToRgb()) {
 			int result = 
@@ -221,9 +218,9 @@ void VoiciMainWindow::addProcess(ImageProcess *process)
 						      QMessageBox::Yes);
 			switch (result) {
 			case QMessageBox::Yes:
-				currentImageCore = imageCore;
+				currentImageFamily = imageFamily;
 				displayPanel->setCurrentWidget(paintCanvas);
-				currentImageCore->pushImageProcess(process);
+				currentImageFamily->pushImageProcess(process);
 				return;
 			case QMessageBox::No:
 				return;
@@ -237,7 +234,7 @@ void VoiciMainWindow::addProcess(ImageProcess *process)
 void VoiciMainWindow::paintCanvasChanged()
 {
 	if (displayPanel->currentWidget() == grayPaintCanvas)
-		currentImageCore = grayImageCore;
+		currentImageFamily = grayImageFamily;
 	else if (displayPanel->currentWidget() == paintCanvas)
-		currentImageCore = imageCore;
+		currentImageFamily = imageFamily;
 }

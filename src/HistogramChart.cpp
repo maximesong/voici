@@ -2,7 +2,7 @@
 
 #include <QPainter>
 
-#include "ImageCore.h"
+#include "ImageFamily.h"
 #include "Histogram.h"
 #include "VoiciGlobal.h"
 
@@ -20,7 +20,7 @@ HistogramChart::HistogramChart(QWidget *parent) :
 }
 
 
-void HistogramChart::drawChart(const ImageCore &imageCore)
+void HistogramChart::drawChart(const ImageFamily &imageCore)
 {
 	m_histogram = Histogram(imageCore.getCurrentImage());
 	this->update();
