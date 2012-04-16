@@ -27,7 +27,7 @@ public:
 
 signals:
 	void currentImageChanged(const ImageFamily& imageFamily);
-
+								
 public slots:
 	virtual void loadOriginImage(const QString &filename);
 

@@ -27,6 +27,6 @@ const int  BILINEAR_SHIFT = 4;
 
 enum PreProcesser { Graying };
 
-enum PostProcesser { Thresholding };
+enum PostProcesser { Thresholding, Scale, Rotate };
 
 #endif /* _VOICIGLOBAL_H_ */

@@ -16,8 +16,7 @@ class HistogramPanel : public QWidget {
 public:
 	HistogramPanel(ImageFamily *imageCore, QWidget *parent = 0);
 signals:
-	void thresholdChanged(int low, int high);
-	void unsetThreshold();
+	void newProcess(SharedProcess process);
 public slots:
 	void updateHistogramPanel(const ImageFamily &imageCore);
 	void enableThreshold(int state);

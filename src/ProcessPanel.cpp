@@ -25,7 +25,7 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 
 	pointOperatorPanel = new PointOperatorPanel();
 	connect(pointOperatorPanel, SIGNAL(newProcess(SharedProcess)), 
-		this, SIGNAL(newProcess(ImageProcess*)));
+		this, SIGNAL(newProcess(SharedProcess)));
 
 
 	filterPanelButton = new QPushButton(tr("Filter Panel"));

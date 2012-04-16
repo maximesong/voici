@@ -71,8 +71,11 @@ void Iterator::byteIterate(QImage *dest, const QImage *src, PositionalByteMap *m
 
 	int bytes = dest->depth() / 8;
 	int start_byte = 0;
-	if (bytes == 4)
-		start_byte = 1;
+	int end_byte = bytes;
+	if (bytes == 4) {
+		start_byte = 0;
+		end_byte = 3;
+	}
 
 	const uchar *src_ptr = src->constBits();
 	const uchar *src_x, *src_y;
@@ -80,7 +83,7 @@ void Iterator::byteIterate(QImage *dest, const QImage *src, PositionalByteMap *m
 	uchar *dest_x, *dest_y;
 
 	/* This may need to be fixed for non-rgba image */
-	for (int byte = start_byte; byte != bytes; ++byte) {
+	for (int byte = start_byte; byte != end_byte; ++byte) {
 		for (int j = start_y; j != end_y; ++j) {
 			src_y = src_ptr + j * bytes * src->width();
 			dest_y = dest_ptr + j * bytes * dest->width();

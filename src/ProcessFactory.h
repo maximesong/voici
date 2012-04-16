@@ -50,6 +50,11 @@ public:
 						    IteratorArea *area = 0);
 	static SharedProcess getMeanFilterProcess(int m, int n,
 						  IteratorArea *area = 0);
+
+	static SharedProcess getThresholdProcess(int low, int high,
+						 IteratorArea *area = 0);
+
+	static SharedProcess getUnsetThredsholdProcess();
 private:
 	static SharedProcess buildDynamicProcess(SharedImageProcesser processer);
 	static SharedProcess buildPreProcess(PreProcesser id,

@@ -176,7 +176,7 @@ QImage QuickGaussBlurProcesser::gauss_iir(const QImage &image)
 {
 	QImage dest_image = image;
 	int bytes;
-	int has_alpha;
+//	int has_alpha;
 	uchar *dest;
 	uchar *src, *sp_p, *sp_m;
 	double *val_p = 0;
@@ -195,7 +195,7 @@ QImage QuickGaussBlurProcesser::gauss_iir(const QImage &image)
 	int width = image.width();
 
 	bytes = image.depth() / 8;
-	has_alpha = 0;
+//	has_alpha = 0;
 
 	val_p = new double[qMax(width, height) * bytes];
 	val_m = new double[qMax(width, height) * bytes];

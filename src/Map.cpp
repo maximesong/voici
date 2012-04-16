@@ -122,8 +122,11 @@ QRgb MatrixRgbMap::map(const QImage *image, int x, int y)
 {
 	int bytes = image->depth() / 8;
 	int start_byte = 0;
-	if (bytes == 4)
-		start_byte = 1;
+	int end_byte = bytes;
+	if (bytes == 4) {
+		start_byte = 0;
+		end_byte = 3;
+	}
 
 	const uchar *src = image->constBits();
 	const uchar *x_ptr;
@@ -132,7 +135,7 @@ QRgb MatrixRgbMap::map(const QImage *image, int x, int y)
 	double sum = 0;
 	QRgb rgb = qRgb(0, 0, 0);
 
-	for (int byte = start_byte; byte != bytes; ++byte) {
+	for (int byte = start_byte; byte != end_byte; ++byte) {
 		for (int j = 0; j != m_n; ++j) {
 			y_ptr = src + (y + j) * bytes * image->width();
 			for (int i = 0; i != m_m; ++i) {

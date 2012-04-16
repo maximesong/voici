@@ -22,7 +22,7 @@ SharedProcess ProcessFactory::getBinaryProcess(int low, int high,
 	ByteMap *map = new ThresholdRangeByteMap(low, high);
 	ByteImageProcesser *processer = 
 		new ByteImageProcesser(iter, map, tr("Thredshold"));
-	return buildDynamicProcess(SharedImageProcesser(processer));
+	return buildPostProcess(Thresholding ,SharedImageProcesser(processer));
 }
 
 
@@ -104,20 +104,20 @@ SharedProcess ProcessFactory::getQuickGaussBlurProcess(double horz, double vert)
 SharedProcess ProcessFactory::getBilinearScaleProcess(int width, int height)
 {
 	ImageProcesser *processer = new BilinearScaleProcesser(width, height);
-	return buildDynamicProcess(SharedImageProcesser(processer));
+	return buildPostProcess(Scale, SharedImageProcesser(processer));
 }
 
 SharedProcess ProcessFactory::getNearestNeighbourScaleProcess(int width, 
 							      int height)
 {
 	ImageProcesser *processer = new NearestNeighbourScaleProcesser(width, height);
-	return buildDynamicProcess(SharedImageProcesser(processer));
+	return buildPostProcess(Scale, SharedImageProcesser(processer));
 }
 
 SharedProcess ProcessFactory::getNearestNeighbourRotateProcess(double rotateAngle)
 {
 	ImageProcesser *processer = new NearestNeighbourRotateProcesser(rotateAngle);
-	return buildDynamicProcess(SharedImageProcesser(processer));
+	return buildPostProcess(Rotate, SharedImageProcesser(processer));
 }
 
 SharedProcess ProcessFactory::getMedianFilterProcess(int m, int n,
@@ -164,4 +164,10 @@ SharedProcess ProcessFactory::buildPostProcess(PostProcesser id,
 	ImageFamilyProcess *process = 
 		new PostImageProcess(id, processer, tr("Post Image Process"));	
 	return SharedProcess(process);
+}
+
+
+SharedProcess ProcessFactory::getUnsetThredsholdProcess()
+{
+	return buildPostProcess(Thresholding, SharedImageProcesser(0));
 }

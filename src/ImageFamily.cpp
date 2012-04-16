@@ -175,15 +175,18 @@ void ImageFamily::applyAllProcessers(bool needApplyPreProcessers)
 		applyPreProcessers();
 	applyDynamicProcessers();
 	applyPostProcessers();
+	emit currentImageChanged(*this);
 }
 
 
 void ImageFamily::setPreProcesser(PreProcesser id, SharedImageProcesser processer)
 {
 	m_pre_processer_list[id] = processer;
+	applyAllProcessers(1);
 }
 	
 void ImageFamily::setPostProcesser(PostProcesser id, SharedImageProcesser processer)
 {
 	m_post_processer_list[id] = processer;
+	applyAllProcessers();
 }

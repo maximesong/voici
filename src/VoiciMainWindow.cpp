@@ -22,6 +22,7 @@ using namespace std;
 #include "Exceptions.h"
 #include "AlgebraicProcessPanel.h"
 #include "ProcessPanel.h"
+#include "ProcessFactory.h"
 
 VoiciMainWindow::VoiciMainWindow()
 {
@@ -105,20 +106,22 @@ void VoiciMainWindow::loadFile(const QString &filename)
 
 	imageFamily->loadOriginImage(filename);
 	grayImageFamily->loadOriginImage(filename);
+	SharedProcess graying_process = ProcessFactory::getStandardGrayProcess();
+	graying_process->applyToImageFamily(grayImageFamily);
 
 	currentFileName = filename;
 	QImage image = imageFamily->getCurrentImage();
 
 	replaceTabWidget(displayPanel, &paintCanvas, new PaintCanvas(),
 			 filename);
-	connect(imageFamily, SIGNAL(imageChanged(const ImageFamily&)), 
+	connect(imageFamily, SIGNAL(currentImageChanged(const ImageFamily&)), 
 		paintCanvas, SLOT(drawImage(const ImageFamily&)));
 
 	displayPanel->addTab(paintCanvas, filename);
 
 	replaceTabWidget(displayPanel, &grayPaintCanvas, 
 			 new PaintCanvas(), tr("Gray"));
-	connect(grayImageFamily, SIGNAL(imageChanged(const ImageFamily&)), 
+	connect(grayImageFamily, SIGNAL(currentImageChanged(const ImageFamily&)), 
 		grayPaintCanvas, SLOT(drawImage(const ImageFamily&)));
 
 	paintCanvas->drawImage(*imageFamily);
@@ -135,17 +138,15 @@ void VoiciMainWindow::loadFile(const QString &filename)
 	replaceTabWidget(controlPanel, &histogramPanel, 
 			 new HistogramPanel(imageFamily), tr("Histogram"));
 
-	connect(histogramPanel, SIGNAL(thresholdChanged(int, int)), 
-		grayImageFamily, SLOT(setThreshold(int,int)));
-	connect(histogramPanel, SIGNAL(unsetThreshold()), 
-		grayImageFamily, SLOT(unsetThreshold()));
+	connect(histogramPanel, SIGNAL(newProcess(SharedProcess)), 
+		this, SLOT(addProcess(SharedProcess)));
 
 	/* Add Convolution Panel */
 	replaceTabWidget(controlPanel, &convolutionPanel,
 			 new ConvolutionPanel(), tr("Convolution"));
 
 	connect(convolutionPanel, SIGNAL(newProcess(SharedProcess)), 
-		grayImageFamily, SLOT(pushImageProcess(SharedProcess)));
+		this, SLOT(addProcess(SharedProcess)));
 
 	/* Add Alegbraic Process Panel */
 	replaceTabWidget(controlPanel, &algebraicProcessPanel,

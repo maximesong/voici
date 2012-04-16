@@ -33,7 +33,7 @@ bool RectangleIteratorArea::contains(int x, int y)
 	return x >= m_start_x && x < m_end_x && y >= m_start_y && y < m_end_y;
 }
 
-bool RectangleIteratorArea::inside_contains(int x, int y)
+bool RectangleIteratorArea::inside_contains(int, int)
 {
 	return true;
 }
