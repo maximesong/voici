@@ -1,8 +1,11 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
+#include <QImage>
+
 #include "AbstractMap.h"
 #include "VoiciGlobal.h"
+#include "Histogram.h"
 
 uchar ensure_in_range(int byte);
 uchar ensure_in_range(double byte);
@@ -107,6 +110,16 @@ public:
 private:
 	uchar m_low;
 	uchar m_high;
+};
+
+
+class HistogramEqualizationByteMap : public ByteMap {
+public:
+	HistogramEqualizationByteMap(const QImage &image);
+	void loadHistogram(const Histogram &histogram);
+	virtual uchar map(uchar src);
+private:
+	int m_map[MAX_PIXEL_VALUE + 1];
 };
 
 #endif /* _MAP_H_ */

@@ -3,6 +3,8 @@
 
 #include "VoiciMainWindow.h"
 
+VoiciMainWindow *mainWindow;
+
 int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
 
@@ -12,11 +14,11 @@ int main(int argc, char *argv[]) {
 	app.installTranslator(&translator);
 	#endif
 
-	VoiciMainWindow mainWindow;
-	mainWindow.show();
+	mainWindow = new VoiciMainWindow();
+	mainWindow->show();
 
 	#ifdef QUICK_TEST
-	mainWindow.loadFile("test1.jpg");
+	mainWindow->loadFile("test1.jpg");
 	#endif
 
 	return app.exec();

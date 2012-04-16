@@ -1,5 +1,7 @@
 #include "Map.h"
 
+#include "VoiciGlobal.h"
+
 uchar ensure_in_range(int byte)
 {
 	if (byte < 0)
@@ -245,4 +247,23 @@ uchar ThresholdRangeByteMap::map(uchar src)
 		return 255;
 	else
 		return 0;
+}
+
+HistogramEqualizationByteMap::HistogramEqualizationByteMap(const QImage &image)
+{
+	Histogram histogram = Histogram(image);
+	loadHistogram(histogram);
+}
+
+void HistogramEqualizationByteMap::loadHistogram(const Histogram &histogram)
+{
+	for (int i = 0; i != MAX_PIXEL_VALUE + 1; ++i) {
+		m_map[i] = histogram.getAccumulateWeight(i, GRAY) *
+			MAX_PIXEL_VALUE;
+	}
+}
+
+uchar HistogramEqualizationByteMap::map(uchar src)
+{
+	return m_map[src];
 }

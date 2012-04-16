@@ -23,6 +23,11 @@ void Histogram::loadImage(const QImage &image)
 		g_histogram[i] = 0;
 		b_histogram[i] = 0;
 		gray_histogram[i] = 0;
+
+		r_accululate_histogram[i] = 0;
+		g_accumulate_histogram[i] = 0;
+		b_accumulate_histogram[i] = 0;
+		gray_accumulate_histogram[i] = 0;
 	}
 
 	for (int i = 0; i != image.width(); ++i)
@@ -37,12 +42,34 @@ void Histogram::loadImage(const QImage &image)
 			++gray_histogram[int(r * r_rate + g * g_rate + b * b_rate)];
 		}
 	total_weight = image.width() * image.height();
+
+	r_accululate_histogram[0] = r_histogram[0];
+	g_accumulate_histogram[0] = g_histogram[0];
+	b_accumulate_histogram[0] = b_histogram[0];
+	gray_accumulate_histogram[0] = gray_histogram[0];
+	for (int i = 1; i != MAX_PIXEL_VALUE + 1; ++i) {
+		r_accululate_histogram[i] = 
+			r_accululate_histogram[i - 1] + r_histogram[i];
+		g_accumulate_histogram[i] = 
+			g_accumulate_histogram[i - 1] + g_histogram[i];
+		b_accumulate_histogram[i] = 
+			b_accumulate_histogram[i - 1] + b_histogram[i];
+		gray_accumulate_histogram[i] = 
+			gray_accumulate_histogram[i -1] + gray_histogram[i];
+			
+	}
 }
 
 
 int Histogram::getCount(int i, ColorChannel type) const
 {
 	const int *histogram = getHistogram(type);
+	return histogram[i];
+}
+
+int Histogram::getAccumulateCount(int i, ColorChannel type) const
+{
+	const int *histogram = getAccumulateHistogram(type);
 	return histogram[i];
 }
 
@@ -69,6 +96,14 @@ double Histogram::getWeight(int from, int to, ColorChannel type) const
 	return static_cast<double>(count) / total_weight;
 }
 
+double Histogram::getAccumulateWeight(int i, ColorChannel type) const
+{
+	int count = getAccumulateCount(i, type) - getAccumulateCount(0, type);
+	int total = getAccumulateCount(MAX_PIXEL_VALUE, type)
+		- getAccumulateCount(0, type);
+	return static_cast<double>(count) / total;
+}
+
 double Histogram::getMeanIntensity(int from, int to, ColorChannel type) const
 {
 	double mean_intensity = 0;
@@ -91,6 +126,23 @@ const int *Histogram::getHistogram(ColorChannel type) const
 		return gray_histogram;
 	default:
 		return gray_histogram;
+	}
+}
+
+
+const int *Histogram::getAccumulateHistogram(ColorChannel type) const 
+{ 
+	switch(type) {
+	case RED:
+		return r_accululate_histogram;
+	case GREEN:
+		return g_accumulate_histogram;
+	case BLUE:
+		return b_accumulate_histogram;
+	case GRAY:
+		return gray_accumulate_histogram;
+	default:
+		return gray_accumulate_histogram;
 	}
 }
 

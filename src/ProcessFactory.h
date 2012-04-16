@@ -55,6 +55,10 @@ public:
 						 IteratorArea *area = 0);
 
 	static SharedProcess getUnsetThredsholdProcess();
+
+	static SharedProcess getHistogramEqualizationProcess(const QImage &image,
+							     IteratorArea *area = 0);
+
 private:
 	static SharedProcess buildDynamicProcess(SharedImageProcesser processer);
 	static SharedProcess buildPreProcess(PreProcesser id,

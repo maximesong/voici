@@ -171,3 +171,13 @@ SharedProcess ProcessFactory::getUnsetThredsholdProcess()
 {
 	return buildPostProcess(Thresholding, SharedImageProcesser(0));
 }
+
+SharedProcess ProcessFactory::getHistogramEqualizationProcess(const QImage &image,
+							      IteratorArea *area)
+{
+	Iterator *iter = new Iterator(area);
+	ByteMap *map = new HistogramEqualizationByteMap(image);
+	ByteImageProcesser *processer = 
+		new ByteImageProcesser(iter, map, tr("Histogram Equalization"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
+}

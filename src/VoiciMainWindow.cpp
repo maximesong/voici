@@ -270,3 +270,11 @@ void VoiciMainWindow::setCanUndoAndRedo(bool canUndo, bool canRedo)
 	undoAction->setEnabled(canUndo);
 	redoAction->setEnabled(canRedo);
 }
+
+QImage VoiciMainWindow::getCurrentImage() const
+{
+	if (currentImageFamily != 0)
+		return currentImageFamily->getCurrentImage();
+	else
+		return QImage();
+}

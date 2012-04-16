@@ -71,6 +71,7 @@ HEADERS += src/Process.h \
            src/Iterator.h \
            src/IteratorArea.h \
            src/Map.h \
+           src/ContrastPanel.h \
 
 SOURCES += src/Process.cpp \
            src/ImageFamily.cpp \
@@ -79,3 +80,4 @@ SOURCES += src/Process.cpp \
            src/Iterator.cpp \
            src/IteratorArea.cpp \
            src/Map.cpp \
+           src/ContrastPanel.cpp \

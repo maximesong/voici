@@ -1,6 +1,9 @@
 #ifndef _VOICIGLOBAL_H_
 #define _VOICIGLOBAL_H_
 
+class VoiciMainWindow;
+
+extern VoiciMainWindow *mainWindow;
 
 const int MAX_PIXEL_VALUE = 255;
 

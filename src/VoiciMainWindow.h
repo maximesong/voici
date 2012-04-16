@@ -23,6 +23,7 @@ public:
 	~VoiciMainWindow();
 	void loadFile(const QString &filename);
 	void saveFile(const QString &filename);
+	QImage getCurrentImage() const;
 
 private slots:
  	void open();
