@@ -27,7 +27,7 @@ public:
 
 signals:
 	void currentImageChanged(const ImageFamily& imageFamily);
-								
+	void undoAndRedoChanged(bool canUndo, bool canRedo);
 public slots:
 	virtual void loadOriginImage(const QString &filename);
 
@@ -36,6 +36,7 @@ public slots:
 	void setFamilyName(const QString &name);
 
 	void pushDynamicImageProcesser(SharedImageProcesser processer);
+	void pushDynamicImageProcesser();
 
 	void setPreProcesser(PreProcesser id, SharedImageProcesser processer);
 	

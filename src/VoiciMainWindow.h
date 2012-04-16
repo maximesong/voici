@@ -27,8 +27,11 @@ public:
 private slots:
  	void open();
 	void save();
+	void undo();
+	void redo();
 	void addProcess(SharedProcess process);
 	void paintCanvasChanged();
+	void setCanUndoAndRedo(bool canUndo, bool canRedo);
 private:
 	void createToolBars();
 	void createActions();
@@ -51,6 +54,8 @@ private:
 
 	QAction *openAction;
 	QAction *saveAction;
+	QAction *redoAction;
+	QAction *undoAction;
 
 	ImageFamily *imageFamily;
 	ImageFamily *grayImageFamily;

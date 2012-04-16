@@ -1,5 +1,8 @@
 #include "ImageFamily.h"
 
+#include <iostream>
+using namespace std;
+
 #include "Exceptions.h"
 #include "VoiciGlobal.h"
 
@@ -101,14 +104,24 @@ void ImageFamily::setFamilyName(const QString &name)
 
 void ImageFamily::pushDynamicImageProcesser(SharedImageProcesser processer)
 {
-	if (m_dynamic_processer_index + 1 < m_dynamic_image_list.size()) {
-		int expired_processer_count = m_dynamic_processer_list.size() - 1 - 
-			m_dynamic_processer_index;
+	if (m_dynamic_processer_index + 1 < m_dynamic_processer_list.size()) {
+		int expired_processer_count = m_dynamic_processer_list.size() - 1
+			- m_dynamic_processer_index;
 		m_dynamic_processer_list.remove(m_dynamic_processer_index + 1,
 						expired_processer_count);
+		/* will this cause an runtime exception ? */
+		m_dynamic_image_list.remove(m_dynamic_processer_index + 1,
+					    expired_processer_count);
 	}
 	m_dynamic_processer_list.push_back(processer);
 	++m_dynamic_processer_index;
+	applyAllProcessers();
+}
+
+void ImageFamily::pushDynamicImageProcesser()
+{
+	if (m_dynamic_processer_index + 1 < m_dynamic_image_list.size())
+		++m_dynamic_processer_index;
 	applyAllProcessers();
 }
 
@@ -176,6 +189,10 @@ void ImageFamily::applyAllProcessers(bool needApplyPreProcessers)
 	applyDynamicProcessers();
 	applyPostProcessers();
 	emit currentImageChanged(*this);
+	bool can_undo = (m_dynamic_processer_index != -1);
+	bool can_redo = (m_dynamic_processer_index + 1 <
+			 m_dynamic_processer_list.size());
+	emit undoAndRedoChanged(can_undo, can_redo);
 }
 
 

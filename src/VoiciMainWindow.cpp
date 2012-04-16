@@ -34,6 +34,11 @@ VoiciMainWindow::VoiciMainWindow()
 	createToolBars();
 	createCentralWidget();
 
+	connect(imageFamily, SIGNAL(undoAndRedoChanged(bool, bool)), 
+		this, SLOT(setCanUndoAndRedo(bool, bool)));
+
+	connect(grayImageFamily, SIGNAL(undoAndRedoChanged(bool, bool)), 
+		this, SLOT(setCanUndoAndRedo(bool, bool)));
 
 	setWindowTitle(tr("Voici Image Processor"));
 	QRect rect = QApplication::desktop()->availableGeometry();
@@ -47,6 +52,9 @@ void VoiciMainWindow::createToolBars()
 	fileToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	fileToolBar->addAction(openAction);
 	fileToolBar->addAction(saveAction);
+	fileToolBar->addAction(undoAction);
+	fileToolBar->addAction(redoAction);
+	setCanUndoAndRedo(0, 0);
 }
 
 
@@ -57,6 +65,12 @@ void VoiciMainWindow::createActions()
 
 	saveAction = new QAction(QIcon(":/images/save.png"), tr("&Save"), this);
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
+
+	undoAction = new QAction(QIcon(":images/undo.png"), tr("&Undo"), this);
+	connect(undoAction, SIGNAL(triggered()), this, SLOT(undo()));
+
+	redoAction = new QAction(QIcon(":images/redo.png"), tr("&Redo"), this);
+	connect(redoAction, SIGNAL(triggered()), this, SLOT(redo()));
 }
 
 void VoiciMainWindow::createCentralWidget()
@@ -98,6 +112,15 @@ void VoiciMainWindow::save()
 	saveFile(filename);
 }
 
+void VoiciMainWindow::undo()
+{
+	currentImageFamily->popDynamicImageProcesser();
+}
+
+void VoiciMainWindow::redo()
+{
+	currentImageFamily->pushDynamicImageProcesser();
+}
 
 void VoiciMainWindow::loadFile(const QString &filename)
 {
@@ -155,7 +178,7 @@ void VoiciMainWindow::loadFile(const QString &filename)
 	connect(algebraicProcessPanel, SIGNAL(newProcess(SharedProcess)), 
 		this, SLOT(addProcess(SharedProcess)));
 
-
+	setCanUndoAndRedo(0, 0);
 }
 
 void VoiciMainWindow::saveFile(const QString &filename)
@@ -240,4 +263,10 @@ void VoiciMainWindow::paintCanvasChanged()
 		currentImageFamily = grayImageFamily;
 	else if (displayPanel->currentWidget() == paintCanvas)
 		currentImageFamily = imageFamily;
+}
+
+void VoiciMainWindow::setCanUndoAndRedo(bool canUndo, bool canRedo)
+{
+	undoAction->setEnabled(canUndo);
+	redoAction->setEnabled(canRedo);
 }
