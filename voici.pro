@@ -26,38 +26,18 @@ HEADERS += src/Exceptions.h \
            src/ThresholdPanel.h \
            src/SliderPanel.h src/VoiciGlobal.h \
            src/HistogramPanel.h \
-           src/GrayPixelMap.h \
            src/PixelIterator.h \
-           src/PixelMap.h \
-           src/GrayImagePixelMap.h \
-           src/RatePixelMap.h \
            src/ProcessFactory.h \
-           src/RangeThresholdMap.h \
-           src/MatrixBlockMap.h \
-           src/BlockIterator.h \
-           src/BlockMap.h \
            src/OtsuAlgorithm.h \
            src/EntropyMethod.h \
            src/KernelTable.h \
            src/ConvolutionPanel.h \
-           src/RgbChannelPixelMap.h \
-           src/LinearPixelMap.h \
-           src/MidlevelNonlinearMap.h \
-           src/ImageBlendMap.h \
-           src/ImagePixelMap.h \
-           src/PositionalPixelMap.h \
-           src/ImageBlendMapPolicy.h \
-           src/LinearBlendPolicy.h \
-           src/ProductBlendPolicy.h \
-           src/QuotientBlendPolicy.h \
            src/AlgebraicProcessPanel.h \
            src/PreviewCanvas.h \
            src/ImageUtility.h \
            src/FilterPanel.h \
            src/ProcessPanel.h \
            src/TransformPanel.h \
-           src/MeanBlockMap.h \
-           src/MedianBlockMap.h \
            src/PointOperatorPanel.h \
            src/DoubleSliderPanel.h \
 
@@ -69,36 +49,17 @@ SOURCES += src/main.cpp \
            src/ThresholdPanel.cpp \
            src/SliderPanel.cpp \
            src/HistogramPanel.cpp \
-           src/GrayPixelMap.cpp \
-           src/PixelIterator.cpp \
-           src/PixelMap.cpp \
-           src/GrayImagePixelMap.cpp \
-           src/RatePixelMap.cpp \
            src/ProcessFactory.cpp \
-           src/RangeThresholdMap.cpp \
-           src/MatrixBlockMap.cpp \
-           src/BlockIterator.cpp \
            src/OtsuAlgorithm.cpp \
            src/EntropyMethod.cpp \
            src/KernelTable.cpp \
            src/ConvolutionPanel.cpp \
-           src/RgbChannelPixelMap.cpp \
-           src/LinearPixelMap.cpp \
-           src/MidlevelNonlinearMap.cpp \
-           src/ImageBlendMap.cpp \
-           src/ImagePixelMap.cpp \
-           src/PositionalPixelMap.cpp \
-           src/LinearBlendPolicy.cpp \
-           src/ProductBlendPolicy.cpp \
-           src/QuotientBlendPolicy.cpp \
            src/AlgebraicProcessPanel.cpp \
            src/PreviewCanvas.cpp \
            src/ImageUtility.cpp \
            src/FilterPanel.cpp \
            src/ProcessPanel.cpp \
            src/TransformPanel.cpp \
-           src/MeanBlockMap.cpp \
-           src/MedianBlockMap.cpp \
            src/PointOperatorPanel.cpp \
            src/DoubleSliderPanel.cpp \
 
