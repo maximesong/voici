@@ -10,6 +10,7 @@
 #include "ProcessFactory.h"
 #include "SliderPanel.h"
 #include "DoubleSliderPanel.h"
+#include "VoiciMainWindow.h"
 
 TransformPanel::TransformPanel(int defaultImageWidth, int defaultImageHeight,
 			       QWidget *parent)

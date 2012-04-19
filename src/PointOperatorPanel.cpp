@@ -76,9 +76,10 @@ PointOperatorPanel::PointOperatorPanel(QWidget *parent)
 
 void PointOperatorPanel::sendPointLinearProcess()
 {
-	SharedProcess process = ProcessFactory::getLinearProcess(kBox->value(),
-								 bBox->value(),
-								 mainWindow->getArea());
+	SharedProcess process = 
+		ProcessFactory::getLinearProcess(kBox->value(),
+						 bBox->value(),
+						 mainWindow->getArea());
 
 	emit newProcess(process);
 }
@@ -87,7 +88,8 @@ void PointOperatorPanel::sendMidlevelNonlinearProcess()
 {
 	SharedProcess process = ProcessFactory::getMidlevelNonlinearMap(
 		cBox->value(),
-		maxLevelBox->value());
+		maxLevelBox->value(),
+		mainWindow->getArea());
 
 	emit newProcess(process);
 }

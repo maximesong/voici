@@ -9,6 +9,7 @@
 
 #include "KernelTable.h"
 #include "ProcessFactory.h"
+#include "VoiciMainWindow.h"
 
 ConvolutionPanel::ConvolutionPanel(QWidget *parent)
 	: QWidget(parent)
@@ -139,6 +140,9 @@ void ConvolutionPanel::applyProcess()
 	int n = kernelTable->getColumns();
 	int x = kernelTable->getCenterRow();
 	int y = kernelTable->getCenterColumn();
-	SharedProcess process = ProcessFactory::getConvolutionProcess(m, n, x, y, matrix);
+	SharedProcess process = 
+		ProcessFactory::getConvolutionProcess(m, n, x, y, 
+						      matrix,
+						      mainWindow->getArea());
 	emit newProcess(process);
 }

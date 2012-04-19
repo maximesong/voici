@@ -11,6 +11,7 @@
 #include "OtsuAlgorithm.h"
 #include "EntropyMethod.h"
 #include "ProcessFactory.h"
+#include "VoiciMainWindow.h"
 
 HistogramPanel::HistogramPanel(ImageFamily *imageCore, QWidget *parent)
 	: QWidget(parent) {
@@ -61,7 +62,8 @@ void HistogramPanel::enableThreshold(int state)
 		thresholdPanel->refreshThreshold();
 		SharedProcess process = ProcessFactory::getBinaryProcess(
 			thresholdPanel->getLow(),
-			thresholdPanel->getHigh());
+			thresholdPanel->getHigh(),
+			mainWindow->getArea());
 		emit newProcess(process);
 	}
 	else {
@@ -75,8 +77,10 @@ void HistogramPanel::setThreshold(int low, int high)
 {
 	if (checkbox->checkState()== Qt::Checked) {
 		thresholdPanel->setThreshold(low, high);
-		SharedProcess process = ProcessFactory::getBinaryProcess(low,
-									 high);
+		SharedProcess process = 
+			ProcessFactory::getBinaryProcess(low,
+							 high,
+							 mainWindow->getArea());
 		emit newProcess(process);
 	} else {
 		thresholdPanel->quietlySetThreshold(low, high);

@@ -1,6 +1,8 @@
 #ifndef _ITERATORAREA_H_
 #define _ITERATORAREA_H_
 
+#include <QSharedPointer>
+
 class ImageProcesser;
 
 class IteratorArea {
@@ -13,6 +15,9 @@ public:
 	virtual bool inside_contains(int x, int y) = 0;
 
 };
+typedef QSharedPointer<IteratorArea> SharedArea;
+
+const SharedArea ALL_AREA = SharedArea(0);
 
 class RectangleIteratorArea : public IteratorArea {
 public:

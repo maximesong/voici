@@ -8,6 +8,7 @@
 #include <QGroupBox>
 
 #include "ProcessFactory.h"
+#include "VoiciMainWindow.h"
 
 FilterPanel::FilterPanel(QWidget *parent)
 	: QWidget(parent)
@@ -85,7 +86,8 @@ void FilterPanel::addMeanFilterProcess()
 	int row_count = rowCountBox->value();
 	int column_count = columnCountBox->value();
 	SharedProcess process = ProcessFactory::getMeanFilterProcess(row_count,
-								     column_count);
+								     column_count,
+								     mainWindow->getArea());
 	emit newProcess(process);
 }
 
@@ -93,7 +95,8 @@ void FilterPanel::addMedianFilterProcess()
 {
 	int row_count = rowCountBox->value();
 	int column_count = columnCountBox->value();
-	SharedProcess process = ProcessFactory::getMedianFilterProcess(row_count,
-								       column_count);
+	SharedProcess process = 
+		ProcessFactory::getMedianFilterProcess(row_count, column_count,
+						       mainWindow->getArea());
 	emit newProcess(process);
 }

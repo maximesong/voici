@@ -28,7 +28,8 @@ ContrastPanel::ContrastPanel(QWidget *parent)
 void ContrastPanel::sendHistogramEqualizationProcess()
 {
 	SharedProcess process = ProcessFactory::getHistogramEqualizationProcess(
-		mainWindow->getCurrentImage());
+		mainWindow->getCurrentImage(),
+		mainWindow->getArea());
 
 	emit newProcess(process);
 }

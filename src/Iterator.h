@@ -9,20 +9,20 @@
 
 class Iterator {
 public:
-	Iterator(QSharedPointer<IteratorArea> area = QSharedPointer<IteratorArea>(0));
+	Iterator(SharedArea area = ALL_AREA);
 	~Iterator();
  	virtual void byteIterate(QImage *dest, const QImage *src, 
 				 PositionalByteMap *map);
 	virtual void rgbIterate(QImage *dest, const QImage *src, 
 				PositionalRgbMap *map);
 protected:
-	QSharedPointer<IteratorArea> m_area;
+	SharedArea m_area;
 };
 
 
 class AreaIterator : public Iterator {
 public:
-	AreaIterator(int m, int n, int x, int y, QSharedPointer<IteratorArea> area = 0);
+	AreaIterator(int m, int n, int x, int y, SharedArea area = ALL_AREA);
 	virtual void areaIterate(QImage *dest, const QImage *src, AreaRgbMap *map);
 private:
 	int m_m;
