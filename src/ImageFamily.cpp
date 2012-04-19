@@ -148,7 +148,9 @@ void ImageFamily::applyDynamicProcessers()
 		return;
 	else if (m_dynamic_processer_index < m_dynamic_image_list.size())
 		m_dynamic_image = m_dynamic_image_list[m_dynamic_processer_index];
-	else
+	else {
+		if (m_dynamic_image_list.size() != 0)
+			m_dynamic_image = m_dynamic_image_list.last();
 		for (int i = m_dynamic_image_list.size();
 		     i <= m_dynamic_processer_index; ++i) {
 			m_dynamic_image = 
@@ -156,6 +158,7 @@ void ImageFamily::applyDynamicProcessers()
 					m_dynamic_image);
 			m_dynamic_image_list.push_back(m_dynamic_image);
 		}
+	}
 }
 
 
