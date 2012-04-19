@@ -13,7 +13,8 @@ class QMouseEvent;
 class PaintOperator : public QObject {
 	Q_OBJECT
 public:
-	enum State {Normal, SelectRectangle, SelectCircle, SelectTriangle};
+	enum State {Normal, SelectRectangle, SelectCircle, SelectTriangle,
+		    WaitClick};
 	PaintOperator();
 signals:
 	void areaChanged(IteratorArea *area);

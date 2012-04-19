@@ -32,8 +32,7 @@ void PaintOperator::mousePressed(QMouseEvent *event)
 								       x2 - x1,
 								       y2 - y1);
 			emit areaChanged(area);
-			m_state = Normal;
-			m_points.clear();
+			setState(WaitClick);
 			break;			
 		}
 		break;
@@ -53,10 +52,12 @@ void PaintOperator::mousePressed(QMouseEvent *event)
 								     r, r);
 
 			emit areaChanged(area);
-			m_state = Normal;
-			m_points.clear();
+			setState(WaitClick);
 			break;		
 		}
+		break;
+	case WaitClick:
+		setState(Normal);
 		break;
 	}
 }
@@ -113,7 +114,13 @@ void PaintOperator::setState(State state)
 {
 	m_state = state;
 	m_points.clear();
-	SharedProcess process = 
-		ProcessFactory::getPolygonSelectionProcess(m_points);
-	emit newProcess(process);
+	if (state != WaitClick) {
+		SharedProcess process = 
+			ProcessFactory::getPolygonSelectionProcess(m_points);
+		emit newProcess(process);
+	}
+	if (state == Normal) {
+		IteratorArea *area = 0;
+		emit areaChanged(area);
+	}
 }

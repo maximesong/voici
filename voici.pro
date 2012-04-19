@@ -13,9 +13,9 @@ TRANSLATIONS = languages/voici_zh.ts
 CODECFORSRC  = UTF-8
 RESOURCES = voici.qrc
 
-DEFINES += LANGUAGE_ZH
-#DEFINES += QUICK_TEST
-#CONFIG += debug
+#DEFINES += LANGUAGE_ZH
+DEFINES += QUICK_TEST
+CONFIG += debug
 
 # Input
 HEADERS += src/Exceptions.h \
