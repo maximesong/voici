@@ -36,6 +36,7 @@ void PaintOperator::mousePressed(QMouseEvent *event)
 			m_points.clear();
 			break;			
 		}
+		break;
 	case SelectCircle:
 		switch (m_points.size()) {
 		case 0:
@@ -56,6 +57,7 @@ void PaintOperator::mousePressed(QMouseEvent *event)
 			m_points.clear();
 			break;		
 		}
+		break;
 	}
 }
 
@@ -80,6 +82,7 @@ void PaintOperator::mouseMoved(QMouseEvent *event)
 			emit newProcess(process);
 			break;
 		}
+		break;
 	case SelectCircle:
 		switch (m_points.size()) {
 		case 1:
@@ -95,6 +98,7 @@ void PaintOperator::mouseMoved(QMouseEvent *event)
 			emit newProcess(process);
 			break;
 		}
+		break;
 	default:
 		break;
 	}
