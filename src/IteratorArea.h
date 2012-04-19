@@ -35,4 +35,24 @@ private:
 	int m_end_y;
 };
 
+class EllipseIteratorArea : public IteratorArea {
+public:
+	EllipseIteratorArea(int cx, int cy, int rx, int ry);
+	virtual int startX();
+	virtual int startY();
+	virtual int endX();
+	virtual int endY();
+	virtual bool contains(int x, int y);
+	virtual bool inside_contains(int x, int y);
+private:
+	int m_cx;
+	int m_cy;
+	int m_rx;
+	int m_ry;
+	int m_start_x;
+	int m_start_y;
+	int m_end_x;
+	int m_end_y;
+};
+
 #endif /* _ITERATORAREA_H_ */

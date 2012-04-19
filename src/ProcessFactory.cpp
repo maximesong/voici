@@ -187,3 +187,10 @@ SharedProcess ProcessFactory::getPolygonSelectionProcess(QVector<QPoint> points)
 	ImageProcesser *processer = new DrawPolygonProcesser(points);
 	return buildPostProcess(Selection, SharedImageProcesser(processer));
 }
+
+SharedProcess ProcessFactory::getEllipseSelectionProcess(int cx, int cy,
+							 int rx, int ry)
+{
+	ImageProcesser *processer = new DrawEllipseProcesser(cx, cy, rx, ry);
+	return buildPostProcess(Selection, SharedImageProcesser(processer));
+}

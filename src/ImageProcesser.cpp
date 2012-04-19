@@ -582,3 +582,21 @@ QImage DrawPolygonProcesser::produceProcessedImage(const QImage &image)
 	delete painter;
 	return dest;
 }
+
+
+DrawEllipseProcesser::DrawEllipseProcesser(int cx, int cy, int rx, int ry)
+{
+	m_cx = cx;
+	m_cy = cy;
+	m_rx = rx;
+	m_ry = ry;
+}
+
+QImage DrawEllipseProcesser::produceProcessedImage(const QImage &image)
+{
+	QImage dest = image;
+	QPainter *painter = new QPainter(&dest);
+	painter->drawEllipse(QPoint(m_cx, m_cy), m_rx, m_ry);
+	delete painter;
+	return dest;
+}

@@ -64,7 +64,9 @@ public:
 
 	static SharedProcess getPolygonSelectionProcess(QVector<QPoint> points);
 
-	static SharedProcess getPolylineSelectionProcess(QVector<QPoint> points);
+	static SharedProcess getEllipseSelectionProcess(int cx, int cy,
+							int rx, int ry);
+
 private:
 	static SharedProcess buildDynamicProcess(SharedImageProcesser processer);
 	static SharedProcess buildPreProcess(PreProcesser id,

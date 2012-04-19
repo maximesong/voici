@@ -1,5 +1,6 @@
 #include "PaintOperator.h"
 
+#include <cmath>
 #include <iostream>
 using namespace std;
 
@@ -35,6 +36,26 @@ void PaintOperator::mousePressed(QMouseEvent *event)
 			m_points.clear();
 			break;			
 		}
+	case SelectCircle:
+		switch (m_points.size()) {
+		case 0:
+			m_points.push_back(event->pos());
+			break;
+		case 1:
+			int cx = m_points[0].x();
+			int cy = m_points[0].y();
+			int x0 = event->pos().x();
+			int y0 = event->pos().y();
+			int r = sqrt((cx - x0) * (cx - x0) + 
+				     (cy - y0) * (cy - y0));
+			IteratorArea *area = new EllipseIteratorArea(cx, cy,
+								     r, r);
+
+			emit areaChanged(area);
+			m_state = Normal;
+			m_points.clear();
+			break;		
+		}
 	}
 }
 
@@ -56,6 +77,21 @@ void PaintOperator::mouseMoved(QMouseEvent *event)
 			SharedProcess process = 
 				ProcessFactory::getPolygonSelectionProcess(
 					rect_points);
+			emit newProcess(process);
+			break;
+		}
+	case SelectCircle:
+		switch (m_points.size()) {
+		case 1:
+			int cx = m_points[0].x();
+			int cy = m_points[0].y();
+			int x0 = event->pos().x();
+			int y0 = event->pos().y();
+			int r = sqrt((cx - x0) * (cx - x0) + 
+				     (cy - y0) * (cy - y0));
+			SharedProcess process = 
+				ProcessFactory::getEllipseSelectionProcess(
+					cx, cy, r, r);
 			emit newProcess(process);
 			break;
 		}

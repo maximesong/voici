@@ -116,4 +116,15 @@ private:
 	QVector<QPoint> m_points;
 };
 
+class DrawEllipseProcesser : public ImageProcesser {
+public:
+	DrawEllipseProcesser(int cx, int cy, int rx, int ry);
+	virtual QImage produceProcessedImage(const QImage &image);
+private:
+	int m_cx;
+	int m_cy;
+	int m_rx;
+	int m_ry;
+};
+
 #endif /* _IMAGEPROCESSER_H_ */
