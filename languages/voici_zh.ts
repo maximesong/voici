@@ -260,7 +260,7 @@
     <message>
         <location filename="../src/PointOperatorPanel.cpp" line="42"/>
         <source>c:</source>
-        <translation>c:</translation>
+        <translation>系数:</translation>
     </message>
     <message>
         <location filename="../src/PointOperatorPanel.cpp" line="48"/>
@@ -409,6 +409,11 @@
         <location filename="../src/TransformPanel.cpp" line="36"/>
         <source>Nearest Neighbour Rotate</source>
         <translation>最近邻旋转</translation>
+    </message>
+    <message>
+        <location filename="../src/TransformPanel.cpp" line="38"/>
+        <source>Angle</source>
+        <translation>角度</translation>
     </message>
     <message>
         <location filename="../src/TransformPanel.cpp" line="45"/>

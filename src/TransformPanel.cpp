@@ -35,7 +35,7 @@ TransformPanel::TransformPanel(int defaultImageWidth, int defaultImageHeight,
 
 	QPushButton *nearestNeighbourRotateButton = new QPushButton(tr("Nearest Neighbour Rotate"));
 
-	rotateAngleBox = new DoubleSliderPanel("Angle");
+	rotateAngleBox = new DoubleSliderPanel(tr("Angle"));
 	rotateAngleBox->setMaximum(360);
 	rotateAngleBox->setValue(90);
 	connect(nearestNeighbourRotateButton, SIGNAL(clicked()), 
