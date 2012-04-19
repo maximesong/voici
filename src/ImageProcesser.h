@@ -4,6 +4,8 @@
 #include <QSharedPointer>
 #include <QString>
 #include <cmath>
+#include <QLine>
+#include <QRect>
 
 #include "Map.h"
 #include "Iterator.h"
@@ -103,6 +105,15 @@ private:
 	int m_width;
 	int m_height;
 	double m_rotate_angle;
+};
+
+
+class DrawPolygonProcesser : public ImageProcesser {
+public:
+	DrawPolygonProcesser(QVector<QPoint> points);
+	virtual QImage produceProcessedImage(const QImage &image);
+private:
+	QVector<QPoint> m_points;
 };
 
 #endif /* _IMAGEPROCESSER_H_ */

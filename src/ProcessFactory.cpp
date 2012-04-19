@@ -5,7 +5,7 @@
 #include "VoiciGlobal.h"
 
 
-SharedProcess ProcessFactory::getStandardGrayProcess(IteratorArea *area)
+SharedProcess ProcessFactory::getStandardGrayProcess(QSharedPointer<IteratorArea> area)
 {
 	Iterator *iter = new Iterator(area);
 	RgbMap *map = new GrayRgbMap(0.299, 0.587, 0.114, 1);
@@ -16,7 +16,7 @@ SharedProcess ProcessFactory::getStandardGrayProcess(IteratorArea *area)
 
 
 SharedProcess ProcessFactory::getBinaryProcess(int low, int high,
-					       IteratorArea *area)
+					       QSharedPointer<IteratorArea> area)
 {
 	Iterator *iter = new Iterator(area);
 	ByteMap *map = new ThresholdRangeByteMap(low, high);
@@ -31,7 +31,7 @@ SharedProcess ProcessFactory::getConvolutionProcess(int rows, int columns,
 						    int centerRow, 
 						    int centerColumn,
 						    const QVector<double> &matrix,
-						    IteratorArea *area)
+						    QSharedPointer<IteratorArea> area)
 {
 	AreaIterator *iter = 
 		new AreaIterator(rows, columns, centerRow, centerColumn, area);
@@ -42,7 +42,7 @@ SharedProcess ProcessFactory::getConvolutionProcess(int rows, int columns,
 }
 
 SharedProcess ProcessFactory::getLinearProcess(double k, double b,
-					       IteratorArea *area)
+					       QSharedPointer<IteratorArea> area)
 {
 	Iterator *iter = new Iterator(area);
 	ByteMap *map = new LinearByteMap(k, b);
@@ -52,7 +52,7 @@ SharedProcess ProcessFactory::getLinearProcess(double k, double b,
 }
 
 SharedProcess ProcessFactory::getMidlevelNonlinearMap(double c, double max,
-						      IteratorArea *area)
+						      QSharedPointer<IteratorArea> area)
 {
 	Iterator *iter = new Iterator(area);
 	ByteMap *map = new MidlevelNonlinearByteMap(c, max);
@@ -64,7 +64,7 @@ SharedProcess ProcessFactory::getMidlevelNonlinearMap(double c, double max,
 SharedProcess ProcessFactory::getImageLinearBlendProcess(const QImage &image,
 							 double rate1, 
 							 double rate2,
-							 IteratorArea *area)
+							 QSharedPointer<IteratorArea> area)
 {
 	Iterator *iter = new Iterator(area);
 	PositionalRgbMap *map = new ImageBlendRgbMap(image, rate1, rate2);
@@ -75,7 +75,7 @@ SharedProcess ProcessFactory::getImageLinearBlendProcess(const QImage &image,
 
 SharedProcess ProcessFactory::getImageProductProcess(const QImage &image,
 						     double coefficient,
-						     IteratorArea *area)
+						     QSharedPointer<IteratorArea> area)
 {
 	Iterator *iter = new Iterator(area);
 	PositionalRgbMap *map = new ImageProductRgbMap(image, coefficient);
@@ -86,7 +86,7 @@ SharedProcess ProcessFactory::getImageProductProcess(const QImage &image,
 
 SharedProcess ProcessFactory::getImageQuotientProcess(const QImage &image,
 						      double coefficient,
-						      IteratorArea *area)
+						      QSharedPointer<IteratorArea> area)
 {
 	Iterator *iter = new Iterator(area);
 	PositionalRgbMap *map = new ImageQuotientRgbMap(image, coefficient);
@@ -121,7 +121,7 @@ SharedProcess ProcessFactory::getNearestNeighbourRotateProcess(double rotateAngl
 }
 
 SharedProcess ProcessFactory::getMedianFilterProcess(int m, int n,
-						     IteratorArea *area)
+						     QSharedPointer<IteratorArea> area)
 {
 	AreaIterator *iter = 
 		new AreaIterator(m, n, (m + 1) / 2, (n + 1) / 2, area);
@@ -132,7 +132,7 @@ SharedProcess ProcessFactory::getMedianFilterProcess(int m, int n,
 }
 
 SharedProcess ProcessFactory::getMeanFilterProcess(int m, int n, 
-						   IteratorArea *area)
+						   QSharedPointer<IteratorArea> area)
 {
 	AreaIterator *iter = 
 		new AreaIterator(m, n, (m + 1) / 2, (n + 1) / 2, area);
@@ -173,11 +173,17 @@ SharedProcess ProcessFactory::getUnsetThredsholdProcess()
 }
 
 SharedProcess ProcessFactory::getHistogramEqualizationProcess(const QImage &image,
-							      IteratorArea *area)
+							      QSharedPointer<IteratorArea> area)
 {
 	Iterator *iter = new Iterator(area);
 	ByteMap *map = new HistogramEqualizationByteMap(image);
 	ByteImageProcesser *processer = 
 		new ByteImageProcesser(iter, map, tr("Histogram Equalization"));
 	return buildDynamicProcess(SharedImageProcesser(processer));
+}
+
+SharedProcess ProcessFactory::getPolygonSelectionProcess(QVector<QPoint> points)
+{
+	ImageProcesser *processer = new DrawPolygonProcesser(points);
+	return buildPostProcess(Selection, SharedImageProcesser(processer));
 }

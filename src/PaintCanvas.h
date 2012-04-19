@@ -15,9 +15,15 @@ class QImage;
 class PaintCanvas : public QWidget {
 	Q_OBJECT
 public:
+	enum State { Normal, Draging, Select };
 	PaintCanvas(QWidget *parent = 0);
+signals:
+	void mousePressed(QMouseEvent *event);
+	void mouseMoved(QMouseEvent *event);
+	void mouseReleased(QMouseEvent *event);
 public slots:
 	virtual void drawImage(const ImageFamily &imageCore);
+	void setState(State state);
 protected:
 	virtual void mouseMoveEvent (QMouseEvent *event);
 	void updateInfoLabel(QPoint pixel_point);
@@ -29,7 +35,7 @@ private:
 	QScrollArea *scrollable_canvas;
 	QImage image;
 	QPoint drag_start_pos;
-	bool is_in_drag;
+	State m_state;
 };
 
 #endif /* _PAINTCANVAS_H_ */

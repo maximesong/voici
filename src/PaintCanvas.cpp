@@ -19,12 +19,12 @@ const int MAX_BORDER_DISTANCE = 5;
 PaintCanvas::PaintCanvas(QWidget *parent):
 	QWidget(parent)
 {
-	is_in_drag = 0;
 
 	setMouseTracking(1);
 	canvas = new QLabel();
 	canvas->setMouseTracking(1);
 	canvas->setCursor(QCursor(Qt::OpenHandCursor));
+	setState(Normal);
 	QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -57,27 +57,49 @@ void PaintCanvas::mouseMoveEvent (QMouseEvent *event)
 	QPoint pos = event->pos();
 	QPoint pixel_point = canvas->mapFrom(scrollable_canvas, pos);
 	updateInfoLabel(pixel_point);
-	if (is_in_drag) {
+
+	switch (m_state) {
+	case Draging:
 		QScrollBar *vbar = scrollable_canvas->verticalScrollBar();
 		QScrollBar *hbar = scrollable_canvas->horizontalScrollBar();
 		vbar->setValue(vbar->value() + drag_start_pos.y() - pos.y());
 		hbar->setValue(hbar->value() + drag_start_pos.x() - pos.x());
 		drag_start_pos = pos;
+		break;
 	}
+
+	QMouseEvent mapped_event(QEvent::MouseButtonPress,
+				 pixel_point,
+				 event->button(),
+				 event->buttons(),
+				 event->modifiers());
+	emit mouseMoved(&mapped_event);
 }
 
 
 void PaintCanvas::mousePressEvent(QMouseEvent *event)
 {
-	drag_start_pos = event->pos();
-	is_in_drag = 1;
-	canvas->setCursor(Qt::ClosedHandCursor);
+	switch (m_state) {
+	case Normal:
+		drag_start_pos = event->pos();
+		setState(Draging);
+		break;
+	}
+
+	QPoint pixel_point = canvas->mapFrom(scrollable_canvas, event->pos());
+
+	QMouseEvent mapped_event(QEvent::MouseButtonPress,
+				 pixel_point,
+				 event->button(),
+				 event->buttons(),
+				 event->modifiers());
+	emit mousePressed(&mapped_event);
 }
 
-void PaintCanvas::mouseReleaseEvent(QMouseEvent *)
+void PaintCanvas::mouseReleaseEvent(QMouseEvent *event)
 {
-	is_in_drag = 0;
-	canvas->setCursor(Qt::OpenHandCursor);
+	setState(Normal);
+	emit mouseReleased(event);
 }
 
 void PaintCanvas::updateInfoLabel(QPoint pixel_point)
@@ -112,4 +134,20 @@ void PaintCanvas::updateInfoLabel(QPoint pixel_point)
 	label += "    " + tr("G:") + QString::number(qGreen(rgb));
 	label += "    " + tr("B:") + QString::number(qBlue(rgb));
 	pixel_bar->setText(label);
+}
+
+void PaintCanvas::setState(State state)
+{
+	switch(state) {
+	case Normal:
+		canvas->setCursor(Qt::OpenHandCursor);
+		break;
+	case Draging:
+		canvas->setCursor(Qt::ClosedHandCursor);
+		break;
+	case Select:
+		canvas->setCursor(Qt::CrossCursor);
+		break;
+	}
+	m_state = state;
 }

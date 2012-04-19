@@ -4,6 +4,8 @@
     <file>images/save.png</file>
     <file>images/redo.png</file>
     <file>images/undo.png</file>
+    <file>images/rect_select.png</file>
+    <file>images/circle_select.png</file>
     <file>images/horizontal.png</file>
     <file>images/vertical.png</file>
     <file>images/check.png</file>

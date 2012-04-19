@@ -1,6 +1,8 @@
 #include "ImageProcesser.h"
 
 #include <QImage>
+#include <QPainter>
+
 #include "ImageUtility.h"
 
 ImageProcesser::ImageProcesser(const QString &processerName)
@@ -565,4 +567,18 @@ QImage NearestNeighbourRotateProcesser::produceProcessedImage(const QImage &imag
 	}
 
 	return new_image;
+}
+
+DrawPolygonProcesser::DrawPolygonProcesser(QVector<QPoint> points)
+{
+	m_points = points;
+}
+
+QImage DrawPolygonProcesser::produceProcessedImage(const QImage &image)
+{
+	QImage dest = image;
+	QPainter *painter = new QPainter(&dest);
+	painter->drawPolygon(m_points);
+	delete painter;
+	return dest;
 }

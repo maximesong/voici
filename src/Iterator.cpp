@@ -1,13 +1,13 @@
 #include "Iterator.h"
 
-Iterator::Iterator(IteratorArea *area)
+Iterator::Iterator(QSharedPointer<IteratorArea> area)
 {
 	m_area = area;
 }
 
 Iterator::~Iterator()
 {
-	delete m_area;
+	/* empty */
 }
 
 void Iterator::rgbIterate(QImage *dest, const QImage *src, PositionalRgbMap *map)
@@ -100,7 +100,7 @@ void Iterator::byteIterate(QImage *dest, const QImage *src, PositionalByteMap *m
 	}
 }
 
-AreaIterator::AreaIterator(int m, int n, int x, int y, IteratorArea *area)
+AreaIterator::AreaIterator(int m, int n, int x, int y, QSharedPointer<IteratorArea> area)
 {
 	m_m = m;
 	m_n = n;

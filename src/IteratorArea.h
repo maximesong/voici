@@ -1,6 +1,8 @@
 #ifndef _ITERATORAREA_H_
 #define _ITERATORAREA_H_
 
+class ImageProcesser;
+
 class IteratorArea {
 public:
 	virtual int startX() = 0;
@@ -9,6 +11,7 @@ public:
 	virtual int endY() = 0;
 	virtual bool contains(int x, int y) = 0;
 	virtual bool inside_contains(int x, int y) = 0;
+
 };
 
 class RectangleIteratorArea : public IteratorArea {
@@ -18,8 +21,8 @@ public:
 	virtual int startY();
 	virtual int endX();
 	virtual int endY();
-	virtual bool contains(int x, int y) = 0;
-	virtual bool inside_contains(int x, int y) = 0;
+	virtual bool contains(int x, int y);
+	virtual bool inside_contains(int x, int y);
 private:
 	int m_start_x;
 	int m_start_y;

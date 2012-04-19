@@ -8,6 +8,8 @@
 #include <QPushButton>
 
 #include "ProcessFactory.h"
+#include "VoiciGlobal.h"
+#include "VoiciMainWindow.h"
 
 PointOperatorPanel::PointOperatorPanel(QWidget *parent)
 	: QWidget(parent)
@@ -75,7 +77,8 @@ PointOperatorPanel::PointOperatorPanel(QWidget *parent)
 void PointOperatorPanel::sendPointLinearProcess()
 {
 	SharedProcess process = ProcessFactory::getLinearProcess(kBox->value(),
-								 bBox->value());
+								 bBox->value(),
+								 mainWindow->getArea());
 
 	emit newProcess(process);
 }

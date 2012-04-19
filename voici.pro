@@ -26,7 +26,6 @@ HEADERS += src/Exceptions.h \
            src/ThresholdPanel.h \
            src/SliderPanel.h src/VoiciGlobal.h \
            src/HistogramPanel.h \
-           src/PixelIterator.h \
            src/ProcessFactory.h \
            src/OtsuAlgorithm.h \
            src/EntropyMethod.h \
@@ -72,6 +71,7 @@ HEADERS += src/Process.h \
            src/IteratorArea.h \
            src/Map.h \
            src/ContrastPanel.h \
+           src/PaintOperator.h \
 
 SOURCES += src/Process.cpp \
            src/ImageFamily.cpp \
@@ -81,3 +81,4 @@ SOURCES += src/Process.cpp \
            src/IteratorArea.cpp \
            src/Map.cpp \
            src/ContrastPanel.cpp \
+           src/PaintOperator.cpp \

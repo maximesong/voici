@@ -5,13 +5,12 @@ using namespace std;
 
 #include <QAction>
 #include <QIcon>
-#include <QToolBar>
 #include <QGridLayout>
 #include <QFileDialog>
-#include <QLabel>
 #include <QMessageBox>
 #include <QDesktopWidget>
 #include <QApplication>
+#include <QMenu>
 
 #include "PaintCanvas.h"
 #include "ThresholdPanel.h"
@@ -23,12 +22,18 @@ using namespace std;
 #include "AlgebraicProcessPanel.h"
 #include "ProcessPanel.h"
 #include "ProcessFactory.h"
+#include "IteratorArea.h"
+#include "PaintOperator.h"
 
 VoiciMainWindow::VoiciMainWindow()
 {
 	imageFamily = new ImageFamily(QImage(), tr("Colorful"));
 	grayImageFamily = new ImageFamily(QImage(), tr("Gray"));
 	currentImageFamily = imageFamily;
+	paintOperator = new PaintOperator();
+	connect(paintOperator, SIGNAL(areaChanged(IteratorArea*)), 
+		this, SLOT(setIteratorArea(IteratorArea*)));
+
 
 	createActions();
 	createToolBars();
@@ -54,6 +59,8 @@ void VoiciMainWindow::createToolBars()
 	fileToolBar->addAction(saveAction);
 	fileToolBar->addAction(undoAction);
 	fileToolBar->addAction(redoAction);
+	fileToolBar->addAction(rectAction);
+	fileToolBar->addAction(circleAction);
 	setCanUndoAndRedo(0, 0);
 }
 
@@ -71,6 +78,16 @@ void VoiciMainWindow::createActions()
 
 	redoAction = new QAction(QIcon(":images/redo.png"), tr("&Redo"), this);
 	connect(redoAction, SIGNAL(triggered()), this, SLOT(redo()));
+
+	rectAction = new QAction(QIcon(":images/rect_select.png"),
+				 tr("Rectangle"), this);
+	connect(rectAction, SIGNAL(triggered()), 
+		this, SLOT(selectRectangle()));
+
+	circleAction = new QAction(QIcon(":images/circle_select.png"),
+				   tr("Circle"), this);
+	connect(circleAction, SIGNAL(triggered()), 
+		this, SLOT(selectCircle()));
 }
 
 void VoiciMainWindow::createCentralWidget()
@@ -137,6 +154,8 @@ void VoiciMainWindow::loadFile(const QString &filename)
 
 	replaceTabWidget(displayPanel, &paintCanvas, new PaintCanvas(),
 			 filename);
+	currentPaintCanvas = paintCanvas;
+
 	connect(imageFamily, SIGNAL(currentImageChanged(const ImageFamily&)), 
 		paintCanvas, SLOT(drawImage(const ImageFamily&)));
 
@@ -179,11 +198,33 @@ void VoiciMainWindow::loadFile(const QString &filename)
 		this, SLOT(addProcess(SharedProcess)));
 
 	setCanUndoAndRedo(0, 0);
+
+	connect(paintCanvas, SIGNAL(mousePressed(QMouseEvent*)), 
+		paintOperator, SLOT(mousePressed(QMouseEvent*)));
+
+	connect(paintCanvas, SIGNAL(mouseMoved(QMouseEvent*)), 
+		paintOperator, SLOT(mouseMoved(QMouseEvent*)));
+
+	connect(paintCanvas, SIGNAL(mouseReleased(QMouseEvent*)), 
+		paintOperator, SLOT(mouseReleased(QMouseEvent*)));
+
+	connect(grayPaintCanvas, SIGNAL(mousePressed(QMouseEvent*)), 
+		paintOperator, SLOT(mousePressed(QMouseEvent*)));
+
+	connect(grayPaintCanvas, SIGNAL(mouseMoved(QMouseEvent*)), 
+		paintOperator, SLOT(mouseMoved(QMouseEvent*)));
+
+	connect(grayPaintCanvas, SIGNAL(mouseReleased(QMouseEvent*)), 
+		paintOperator, SLOT(mouseReleased(QMouseEvent*)));
+
+	connect(paintOperator, SIGNAL(newProcess(SharedProcess)), 
+		this, SLOT(addProcess(SharedProcess)));
+
 }
 
 void VoiciMainWindow::saveFile(const QString &filename)
 {
-	QImage image = grayImageFamily->getCurrentImage();
+	QImage image = currentImageFamily->getCurrentImage();
 	image.save(filename);
 }
 
@@ -259,10 +300,14 @@ void VoiciMainWindow::addProcess(SharedProcess process)
 
 void VoiciMainWindow::paintCanvasChanged()
 {
-	if (displayPanel->currentWidget() == grayPaintCanvas)
+	if (displayPanel->currentWidget() == grayPaintCanvas) {
 		currentImageFamily = grayImageFamily;
-	else if (displayPanel->currentWidget() == paintCanvas)
+		currentPaintCanvas = grayPaintCanvas;
+	}
+	else if (displayPanel->currentWidget() == paintCanvas) {
 		currentImageFamily = imageFamily;
+		currentPaintCanvas = paintCanvas;
+	}
 }
 
 void VoiciMainWindow::setCanUndoAndRedo(bool canUndo, bool canRedo)
@@ -277,4 +322,24 @@ QImage VoiciMainWindow::getCurrentImage() const
 		return currentImageFamily->getCurrentImage();
 	else
 		return QImage();
+}
+
+QSharedPointer<IteratorArea> VoiciMainWindow::getArea() const
+{
+	return area;
+}
+
+void VoiciMainWindow::selectRectangle()
+{
+	paintOperator->setState(PaintOperator::SelectRectangle);
+}
+
+void VoiciMainWindow::selectCircle()
+{
+	paintOperator->setState(PaintOperator::SelectCircle);
+}
+
+void VoiciMainWindow::setIteratorArea(IteratorArea *area)
+{
+	this->area = QSharedPointer<IteratorArea>(area);
 }
