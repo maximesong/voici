@@ -17,7 +17,7 @@ AlgebraicProcessPanel::AlgebraicProcessPanel(QWidget *parent)
 	: QWidget(parent)
 {
 	opImageCanvas = new PreviewCanvas();
-	selectImageButton = new QPushButton(tr("Select"));
+	selectImageButton = new QPushButton(tr("Select Image"));
 
 	imageAddButton = new QPushButton(tr("Add"));
 	imageSubstractButton = new QPushButton(tr("Substract"));
