@@ -43,6 +43,7 @@ private slots:
 	void paintCanvasChanged();
 	void setCanUndoAndRedo(bool canUndo, bool canRedo);
 	void setIteratorArea(IteratorArea *area);
+	void setSelectedFilter(const QString &filter);
 private:
 	void createToolBars();
 	void createActions();
@@ -79,6 +80,7 @@ private:
 
 	QSharedPointer<IteratorArea> area;
 	QString currentFileName;
+	QString m_filter;
 };
 
 #endif

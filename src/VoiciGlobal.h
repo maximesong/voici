@@ -11,7 +11,12 @@ const double PI = 3.1415;
 
 enum ColorChannel { RED, GREEN, BLUE, GRAY };
 
-const char acceptImageLabel[] = "Image Files (*.png *.jpg *.bmp)";
+const char acceptImageLabel[] = "All Images (*.png *.jpg *.gif *.bmp);;" 
+	"PNG Image (*.png);;"
+	"JPG Image (*.jpg);;"
+	"GIF Image (*.gif);;"
+	"BMP Image (*.bmp);;"
+	"All Files (*.*);;";
 
 inline int legalized_level(int level)
 {

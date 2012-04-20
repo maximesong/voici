@@ -113,19 +113,30 @@ void VoiciMainWindow::open()
 	QString filename = QFileDialog::getOpenFileName(this,
 							tr("Open Image"), 
 							".",
-							tr("all(*.png *.jpg)"));
+							tr(acceptImageLabel));
 	loadFile(filename);
 }
 
 void VoiciMainWindow::save()
 {
-	QString filename = QFileDialog::getSaveFileName(this,
-							tr("Save Image"), 
-							".",
-							tr("all(*.png *.jpg)"));
-	if (filename == "")
+	QFileDialog dialog(this, tr("Save Image"), ".", tr(acceptImageLabel));
+	dialog.setAcceptMode(QFileDialog::AcceptSave);
+	if (!dialog.exec()) {
 		return;
+	}
+	QString filename = dialog.selectedFiles()[0];
+	QString filter = dialog.selectedNameFilter();
+	int start = filter.lastIndexOf(".");
+	int end = filter.lastIndexOf(")");
+	QString suffix = "";
+	for (int i = start; i != end; ++ i) {
+		suffix.append(filter[i]);
+	}
+	if (!filename.endsWith(suffix)) {
+		filename += suffix;
+	}
 
+	cout << suffix.toStdString() << endl;
 	saveFile(filename);
 }
 
@@ -342,4 +353,9 @@ void VoiciMainWindow::selectCircle()
 void VoiciMainWindow::setIteratorArea(IteratorArea *area)
 {
 	this->area = QSharedPointer<IteratorArea>(area);
+}
+
+void VoiciMainWindow::setSelectedFilter(const QString &filter)
+{
+	m_filter = filter;
 }

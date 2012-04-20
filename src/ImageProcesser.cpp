@@ -618,3 +618,4 @@ QImage DrawEllipseProcesser::produceProcessedImage(const QImage &image)
 	delete painter;
 	return dest;
 }
+
