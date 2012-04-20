@@ -125,5 +125,7 @@ void PaintOperator::setState(State state)
 		emit canvasStateChanged(PaintCanvas::Normal);
 	} else if (state == SelectRectangle || state == SelectCircle) {
 		emit canvasStateChanged(PaintCanvas::Select);
+	} else if (state == WaitClick) {
+		emit canvasStateChanged(PaintCanvas::WaitClick);
 	}
 }

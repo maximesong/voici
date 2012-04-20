@@ -150,6 +150,9 @@ void PaintCanvas::setState(State state)
 	case Select:
 		canvas->setCursor(Qt::CrossCursor);
 		break;
+	case WaitClick:
+		canvas->setCursor(Qt::ArrowCursor);
+		break;
 	}
 	m_state = state;
 }

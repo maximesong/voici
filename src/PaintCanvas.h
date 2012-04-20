@@ -15,7 +15,7 @@ class QImage;
 class PaintCanvas : public QWidget {
 	Q_OBJECT
 public:
-	enum State { Normal, Draging, Select };
+	enum State { Normal, Draging, Select, WaitClick };
 	PaintCanvas(QWidget *parent = 0);
 signals:
 	void mousePressed(QMouseEvent *event);
