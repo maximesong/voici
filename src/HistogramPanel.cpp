@@ -1,5 +1,8 @@
 #include "HistogramPanel.h"
 
+#include <iostream>
+using namespace std;
+
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QPushButton>

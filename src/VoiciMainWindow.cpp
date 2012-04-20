@@ -201,6 +201,9 @@ void VoiciMainWindow::loadFile(const QString &filename)
 	connect(histogramPanel, SIGNAL(newProcess(SharedProcess)), 
 		this, SLOT(addProcess(SharedProcess)));
 
+	connect(grayImageFamily, SIGNAL(currentImageChanged(const ImageFamily &)), 
+		histogramPanel, SLOT(updateHistogramPanel(const ImageFamily &)));
+
 	/* Add Convolution Panel */
 	replaceTabWidget(controlPanel, &convolutionPanel,
 			 new ConvolutionPanel(), tr("Convolution"));
