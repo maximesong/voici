@@ -2,6 +2,8 @@
 
 #include <QImage>
 #include <QPainter>
+#include <QPen>
+#include <QLinearGradient>
 
 #include "ImageUtility.h"
 
@@ -578,6 +580,14 @@ QImage DrawPolygonProcesser::produceProcessedImage(const QImage &image)
 {
 	QImage dest = image;
 	QPainter *painter = new QPainter(&dest);
+	QLinearGradient linearGrad(QPointF(0, 0), QPointF(5, 5));
+	linearGrad.setColorAt(0, Qt::black);
+	linearGrad.setColorAt(1, Qt::white);
+	linearGrad.setSpread(QGradient::RepeatSpread);
+	QPen pen(QBrush(linearGrad),
+		 2,
+		 Qt::DashLine);
+	painter->setPen(pen);
 	painter->drawPolygon(m_points);
 	delete painter;
 	return dest;
@@ -596,6 +606,14 @@ QImage DrawEllipseProcesser::produceProcessedImage(const QImage &image)
 {
 	QImage dest = image;
 	QPainter *painter = new QPainter(&dest);
+	QLinearGradient linearGrad(QPointF(0, 0), QPointF(5, 5));
+	linearGrad.setColorAt(0, Qt::black);
+	linearGrad.setColorAt(1, Qt::white);
+	linearGrad.setSpread(QGradient::RepeatSpread);
+	QPen pen(QBrush(linearGrad),
+		 2,
+		 Qt::DashLine);
+	painter->setPen(pen);
 	painter->drawEllipse(QPoint(m_cx, m_cy), m_rx, m_ry);
 	delete painter;
 	return dest;
