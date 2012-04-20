@@ -23,7 +23,7 @@ signals:
 	void mouseReleased(QMouseEvent *event);
 public slots:
 	virtual void drawImage(const ImageFamily &imageCore);
-	void setState(State state);
+	void setState(PaintCanvas::State state);
 protected:
 	virtual void mouseMoveEvent (QMouseEvent *event);
 	void updateInfoLabel(QPoint pixel_point);

@@ -6,6 +6,7 @@
 #include <QPoint>
 
 #include "Process.h"
+#include "PaintCanvas.h"
 
 class IteratorArea;
 class QMouseEvent;
@@ -19,6 +20,7 @@ public:
 signals:
 	void areaChanged(IteratorArea *area);
 	void newProcess(SharedProcess process);
+	void canvasStateChanged(PaintCanvas::State state);
 public slots:
 	void mousePressed(QMouseEvent *event);
 	void mouseMoved(QMouseEvent *event);

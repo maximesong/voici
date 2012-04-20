@@ -98,7 +98,9 @@ void PaintCanvas::mousePressEvent(QMouseEvent *event)
 
 void PaintCanvas::mouseReleaseEvent(QMouseEvent *event)
 {
-	setState(Normal);
+	if (m_state == Draging) {
+		setState(Normal);
+	}
 	emit mouseReleased(event);
 }
 

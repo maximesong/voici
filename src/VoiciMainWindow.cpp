@@ -170,12 +170,19 @@ void VoiciMainWindow::loadFile(const QString &filename)
 	connect(imageFamily, SIGNAL(currentImageChanged(const ImageFamily&)), 
 		paintCanvas, SLOT(drawImage(const ImageFamily&)));
 
+	connect(paintOperator, SIGNAL(canvasStateChanged(PaintCanvas::State)), 
+		paintCanvas, SLOT(setState(PaintCanvas::State)));
+
+
 	displayPanel->addTab(paintCanvas, filename);
 
 	replaceTabWidget(displayPanel, &grayPaintCanvas, 
 			 new PaintCanvas(), tr("Gray"));
 	connect(grayImageFamily, SIGNAL(currentImageChanged(const ImageFamily&)), 
 		grayPaintCanvas, SLOT(drawImage(const ImageFamily&)));
+
+	connect(paintOperator, SIGNAL(canvasStateChanged(PaintCanvas::State)), 
+		grayPaintCanvas, SLOT(setState(PaintCanvas::State)));
 
 	paintCanvas->drawImage(*imageFamily);
 	grayPaintCanvas->drawImage(*grayImageFamily);

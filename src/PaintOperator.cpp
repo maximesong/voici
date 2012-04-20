@@ -122,5 +122,8 @@ void PaintOperator::setState(State state)
 	if (state == Normal) {
 		IteratorArea *area = 0;
 		emit areaChanged(area);
+		emit canvasStateChanged(PaintCanvas::Normal);
+	} else if (state == SelectRectangle || state == SelectCircle) {
+		emit canvasStateChanged(PaintCanvas::Select);
 	}
 }
