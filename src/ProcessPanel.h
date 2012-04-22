@@ -7,26 +7,31 @@
 #include <QImage>
 
 #include "Process.h"
+#include "ActionPanel.h"
 
+class ActionButton;
 class FilterPanel;
 class TransformPanel;
 class PointOperatorPanel;
 class ContrastPanel;
 class FiltersPanel;
 
-class ProcessPanel : public QWidget {
+class ProcessPanel : public ActionPanel {
 	Q_OBJECT
 public:
+	enum Action { Filter, Filters, Transform,
+		      PointOperator, Contrast };
 	ProcessPanel(const QImage &image, QWidget *parent = 0);
-//	virtual ~ProcessPanel();
 signals:
 	void newProcess(SharedProcess process);
 public slots:
-	void switchToFilterPanel();
-	void switchToFiltersPanel();
-	void switchToTransformPanel();
-	void switchToPointOperatorPanel();
-	void switchToContrastPanel();
+	virtual void processButtonClicked(int action);
+protected:
+	void switchToPanel(int action);
+	virtual void doCreation();
+	virtual void doConnections();
+	virtual void doLayout();
+	virtual void addPanel(const QString &text, int action, QWidget *panel);
 private:
 	void uncheckAllButton();
 	QWidget *buttonsWidget;
@@ -38,11 +43,7 @@ private:
 	ContrastPanel *contrastPanel;
 	FiltersPanel *filtersPanel;
 
-	QPushButton *filterPanelButton;
-	QPushButton *transformPanelButton;
-	QPushButton *pointOperatorPanelButton;
-	QPushButton *contrastPanelButton;
-	QPushButton *filtersPanelButton;
+	QVector<QWidget*> m_panels;
 };
 
 #endif /* _PROCESSPANEL_H_ */

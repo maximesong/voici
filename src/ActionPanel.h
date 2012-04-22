@@ -17,6 +17,7 @@ signals:
 public slots:
 	virtual void processButtonClicked(int action);
 protected:
+	virtual void addActionButton(const QString &text, int action);
 	virtual void init();
 	virtual void doCreation();
 	virtual void doLayout();

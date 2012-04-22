@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QSplitter>
 
+#include "ActionButton.h"
 #include "FilterPanel.h"
 #include "TransformPanel.h"
 #include "PointOperatorPanel.h"
@@ -15,70 +16,69 @@
 #include "FiltersPanel.h"
 
 ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
-	: QWidget(parent)
+	: ActionPanel(parent)
 {
-	filterPanel = new FilterPanel();
-	connect(filterPanel, SIGNAL(newProcess(SharedProcess )), 
-		this, SIGNAL(newProcess(SharedProcess)));
+	init();
+}
 
-	transformPanel = new TransformPanel(image.width(), image.height());
-	connect(transformPanel, SIGNAL(newProcess(SharedProcess)), 
-		this, SIGNAL(newProcess(SharedProcess)));
+void ProcessPanel::doCreation()
+{
+	/* create buttons */
+	m_buttons.resize(10);
+	m_panels.resize(10);
 
-	pointOperatorPanel = new PointOperatorPanel();
-	connect(pointOperatorPanel, SIGNAL(newProcess(SharedProcess)), 
-		this, SIGNAL(newProcess(SharedProcess)));
+	addPanel(tr("FilterPanel"), Filter, new FilterPanel());
+	addPanel(tr("FiltersPanel"), Filters, new FiltersPanel());
+	addPanel(tr("TransformPanel"), Transform, new TransformPanel(800, 600));
+	addPanel(tr("Point Operator Panel"), PointOperator,
+		 new PointOperatorPanel());
+	addPanel(tr("Contrast Panel"), Contrast, new ContrastPanel());
 
-	contrastPanel = new ContrastPanel();
-	connect(contrastPanel, SIGNAL(newProcess(SharedProcess)), 
-		this, SIGNAL(newProcess(SharedProcess)));
+	/* create panels */
+}
 
-	filtersPanel = new FiltersPanel();
+void ProcessPanel::uncheckAllButton()
+{
+	for (int i = 0; i != m_buttons.size(); ++i)
+		if (m_buttons[i] != 0)
+			m_buttons[i]->setChecked(0);
+}
 
-	filterPanelButton = new QPushButton(tr("Filter Panel"));
-	filterPanelButton->setCheckable(1);
-	filterPanelButton->setChecked(1);
-	connect(filterPanelButton, SIGNAL(clicked()), 
-		this, SLOT(switchToFilterPanel()));
 
-	transformPanelButton = new QPushButton(tr("Transform Panel"));
-	transformPanelButton->setCheckable(1);
-	connect(transformPanelButton, SIGNAL(clicked()), 
-		this, SLOT(switchToTransformPanel()));
-	
-	pointOperatorPanelButton = new QPushButton(tr("Point Operator Panel"));
-	pointOperatorPanelButton->setCheckable(1);
-	connect(pointOperatorPanelButton, SIGNAL(clicked()), 
-		this, SLOT(switchToPointOperatorPanel()));
+void ProcessPanel::addPanel(const QString &text, int action, QWidget *panel)
+{
+	m_buttons[action] = new ActionButton(text, action);
+	m_buttons[action]->setCheckable(1);
+	if (action == 0)
+		m_buttons[action]->setChecked(1);
+	m_panels[action] = panel;
+}
 
-	contrastPanelButton = new QPushButton(tr("Constrast Panel"));
-	contrastPanelButton->setCheckable(1);
-	connect(contrastPanelButton, SIGNAL(clicked()), 
-		this, SLOT(switchToContrastPanel()));
+void ProcessPanel::doConnections()
+{
+	ActionPanel::doConnections();
+	for (int i = 0; i != m_panels.size(); ++i)
+		if (m_panels[i] != 0)
+			connect(m_panels[i], SIGNAL(newProcess(SharedProcess)), 
+				this, SIGNAL(newProcess(SharedProcess)));
+}
 
-	
-	filtersPanelButton = new QPushButton(tr("Filters Panel"));
-	connect(filtersPanelButton, SIGNAL(clicked()), 
-		this, SLOT(switchToFiltersPanel()));
-
+void ProcessPanel::doLayout()
+{
         /* Buttons Layout */
 	buttonsWidget = new QWidget();
 	QGridLayout *buttonsLayout = new QGridLayout();
 	buttonsWidget->setLayout(buttonsLayout);	
 
+	for (int i = 0; i != m_buttons.size(); ++i)
+		if (m_buttons[i] != 0)
+			buttonsLayout->addWidget(m_buttons[i], i / 2, i % 2);
 
-	buttonsLayout->addWidget(filterPanelButton, 0, 0);
-	buttonsLayout->addWidget(transformPanelButton, 0, 1);
-	buttonsLayout->addWidget(pointOperatorPanelButton, 1, 0);
-	buttonsLayout->addWidget(contrastPanelButton, 1, 1);
-	buttonsLayout->addWidget(filtersPanelButton, 2, 0);
-
+	/* Put panels into the stacked widget */
 	stackedWidget = new QStackedWidget();
-	stackedWidget->addWidget(filterPanel);
-	stackedWidget->addWidget(transformPanel);
-	stackedWidget->addWidget(pointOperatorPanel);
-	stackedWidget->addWidget(contrastPanel);
-	stackedWidget->addWidget(filtersPanel);
+	for (int i = 0; i != m_panels.size(); ++i)
+		if (m_panels[i] != 0)
+			stackedWidget->addWidget(m_panels[i]);
 
 	QVBoxLayout *panelLayout = new QVBoxLayout();
 	QSplitter *splitter = new QSplitter(Qt::Vertical);
@@ -88,46 +88,14 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 	setLayout(panelLayout);
 }
 
-void ProcessPanel::switchToFilterPanel()
+void ProcessPanel::switchToPanel(int action)
 {
 	uncheckAllButton();
-	filterPanelButton->setChecked(1);
-	stackedWidget->setCurrentWidget(filterPanel);
+	m_buttons[action]->setChecked(1);
+	stackedWidget->setCurrentWidget(m_panels[action]);
 }
 
-void ProcessPanel::switchToTransformPanel()
+void ProcessPanel::processButtonClicked(int action)
 {
-	uncheckAllButton();
-	transformPanelButton->setChecked(1);
-	stackedWidget->setCurrentWidget(transformPanel);
+	switchToPanel(action);
 }
-
-void ProcessPanel::switchToPointOperatorPanel()
-{
-	uncheckAllButton();
-	pointOperatorPanelButton->setChecked(1);
-	stackedWidget->setCurrentWidget(pointOperatorPanel);
-}
-
-void ProcessPanel::switchToContrastPanel()
-{
-	uncheckAllButton();
-	contrastPanelButton->setChecked(1);
-	stackedWidget->setCurrentWidget(contrastPanel);
-}
-
-void ProcessPanel::switchToFiltersPanel()
-{
-	uncheckAllButton();
-	contrastPanelButton->setChecked(1);
-	stackedWidget->setCurrentWidget(filtersPanel);
-}
-
-void ProcessPanel::uncheckAllButton()
-{
-	filterPanelButton->setChecked(0);
-	transformPanelButton->setChecked(0);
-	pointOperatorPanelButton->setChecked(0);
-	contrastPanelButton->setChecked(0);
-}
-

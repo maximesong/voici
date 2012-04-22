@@ -51,3 +51,8 @@ void ActionPanel::processButtonClicked(int action)
 {
 	/* empty */
 }
+
+void ActionPanel::addActionButton(const QString &text, int action)
+{
+	m_buttons[action] = new ActionButton(text, action);
+}
