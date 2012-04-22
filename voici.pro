@@ -72,6 +72,9 @@ HEADERS += src/Process.h \
            src/Map.h \
            src/ContrastPanel.h \
            src/PaintOperator.h \
+           src/ActionButton.h \
+           src/ActionPanel.h \
+           src/FiltersPanel.h \
 
 SOURCES += src/Process.cpp \
            src/ImageFamily.cpp \
@@ -82,3 +85,6 @@ SOURCES += src/Process.cpp \
            src/Map.cpp \
            src/ContrastPanel.cpp \
            src/PaintOperator.cpp \
+           src/ActionButton.cpp \
+           src/ActionPanel.cpp \
+           src/FiltersPanel.cpp \

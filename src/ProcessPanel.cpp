@@ -12,6 +12,7 @@
 #include "TransformPanel.h"
 #include "PointOperatorPanel.h"
 #include "ContrastPanel.h"
+#include "FiltersPanel.h"
 
 ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 	: QWidget(parent)
@@ -31,6 +32,8 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 	contrastPanel = new ContrastPanel();
 	connect(contrastPanel, SIGNAL(newProcess(SharedProcess)), 
 		this, SIGNAL(newProcess(SharedProcess)));
+
+	filtersPanel = new FiltersPanel();
 
 	filterPanelButton = new QPushButton(tr("Filter Panel"));
 	filterPanelButton->setCheckable(1);
@@ -53,6 +56,10 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 	connect(contrastPanelButton, SIGNAL(clicked()), 
 		this, SLOT(switchToContrastPanel()));
 
+	
+	filtersPanelButton = new QPushButton(tr("Filters Panel"));
+	connect(filtersPanelButton, SIGNAL(clicked()), 
+		this, SLOT(switchToFiltersPanel()));
 
         /* Buttons Layout */
 	buttonsWidget = new QWidget();
@@ -64,12 +71,14 @@ ProcessPanel::ProcessPanel(const QImage &image, QWidget *parent)
 	buttonsLayout->addWidget(transformPanelButton, 0, 1);
 	buttonsLayout->addWidget(pointOperatorPanelButton, 1, 0);
 	buttonsLayout->addWidget(contrastPanelButton, 1, 1);
+	buttonsLayout->addWidget(filtersPanelButton, 2, 0);
 
 	stackedWidget = new QStackedWidget();
 	stackedWidget->addWidget(filterPanel);
 	stackedWidget->addWidget(transformPanel);
 	stackedWidget->addWidget(pointOperatorPanel);
 	stackedWidget->addWidget(contrastPanel);
+	stackedWidget->addWidget(filtersPanel);
 
 	QVBoxLayout *panelLayout = new QVBoxLayout();
 	QSplitter *splitter = new QSplitter(Qt::Vertical);
@@ -105,6 +114,13 @@ void ProcessPanel::switchToContrastPanel()
 	uncheckAllButton();
 	contrastPanelButton->setChecked(1);
 	stackedWidget->setCurrentWidget(contrastPanel);
+}
+
+void ProcessPanel::switchToFiltersPanel()
+{
+	uncheckAllButton();
+	contrastPanelButton->setChecked(1);
+	stackedWidget->setCurrentWidget(filtersPanel);
 }
 
 void ProcessPanel::uncheckAllButton()

@@ -12,6 +12,7 @@ class FilterPanel;
 class TransformPanel;
 class PointOperatorPanel;
 class ContrastPanel;
+class FiltersPanel;
 
 class ProcessPanel : public QWidget {
 	Q_OBJECT
@@ -22,6 +23,7 @@ signals:
 	void newProcess(SharedProcess process);
 public slots:
 	void switchToFilterPanel();
+	void switchToFiltersPanel();
 	void switchToTransformPanel();
 	void switchToPointOperatorPanel();
 	void switchToContrastPanel();
@@ -34,11 +36,13 @@ private:
 	TransformPanel *transformPanel;
 	PointOperatorPanel *pointOperatorPanel;
 	ContrastPanel *contrastPanel;
+	FiltersPanel *filtersPanel;
 
 	QPushButton *filterPanelButton;
 	QPushButton *transformPanelButton;
 	QPushButton *pointOperatorPanelButton;
 	QPushButton *contrastPanelButton;
+	QPushButton *filtersPanelButton;
 };
 
 #endif /* _PROCESSPANEL_H_ */
