@@ -1,6 +1,8 @@
 #ifndef _VOICIGLOBAL_H_
 #define _VOICIGLOBAL_H_
 
+#include <QImage>
+
 class VoiciMainWindow;
 
 extern VoiciMainWindow *mainWindow;
@@ -25,6 +27,11 @@ inline int legalized_level(int level)
 	if (level < 0)
 		return 0;
 	return level;
+}
+
+inline int bytes_num(const QImage &image)
+{
+	return image.depth() / 8;
 }
 
 const int PRE_PROCESSER_NR = 10;

@@ -16,6 +16,12 @@ public:
 
 	static void setColumn(QImage &image, const uchar *buf,
 			      int x, int y, int height);
+
+	static void getPixel(const QImage &image, uchar *buf,
+			     int x, int y);
+
+	static void setPixel(QImage &image, const uchar *buf,
+			     int x, int y);
 };
 
 #endif /* _IMAGEUTILITY_H_ */

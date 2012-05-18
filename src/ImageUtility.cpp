@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include "VoiciGlobal.h"
 
 void ImageUtility::getRow(const QImage &image, uchar *buf,
 			  int x, int y, int width)
@@ -68,4 +69,24 @@ void ImageUtility::setColumn(QImage &image, const uchar *buf,
 		column += offset;
 		buf += bytes;
 	}
+}
+
+void ImageUtility::getPixel(const QImage &image, uchar *buf,
+			    int x, int y)
+{
+	int bytes = bytes_num(image);
+	const uchar *data = image.constBits() + 
+		bytes * (image.width() * y + x);
+	for (int i = 0; i < bytes; ++i)
+		*buf++ = *data++;
+}
+
+void ImageUtility::setPixel(QImage &image, const uchar *buf,
+			    int x, int y)
+{
+	int bytes = bytes_num(image);
+	uchar *data = image.bits() + 
+		bytes * (image.width() * y + x);
+	for (int i = 0; i < bytes; ++i)
+		*data++ = *buf++;
 }
