@@ -245,4 +245,13 @@ private:
 
 // };
 
+class MultiProcesser : public ImageProcesser {
+public:
+	MultiProcesser(QVector<ImageProcesser*> processers);
+	~MultiProcesser();
+	virtual QImage produceProcessedImage(const QImage &image);
+private:
+	QVector<ImageProcesser*> m_processers;
+};
+
 #endif /* _IMAGEPROCESSER_H_ */

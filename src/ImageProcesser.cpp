@@ -2415,3 +2415,22 @@ QImage DrawEllipseProcesser::produceProcessedImage(const QImage &image)
 //   grid_multiple = 2;
 //   grid_rowstride = (cols + 2) * 2;
 // }
+
+MultiProcesser::MultiProcesser(QVector<ImageProcesser*> processers)
+{
+	m_processers = processers;
+}
+
+MultiProcesser::~MultiProcesser()
+{
+	for (int i = 0; i != m_processers.size(); ++i)
+		delete m_processers[i];
+}
+
+QImage MultiProcesser::produceProcessedImage(const QImage &image)
+{
+	QImage dest = image;
+	for (int i = 0; i != m_processers.size(); ++i)
+		dest = produceProcessedImage(dest);
+	return dest;
+}

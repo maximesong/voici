@@ -47,7 +47,7 @@ void ActionPanel::connectActionButtons()
 				this, SLOT(processButtonClicked(int)));
 }
 
-void ActionPanel::processButtonClicked(int action)
+void ActionPanel::processButtonClicked(int)
 {
 	/* empty */
 }

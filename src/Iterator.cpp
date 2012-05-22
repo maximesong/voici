@@ -132,8 +132,9 @@ void AreaIterator::areaIterate(QImage *dest, const QImage *src, AreaRgbMap *map)
 	/* here i and j represents the right and bottom border of the matrix area */
 	for (int j = start_y; j < end_y; ++j)
 		for (int i = start_x; i < end_x; ++i) {
-			if (m_area != 0 && ! m_area->inside_contains(i + m_rx_offset, 
-								     j + m_ry_offset))
+			if (m_area != 0 && 
+			    ! m_area->inside_contains(i + m_rx_offset, 
+						      j + m_ry_offset))
 				continue;
 			QRgb rgb = map->map(src, i - m_m + 1, j- m_n + 1);
 			dest->setPixel(i + m_rx_offset, j + m_ry_offset, rgb);

@@ -67,6 +67,16 @@ public:
 	static SharedProcess getEllipseSelectionProcess(int cx, int cy,
 							int rx, int ry);
 
+
+	static SharedProcess getErosionProcess(int rows, int columns, 
+					       int centerRow, int centerColumn,
+					       const QVector<int> &matrix,
+					       SharedArea area = ALL_AREA);
+	static SharedProcess getDilationProcess(int rows, int columns, 
+					       int centerRow, int centerColumn,
+					       const QVector<int> &matrix,
+					       SharedArea area = ALL_AREA);
+
 private:
 	static SharedProcess buildDynamicProcess(SharedImageProcesser processer);
 	static SharedProcess buildPreProcess(PreProcesser id,

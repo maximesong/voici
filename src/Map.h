@@ -122,4 +122,28 @@ private:
 	int m_map[MAX_PIXEL_VALUE + 1];
 };
 
+class ErosionMap : public AreaRgbMap {
+public:
+	ErosionMap(int m, int n, int x, int y, const QVector<int> &matrix);
+	virtual QRgb map(const QImage *image, int x, int y);	
+private:
+	int m_m;
+	int m_n;
+	int m_x;
+	int m_y;
+	QVector<int> m_matrix;
+};
+
+class DilationMap : public AreaRgbMap {
+public:
+	DilationMap(int m, int n, int x, int y, const QVector<int> &matrix);
+	virtual QRgb map(const QImage *image, int x, int y);	
+private:
+	int m_m;
+	int m_n;
+	int m_x;
+	int m_y;
+	QVector<int> m_matrix;
+};
+
 #endif /* _MAP_H_ */

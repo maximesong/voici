@@ -194,3 +194,31 @@ SharedProcess ProcessFactory::getEllipseSelectionProcess(int cx, int cy,
 	ImageProcesser *processer = new DrawEllipseProcesser(cx, cy, rx, ry);
 	return buildPostProcess(Selection, SharedImageProcesser(processer));
 }
+
+SharedProcess ProcessFactory::getErosionProcess(int rows, int columns, 
+				int centerRow, int centerColumn,
+				const QVector<int> &matrix,
+				SharedArea area)
+{
+	AreaIterator *iter = 
+		new AreaIterator(rows, columns, centerRow, centerColumn, area);
+	AreaRgbMap *map = new ErosionMap(rows, columns, centerRow, centerColumn,
+					  matrix);
+	AreaRgbImageProcesser *processer = 
+		new AreaRgbImageProcesser(iter, map, tr("Dilation"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
+}
+
+SharedProcess ProcessFactory::getDilationProcess(int rows, int columns, 
+				 int centerRow, int centerColumn,
+				 const QVector<int> &matrix,
+				 SharedArea area)
+{
+	AreaIterator *iter = 
+		new AreaIterator(rows, columns, centerRow, centerColumn, area);
+	AreaRgbMap *map = new DilationMap(rows, columns, centerRow, centerColumn,
+					  matrix);
+	AreaRgbImageProcesser *processer = 
+		new AreaRgbImageProcesser(iter, map, tr("Dilation"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
+}

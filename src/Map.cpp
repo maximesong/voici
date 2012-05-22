@@ -267,3 +267,95 @@ uchar HistogramEqualizationByteMap::map(uchar src)
 {
 	return m_map[src];
 }
+
+DilationMap::DilationMap(int m, int n, int x, int y, 
+			   const QVector<int> &matrix)
+{
+	m_m = m;
+	m_n = n;
+	m_x = x;
+	m_y = y;
+	m_matrix = matrix;
+}
+
+QRgb DilationMap::map(const QImage *image, int x, int y)
+{
+	int bytes = image->depth() / 8;
+
+	const uchar *src = image->constBits();
+	const uchar *x_ptr;
+	const uchar *y_ptr;
+	QRgb rgb;
+	uchar *dest = (uchar*) &rgb;
+
+	int touch = 0;
+
+	for (int j = 0; j != m_n; ++j) {
+		y_ptr = src + (y + j) * bytes * image->width();
+		for (int i = 0; i != m_m; ++i) {
+			x_ptr = y_ptr + (x + i) * bytes;
+			if (*x_ptr >= m_matrix[i + j * m_m]) {
+				touch = 1;
+				break;
+			}
+					
+		}
+	}
+	if (touch) {
+		dest[0] = MAX_PIXEL_VALUE;
+		dest[1] = MAX_PIXEL_VALUE;
+		dest[2] = MAX_PIXEL_VALUE;
+	} else {
+		dest[0] = 0;
+		dest[1] = 0;
+		dest[2] = 0;
+	}
+		
+	return rgb;
+}
+
+ErosionMap::ErosionMap(int m, int n, int x, int y, 
+			   const QVector<int> &matrix)
+{
+	m_m = m;
+	m_n = n;
+	m_x = x;
+	m_y = y;
+	m_matrix = matrix;
+}
+
+QRgb ErosionMap::map(const QImage *image, int x, int y)
+{
+	int bytes = image->depth() / 8;
+
+	const uchar *src = image->constBits();
+	const uchar *x_ptr;
+	const uchar *y_ptr;
+	QRgb rgb;
+	uchar *dest = (uchar*) &rgb;
+
+	int all_in = 0;
+
+	for (int j = 0; j != m_n; ++j) {
+		y_ptr = src + (y + j) * bytes * image->width();
+		for (int i = 0; i != m_m; ++i) {
+			x_ptr = y_ptr + (x + i) * bytes;
+			if (*x_ptr < m_matrix[i + j * m_m]) {
+				all_in = 0;
+				break;
+			}
+					
+		}
+	}
+	if (all_in) {
+		dest[0] = MAX_PIXEL_VALUE;
+		dest[1] = MAX_PIXEL_VALUE;
+		dest[2] = MAX_PIXEL_VALUE;
+	} else {
+		dest[0] = 0;
+		dest[1] = 0;
+		dest[2] = 0;
+	}
+		
+	return rgb;
+}
