@@ -2431,6 +2431,6 @@ QImage MultiProcesser::produceProcessedImage(const QImage &image)
 {
 	QImage dest = image;
 	for (int i = 0; i != m_processers.size(); ++i)
-		dest = produceProcessedImage(dest);
+		dest = m_processers[i]->produceProcessedImage(dest);
 	return dest;
 }
