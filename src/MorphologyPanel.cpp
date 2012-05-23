@@ -47,10 +47,42 @@ MorphologyPanel::MorphologyPanel(QWidget *parent)
 		this, SLOT(applyClose()));
 
 
+	grayDilationButton = new QPushButton(tr("GrayDilation"));
+	grayErosionButton = new QPushButton(tr("GrayErosion"));
+	QGroupBox *grayDilationErosionGroup = 
+		new QGroupBox(tr("GrayDilation And GrayErosion"));
+	QHBoxLayout *grayDilationErosionLayout = new QHBoxLayout();
+	grayDilationErosionLayout->addWidget(grayDilationButton);
+	grayDilationErosionLayout->addWidget(grayErosionButton);
+	grayDilationErosionGroup->setLayout(grayDilationErosionLayout);
+
+	grayOpenButton = new QPushButton(tr("GrayOpen"));
+	grayCloseButton = new QPushButton(tr("GrayClose"));
+	QGroupBox *grayOpenCloseGroup = 
+		new QGroupBox(tr("GrayOpen And GrayClose"));
+	QHBoxLayout *grayOpenCloseLayout = new QHBoxLayout();
+	grayOpenCloseLayout->addWidget(grayOpenButton);
+	grayOpenCloseLayout->addWidget(grayCloseButton);
+	grayOpenCloseGroup->setLayout(grayOpenCloseLayout);
+
+	connect(grayDilationButton, SIGNAL(clicked()), 
+		this, SLOT(applyGrayDilation()));
+
+	connect(grayErosionButton, SIGNAL(clicked()), 
+		this, SLOT(applyGrayErosion()));
+
+	connect(grayOpenButton, SIGNAL(clicked()), 
+		this, SLOT(applyGrayOpen()));
+
+	connect(grayCloseButton, SIGNAL(clicked()), 
+		this, SLOT(applyGrayClose()));
+
 	QGridLayout *layout = new QGridLayout();
 	layout->addWidget(kernelTable, 0, 0, 4, 6);
 	layout->addWidget(dilationErosionGroup, 5, 0, 1, 1);
 	layout->addWidget(openCloseGroup, 6, 0, 1, 1);
+	layout->addWidget(grayDilationErosionGroup, 7, 0, 1, 1);
+	layout->addWidget(grayOpenCloseGroup, 8, 0, 1, 1);
 	
 	setLayout(layout);
 }
@@ -133,6 +165,80 @@ void MorphologyPanel::applyClose()
 	int y = kernelTable->getCenterColumn();
 	SharedProcess process = 
 		ProcessFactory::getCloseProcess(m, n, x, y, 
+						      matrix,
+						      mainWindow->getArea());
+	emit newProcess(process);
+}
+
+void MorphologyPanel::applyGrayDilation()
+{
+	QVector<double> double_matrix = kernelTable->getMatrix();
+	QVector<int> matrix;
+	for (int i = 0; i != double_matrix.size(); ++i) {
+		matrix.push_back(double_matrix[i]);
+	}
+	int m = kernelTable->getRows();
+	int n = kernelTable->getColumns();
+	int x = kernelTable->getCenterRow();
+	int y = kernelTable->getCenterColumn();
+	SharedProcess process = 
+		ProcessFactory::getGrayDilationProcess(m, n, x, y, 
+						      matrix,
+						      mainWindow->getArea());
+	emit newProcess(process);
+}
+
+
+void MorphologyPanel::applyGrayErosion()
+{
+	QVector<double> double_matrix = kernelTable->getMatrix();
+	QVector<int> matrix;
+	for (int i = 0; i != double_matrix.size(); ++i) {
+		matrix.push_back(double_matrix[i]);
+	}
+	int m = kernelTable->getRows();
+	int n = kernelTable->getColumns();
+	int x = kernelTable->getCenterRow();
+	int y = kernelTable->getCenterColumn();
+	SharedProcess process = 
+		ProcessFactory::getGrayErosionProcess(m, n, x, y, 
+						      matrix,
+						      mainWindow->getArea());
+	emit newProcess(process);
+}
+
+
+void MorphologyPanel::applyGrayOpen()
+{
+	QVector<double> double_matrix = kernelTable->getMatrix();
+	QVector<int> matrix;
+	for (int i = 0; i != double_matrix.size(); ++i) {
+		matrix.push_back(double_matrix[i]);
+	}
+	int m = kernelTable->getRows();
+	int n = kernelTable->getColumns();
+	int x = kernelTable->getCenterRow();
+	int y = kernelTable->getCenterColumn();
+	SharedProcess process = 
+		ProcessFactory::getGrayOpenProcess(m, n, x, y, 
+						      matrix,
+						      mainWindow->getArea());
+	emit newProcess(process);
+}
+
+void MorphologyPanel::applyGrayClose()
+{
+	QVector<double> double_matrix = kernelTable->getMatrix();
+	QVector<int> matrix;
+	for (int i = 0; i != double_matrix.size(); ++i) {
+		matrix.push_back(double_matrix[i]);
+	}
+	int m = kernelTable->getRows();
+	int n = kernelTable->getColumns();
+	int x = kernelTable->getCenterRow();
+	int y = kernelTable->getCenterColumn();
+	SharedProcess process = 
+		ProcessFactory::getGrayCloseProcess(m, n, x, y, 
 						      matrix,
 						      mainWindow->getArea());
 	emit newProcess(process);
