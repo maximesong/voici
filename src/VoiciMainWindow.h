@@ -16,6 +16,7 @@
 class PaintCanvas;
 class HistogramPanel;
 class ConvolutionPanel;
+class MorphologyPanel;
 class AlgebraicProcessPanel;
 class ProcessPanel;
 
@@ -61,6 +62,7 @@ private:
 
 	HistogramPanel *histogramPanel;
 	ConvolutionPanel *convolutionPanel;
+	MorphologyPanel *morphologyPanel;
 	AlgebraicProcessPanel *algebraicProcessPanel;
 	ProcessPanel *processPanel;
 

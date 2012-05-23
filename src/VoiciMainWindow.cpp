@@ -18,6 +18,7 @@ using namespace std;
 #include "HistogramPanel.h"
 #include "KernelTable.h"
 #include "ConvolutionPanel.h"
+#include "MorphologyPanel.h"
 #include "Exceptions.h"
 #include "AlgebraicProcessPanel.h"
 #include "ProcessPanel.h"
@@ -216,6 +217,14 @@ void VoiciMainWindow::loadFile(const QString &filename)
 			 new AlgebraicProcessPanel(), tr("Alebraic Operations"));
 
 	connect(algebraicProcessPanel, SIGNAL(newProcess(SharedProcess)), 
+		this, SLOT(addProcess(SharedProcess)));
+
+
+	/* Add Morphology Panel */
+	replaceTabWidget(controlPanel, &morphologyPanel,
+			 new MorphologyPanel(), tr("Morphology"));
+
+	connect(morphologyPanel, SIGNAL(newProcess(SharedProcess)), 
 		this, SLOT(addProcess(SharedProcess)));
 
 	setCanUndoAndRedo(0, 0);
