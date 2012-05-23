@@ -1,5 +1,8 @@
 #include "Map.h"
 
+#include <iostream>
+using namespace std;
+
 #include "VoiciGlobal.h"
 
 uchar ensure_in_range(int byte)
@@ -351,11 +354,87 @@ QRgb ErosionMap::map(const QImage *image, int x, int y)
 		dest[0] = MAX_PIXEL_VALUE;
 		dest[1] = MAX_PIXEL_VALUE;
 		dest[2] = MAX_PIXEL_VALUE;
+		dest[3] = MAX_PIXEL_VALUE;
 	} else {
 		dest[0] = 0;
 		dest[1] = 0;
 		dest[2] = 0;
+		dest[3] = MAX_PIXEL_VALUE;
 	}
-		
+//	cout << qRed(rgb) << " " << qGreen(rgb) << " " << qBlue(rgb) << endl;
+	return rgb;
+}
+
+
+GrayDilationMap::GrayDilationMap(int m, int n, int x, int y, 
+			   const QVector<int> &matrix)
+{
+	m_m = m;
+	m_n = n;
+	m_x = x;
+	m_y = y;
+	m_matrix = matrix;
+}
+
+QRgb GrayDilationMap::map(const QImage *image, int x, int y)
+{
+	int bytes = image->depth() / 8;
+
+	const uchar *src = image->constBits();
+	const uchar *x_ptr;
+	const uchar *y_ptr;
+	QRgb rgb;
+	uchar *dest = (uchar*) &rgb;
+
+	int max = 0;
+
+	for (int j = 0; j != m_n; ++j) {
+		y_ptr = src + (y + j) * bytes * image->width();
+		for (int i = 0; i != m_m; ++i) {
+			x_ptr = y_ptr + (x + i) * bytes;
+			max = qBound(max, *x_ptr + m_matrix[i + j * m_m], 
+				     MAX_PIXEL_VALUE);
+		}
+	}
+	dest[0] = max;
+	dest[1] = max;
+	dest[2] = max;
+	dest[3] = MAX_PIXEL_VALUE;
+	return rgb;
+}
+
+GrayErosionMap::GrayErosionMap(int m, int n, int x, int y, 
+			   const QVector<int> &matrix)
+{
+	m_m = m;
+	m_n = n;
+	m_x = x;
+	m_y = y;
+	m_matrix = matrix;
+}
+
+QRgb GrayErosionMap::map(const QImage *image, int x, int y)
+{
+	int bytes = image->depth() / 8;
+
+	const uchar *src = image->constBits();
+	const uchar *x_ptr;
+	const uchar *y_ptr;
+	QRgb rgb;
+	uchar *dest = (uchar*) &rgb;
+
+	int min = MAX_PIXEL_VALUE;
+
+	for (int j = 0; j != m_n; ++j) {
+		y_ptr = src + (y + j) * bytes * image->width();
+		for (int i = 0; i != m_m; ++i) {
+			x_ptr = y_ptr + (x + i) * bytes;
+			min = qBound(0, *x_ptr - m_matrix[i + j * m_m], min);
+		}
+	}
+	dest[0] = min;
+	dest[1] = min;
+	dest[2] = min;
+	dest[3] = MAX_PIXEL_VALUE;
 	return rgb;
 }

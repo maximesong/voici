@@ -1,5 +1,8 @@
 #include "Iterator.h"
 
+#include <iostream>
+using namespace std;
+
 Iterator::Iterator(QSharedPointer<IteratorArea> area)
 {
 	m_area = area;

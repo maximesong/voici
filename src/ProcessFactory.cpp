@@ -263,3 +263,81 @@ SharedProcess ProcessFactory::getCloseProcess(int rows, int columns,
 	ImageProcesser *processer = new MultiProcesser(processers);
 	return buildDynamicProcess(SharedImageProcesser(processer));
 }
+
+
+
+SharedProcess ProcessFactory::getGrayErosionProcess(int rows, int columns, 
+						int centerRow, int centerColumn,
+						const QVector<int> &matrix,
+						SharedArea area)
+{
+	AreaIterator *iter = 
+		new AreaIterator(rows, columns, centerRow, centerColumn, area);
+	AreaRgbMap *map = new GrayErosionMap(rows, columns, centerRow, centerColumn,
+					 matrix);
+	AreaRgbImageProcesser *processer = 
+		new AreaRgbImageProcesser(iter, map, tr("Gray Erosion"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
+}
+
+SharedProcess ProcessFactory::getGrayDilationProcess(int rows, int columns, 
+						 int centerRow, int centerColumn,
+						 const QVector<int> &matrix,
+						 SharedArea area)
+{
+	AreaIterator *iter = 
+		new AreaIterator(rows, columns, centerRow, centerColumn, area);
+	AreaRgbMap *map = new GrayDilationMap(rows, columns, 
+					      centerRow, centerColumn,
+					  matrix);
+	AreaRgbImageProcesser *processer = 
+		new AreaRgbImageProcesser(iter, map, tr("Gray Dilation"));
+	return buildDynamicProcess(SharedImageProcesser(processer));
+}
+
+
+SharedProcess ProcessFactory::getGrayOpenProcess(int rows, int columns, 
+					     int centerRow, int centerColumn,
+					     const QVector<int> &matrix,
+					     SharedArea area)
+{
+	QVector<ImageProcesser*> processers;
+	AreaIterator *iter = 
+		new AreaIterator(rows, columns, centerRow, centerColumn, area);
+	AreaRgbMap *map = new GrayErosionMap(rows, columns, 
+					     centerRow, centerColumn,
+					 matrix);
+	processers.push_back(new AreaRgbImageProcesser(iter, map,
+						       tr("Gray Erosion")));
+
+	iter = new AreaIterator(rows, columns, centerRow, centerColumn, area);
+	map = new GrayErosionMap(rows, columns, centerRow, centerColumn, matrix);
+	processers.push_back(new AreaRgbImageProcesser(iter, map,
+						       tr("Gray Dilation")));
+
+	ImageProcesser *processer = new MultiProcesser(processers);
+	return buildDynamicProcess(SharedImageProcesser(processer));
+}
+
+SharedProcess ProcessFactory::getGrayCloseProcess(int rows, int columns, 
+					      int centerRow, int centerColumn,
+					      const QVector<int> &matrix,
+					      SharedArea area)
+{
+	QVector<ImageProcesser*> processers;
+	AreaIterator *iter = 
+		new AreaIterator(rows, columns, centerRow, centerColumn, area);
+	AreaRgbMap *map = new GrayDilationMap(rows, columns, 
+					      centerRow, centerColumn,
+					   matrix);
+	processers.push_back(new AreaRgbImageProcesser(iter, map,
+						       tr("Gray Dilation")));
+
+	iter = new AreaIterator(rows, columns, centerRow, centerColumn, area);
+	map = new GrayErosionMap(rows, columns, centerRow, centerColumn, matrix);
+	processers.push_back(new AreaRgbImageProcesser(iter, map, 
+						       tr("Gray Erosion")));
+
+	ImageProcesser *processer = new MultiProcesser(processers);
+	return buildDynamicProcess(SharedImageProcesser(processer));
+}

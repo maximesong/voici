@@ -87,6 +87,25 @@ public:
 					       const QVector<int> &matrix,
 					       SharedArea area = ALL_AREA);
 
+	static SharedProcess getGrayErosionProcess(int rows, int columns, 
+					       int centerRow, int centerColumn,
+					       const QVector<int> &matrix,
+					       SharedArea area = ALL_AREA);
+	static SharedProcess getGrayDilationProcess(int rows, int columns, 
+					       int centerRow, int centerColumn,
+					       const QVector<int> &matrix,
+					       SharedArea area = ALL_AREA);
+
+	static SharedProcess getGrayOpenProcess(int rows, int columns, 
+					       int centerRow, int centerColumn,
+					       const QVector<int> &matrix,
+					       SharedArea area = ALL_AREA);
+
+	static SharedProcess getGrayCloseProcess(int rows, int columns, 
+					       int centerRow, int centerColumn,
+					       const QVector<int> &matrix,
+					       SharedArea area = ALL_AREA);
+
 private:
 	static SharedProcess buildDynamicProcess(SharedImageProcesser processer);
 	static SharedProcess buildPreProcess(PreProcesser id,

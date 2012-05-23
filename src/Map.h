@@ -146,4 +146,28 @@ private:
 	QVector<int> m_matrix;
 };
 
+class GrayErosionMap : public AreaRgbMap {
+public:
+	GrayErosionMap(int m, int n, int x, int y, const QVector<int> &matrix);
+	virtual QRgb map(const QImage *image, int x, int y);	
+private:
+	int m_m;
+	int m_n;
+	int m_x;
+	int m_y;
+	QVector<int> m_matrix;
+};
+
+class GrayDilationMap : public AreaRgbMap {
+public:
+	GrayDilationMap(int m, int n, int x, int y, const QVector<int> &matrix);
+	virtual QRgb map(const QImage *image, int x, int y);	
+private:
+	int m_m;
+	int m_n;
+	int m_x;
+	int m_y;
+	QVector<int> m_matrix;
+};
+
 #endif /* _MAP_H_ */
