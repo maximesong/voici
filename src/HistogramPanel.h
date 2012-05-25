@@ -23,12 +23,14 @@ public slots:
 	void setThreshold(int low, int high);
 	void setOtsu();
 	void setEntropy();
+	void setKapur();
 private:
 	HistogramChart *histogramChart;
 	ThresholdPanel *thresholdPanel;
 	QCheckBox *checkbox;
 	QPushButton *otsuButton;
 	QPushButton *entropyButton;
+	QPushButton *kapurButton;
 	bool isChangedByMyself;
 	int m_low;
 	int m_high;

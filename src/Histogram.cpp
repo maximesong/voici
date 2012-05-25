@@ -99,9 +99,7 @@ double Histogram::getWeight(int from, int to, ColorChannel type) const
 double Histogram::getAccumulateWeight(int i, ColorChannel type) const
 {
 	int count = getAccumulateCount(i, type) - getAccumulateCount(0, type);
-	int total = getAccumulateCount(MAX_PIXEL_VALUE, type)
-		- getAccumulateCount(0, type);
-	return static_cast<double>(count) / total;
+	return static_cast<double>(count) / total_weight;
 }
 
 double Histogram::getMeanIntensity(int from, int to, ColorChannel type) const

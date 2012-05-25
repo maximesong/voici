@@ -438,3 +438,8 @@ QRgb GrayErosionMap::map(const QImage *image, int x, int y)
 	dest[3] = MAX_PIXEL_VALUE;
 	return rgb;
 }
+
+QRgb GreenChannelMap::map(uchar r, uchar g, uchar b, uchar a)
+{
+	return qRgba(g, g, g, alpha);
+}

@@ -76,6 +76,7 @@ HEADERS += src/Process.h \
            src/ActionPanel.h \
            src/FiltersPanel.h \
            src/MorphologyPanel.h \
+           src/KapurAlgorithm.h \
 
 SOURCES += src/Process.cpp \
            src/ImageFamily.cpp \
@@ -90,3 +91,4 @@ SOURCES += src/Process.cpp \
            src/ActionPanel.cpp \
            src/FiltersPanel.cpp \
            src/MorphologyPanel.cpp \
+           src/KapurAlgorithm.cpp \

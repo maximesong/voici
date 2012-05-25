@@ -170,4 +170,9 @@ private:
 	QVector<int> m_matrix;
 };
 
+class GreenChannelMap : public RgbMap {
+public:
+	virtual QRgb map(uchar r, uchar g, uchar b, uchar a);
+};
+
 #endif /* _MAP_H_ */

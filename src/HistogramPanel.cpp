@@ -15,6 +15,7 @@ using namespace std;
 #include "EntropyMethod.h"
 #include "ProcessFactory.h"
 #include "VoiciMainWindow.h"
+#include "KapurAlgorithm.h"
 
 HistogramPanel::HistogramPanel(ImageFamily *imageCore, QWidget *parent)
 	: QWidget(parent) {
@@ -34,6 +35,10 @@ HistogramPanel::HistogramPanel(ImageFamily *imageCore, QWidget *parent)
 	connect(entropyButton, SIGNAL(clicked()), 
 		this, SLOT(setEntropy()));
 
+	kapurButton = new QPushButton(tr("KAPUR"));
+	connect(kapurButton, SIGNAL(clicked()), 
+		this, SLOT(setKapur()));
+
 	checkbox = new QCheckBox(tr("Apply Threshold"));
 	connect(checkbox, SIGNAL(stateChanged(int)), 
 		this, SLOT(enableThreshold(int)));
@@ -43,6 +48,7 @@ HistogramPanel::HistogramPanel(ImageFamily *imageCore, QWidget *parent)
 	buttonGroup->setLayout(groupBoxLayout);
 	groupBoxLayout->addWidget(otsuButton);
 	groupBoxLayout->addWidget(entropyButton);
+	groupBoxLayout->addWidget(kapurButton);
 
 	QVBoxLayout *layout = new QVBoxLayout();
 	layout->addWidget(histogramChart);
@@ -101,5 +107,12 @@ void HistogramPanel::setEntropy()
 {
 	Histogram histogram = histogramChart->getHistogram();
 	int threshold = EntropyMethod::computeThreshold(histogram);
+	setThreshold(0, threshold);
+}
+
+void HistogramPanel::setKapur()
+{
+	Histogram histogram = histogramChart->getHistogram();
+	int threshold = KapurAlgorithm::computeThreshold(histogram);
 	setThreshold(0, threshold);
 }
