@@ -308,10 +308,12 @@ QRgb DilationMap::map(const QImage *image, int x, int y)
 		dest[0] = MAX_PIXEL_VALUE;
 		dest[1] = MAX_PIXEL_VALUE;
 		dest[2] = MAX_PIXEL_VALUE;
+		dest[3] = MAX_PIXEL_VALUE;
 	} else {
 		dest[0] = 0;
 		dest[1] = 0;
 		dest[2] = 0;
+		dest[3] = MAX_PIXEL_VALUE;
 	}
 		
 	return rgb;
@@ -337,7 +339,7 @@ QRgb ErosionMap::map(const QImage *image, int x, int y)
 	QRgb rgb;
 	uchar *dest = (uchar*) &rgb;
 
-	int all_in = 0;
+	int all_in = 1;
 
 	for (int j = 0; j != m_n; ++j) {
 		y_ptr = src + (y + j) * bytes * image->width();
@@ -347,7 +349,6 @@ QRgb ErosionMap::map(const QImage *image, int x, int y)
 				all_in = 0;
 				break;
 			}
-					
 		}
 	}
 	if (all_in) {
@@ -439,7 +440,7 @@ QRgb GrayErosionMap::map(const QImage *image, int x, int y)
 	return rgb;
 }
 
-QRgb GreenChannelMap::map(uchar r, uchar g, uchar b, uchar a)
+QRgb GreenChannelMap::map(uchar, uchar g, uchar, uchar a)
 {
-	return qRgba(g, g, g, alpha);
+	return qRgba(g, g, g, a);
 }
