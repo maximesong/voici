@@ -79,7 +79,7 @@ void ImageFamily::loadOriginImage(const QString &filename)
 {
 	m_origin_image.load(filename);
 	if (m_origin_image.isNull())
-		throw FileError();
+		exit(-1); /* no exception support */ /* throw FileError(); */
 
 	/* Always do the conversion may not be efficient, to be improved */
 	if (m_origin_image.format() != QImage::Format_ARGB32)

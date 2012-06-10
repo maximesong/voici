@@ -8,4 +8,5 @@ fi
 ROOT_PATH=$PWD
 RELEASE_PATH=$PWD/release-`date +%y-%m-%d`/
 
-cp -r $RELEASE_PATH $WINDOWS_PATH
+#cp -r $RELEASE_PATH $WINDOWS_PATH
+cp -r $ROOT_PATH $WINDOWS_PATH

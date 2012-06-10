@@ -14,8 +14,14 @@ CODECFORSRC  = UTF-8
 RESOURCES = voici.qrc
 
 #DEFINES += LANGUAGE_ZH
+unix {
 DEFINES += QUICK_TEST
 CONFIG += debug
+}
+
+win32 {
+CONFIG += release
+}
 
 # Input
 HEADERS += src/Exceptions.h \
