@@ -254,4 +254,18 @@ private:
 	QVector<ImageProcesser*> m_processers;
 };
 
+class MorphoDistanceProcesser : public ImageProcesser {
+public:
+	/* no support for area operation at this time */
+	MorphoDistanceProcesser(int rows, int columns, 
+				int centerRow, int centerColumn,
+				const QVector<int> &matrix,
+				SharedArea area);
+	~MorphoDistanceProcesser();
+	virtual QImage produceProcessedImage(const QImage &image);
+private:
+	ImageProcesser *m_erosion_processer;
+	SharedArea m_area;
+};
+
 #endif /* _IMAGEPROCESSER_H_ */

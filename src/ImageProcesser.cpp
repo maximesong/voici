@@ -4,7 +4,6 @@
 #include <QPainter>
 #include <QPen>
 #include <QLinearGradient>
-
 #include "ImageUtility.h"
 
 ImageProcesser::ImageProcesser(const QString &processerName)
@@ -2433,4 +2432,78 @@ QImage MultiProcesser::produceProcessedImage(const QImage &image)
 	for (int i = 0; i != m_processers.size(); ++i)
 		dest = m_processers[i]->produceProcessedImage(dest);
 	return dest;
+}
+
+MorphoDistanceProcesser::MorphoDistanceProcesser(int rows, int columns, 
+				int centerRow, int centerColumn,
+				const QVector<int> &matrix,
+				SharedArea area)
+{
+	AreaIterator *iter = 
+		new AreaIterator(rows, columns, centerRow, centerColumn, area);
+	AreaRgbMap *map = new ErosionMap(rows, columns, centerRow, centerColumn,
+					 matrix);
+	m_erosion_processer  = 
+		new AreaRgbImageProcesser(iter, map, "Erosion");
+	m_area = area;
+}
+
+MorphoDistanceProcesser::~MorphoDistanceProcesser()
+{
+	delete m_erosion_processer;
+}
+
+QImage MorphoDistanceProcesser::produceProcessedImage(const QImage &image)
+{
+	int count = 0;
+	int size = image.width() * image.height();
+	const uchar *bits = image.constBits();
+	const uchar *last = bits + size * 4;
+	while (bits < last) {
+		if (*bits)
+			++count;
+		bits += 4;
+	}
+	int step = 0;
+
+	QImage currentImage = image;
+	QImage lastImage;
+	int *steps = new int[size];
+	for (int i = 0; i != size; ++i) {
+		steps[i] = 0;
+	}
+	while (count) {
+		++step;
+		lastImage = currentImage;
+		currentImage = 
+			m_erosion_processer->produceProcessedImage(lastImage);
+		const uchar *currentBits = currentImage.constBits();
+		const uchar *lastBits = lastImage.constBits();
+		for (int i = 0; i < size; ++i) {
+			if (*currentBits != *lastBits) {
+				steps[i] = step;
+				--count;
+			}
+			currentBits += 4;
+			lastBits += 4;
+		}
+	}
+
+	int units;
+	if (step == 0)
+		units = 0;
+	else
+		units = 255 / step;
+
+	QImage distanceImage = image;
+	uchar *distanceBits = distanceImage.bits();
+	for (int i = 0; i < size; ++i) {
+		distanceBits[0] = steps[i] * units;
+		distanceBits[1] = steps[i] * units;
+		distanceBits[2] = steps[i] * units;
+		distanceBits += 4;
+	}
+	
+	delete [] steps;
+	return distanceImage;
 }
