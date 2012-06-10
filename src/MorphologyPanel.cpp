@@ -79,15 +79,18 @@ MorphologyPanel::MorphologyPanel(QWidget *parent)
 		this, SLOT(applyGrayClose()));
 
 	skeletonButton = new QPushButton(tr("Skeleton"));
+	restoreButton = new QPushButton(tr("Restoration"));
 	QGroupBox *skeletonGroup = 
 		new QGroupBox(tr("Skeleton"));
 	QHBoxLayout *skeletonLayout = new QHBoxLayout();
 	skeletonLayout->addWidget(skeletonButton);
+	skeletonLayout->addWidget(restoreButton);
 	skeletonGroup->setLayout(skeletonLayout);
 
 	connect(skeletonButton, SIGNAL(clicked()), 
 		this, SLOT(applySkeleton()));
-
+	connect(restoreButton, SIGNAL(clicked()), 
+		this, SLOT(applyRestore()));
 
 	edgeButton = new QPushButton(tr("Edge"));
 	gradientButton = new QPushButton(tr("Gradient"));
@@ -337,3 +340,12 @@ void MorphologyPanel::applyGradient()
 		ProcessFactory::getMorphoHelperProcess(MORPHO_GRADIENT);
 	emit newProcess(process);
 }
+
+void MorphologyPanel::applyRestore()
+{
+	setCrossKernel();
+	SharedProcess process = 
+		ProcessFactory::getMorphoHelperProcess(MORPHO_RESTORATION);
+	emit newProcess(process);
+}
+

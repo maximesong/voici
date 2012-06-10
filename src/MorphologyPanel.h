@@ -29,6 +29,7 @@ public slots:
 	void applyDistance();
 	void applyEdge();
 	void applyGradient();
+	void applyRestore();
 	void setCrossKernel();
 	void setSquareKernel();
 	void setEmptyKernel();
@@ -48,6 +49,7 @@ private:
 	QPushButton *distanceButton;
 	QPushButton *edgeButton;
 	QPushButton *gradientButton;
+	QPushButton *restoreButton;
 };
 
 #endif /* _MORPHOLOGYPANEL_H_ */
