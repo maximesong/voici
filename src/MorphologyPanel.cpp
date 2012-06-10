@@ -92,6 +92,20 @@ MorphologyPanel::MorphologyPanel(QWidget *parent)
 	connect(restoreButton, SIGNAL(clicked()), 
 		this, SLOT(applyRestore()));
 
+	reconstructButton = new QPushButton(tr("Reconstruct"));
+	grayReconstructButton = new QPushButton(tr("GrayReconstruct"));
+	QGroupBox *reconstructGroup = 
+		new QGroupBox(tr("Reconstruct"));
+	QHBoxLayout *reconstructLayout = new QHBoxLayout();
+	reconstructLayout->addWidget(reconstructButton);
+	reconstructLayout->addWidget(grayReconstructButton);
+	reconstructGroup->setLayout(reconstructLayout);
+
+	connect(reconstructButton, SIGNAL(clicked()), 
+		this, SLOT(applyReconstruct()));
+	connect(grayReconstructButton, SIGNAL(clicked()), 
+		this, SLOT(applyGrayReconstruct()));
+
 	edgeButton = new QPushButton(tr("Edge"));
 	gradientButton = new QPushButton(tr("Gradient"));
 	QGroupBox *moreGroup = 
@@ -125,7 +139,8 @@ MorphologyPanel::MorphologyPanel(QWidget *parent)
 	layout->addWidget(grayOpenCloseGroup, 8, 0, 1, 1);
 	layout->addWidget(skeletonGroup, 5, 1, 1, 1);
 	layout->addWidget(distanceGroup, 6, 1, 1, 1);
-	layout->addWidget(moreGroup, 7, 1, 1, 1);
+	layout->addWidget(reconstructGroup, 7, 1, 1, 1);
+	layout->addWidget(moreGroup, 8, 1, 1, 1);
 	setLayout(layout);
 }
 
@@ -349,3 +364,19 @@ void MorphologyPanel::applyRestore()
 	emit newProcess(process);
 }
 
+
+void MorphologyPanel::applyReconstruct()
+{
+	setSquareKernel();
+	SharedProcess process = 
+		ProcessFactory::getMorphoHelperProcess(MORPHO_RECONSTRUCT);
+	emit newProcess(process);
+}
+
+void MorphologyPanel::applyGrayReconstruct()
+{
+	setSquareKernel();
+	SharedProcess process = 
+		ProcessFactory::getMorphoHelperProcess(MORPHO_GRAY_RECONSTRUCT);
+	emit newProcess(process);
+}

@@ -280,6 +280,8 @@ private:
 #define MORPHO_EDGE 1
 #define MORPHO_GRADIENT 2
 #define MORPHO_RESTORATION 3
+#define MORPHO_RECONSTRUCT 4
+#define MORPHO_GRAY_RECONSTRUCT 5
 
 class MorphoHelperProcesser : public ImageProcesser {
 public:
@@ -290,16 +292,22 @@ private:
 	QImage morphoEdge(const QImage &image);
 	QImage morphoGradient(const QImage &image);
 	QImage morphoRestoration(const QImage &image);
+	QImage morphoReconstruct(const QImage &image);
+	QImage morphoGrayReconstruct(const QImage &image);
 	ImageProcesser *getErosionProcesser();
 	ImageProcesser *getDilationProcesser();
 	ImageProcesser *getOpenProcesser();
 	ImageProcesser *getCrossErosionProcesser();
 	ImageProcesser *getCrossOpenProcesser();
+	ImageProcesser *getGrayOpenProcesser();
+	ImageProcesser *getGrayDilationProcesser();
 	ImageProcesser *m_erosion_processer;
 	ImageProcesser *m_dilation_processer;
 	ImageProcesser *m_open_processer;
 	ImageProcesser *m_cross_erosion_processer;
 	ImageProcesser *m_cross_open_processer;
+	ImageProcesser *m_gray_dilation_processer;
+	ImageProcesser *m_gray_open_processer;
 	int m_type;
 };
 

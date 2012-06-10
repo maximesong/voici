@@ -2625,6 +2625,8 @@ MorphoHelperProcesser::MorphoHelperProcesser(int type)
 	m_open_processer = getOpenProcesser();
 	m_cross_open_processer = getCrossOpenProcesser();
 	m_cross_erosion_processer = getCrossErosionProcesser();
+	m_gray_open_processer = getGrayOpenProcesser();
+	m_gray_dilation_processer = getGrayDilationProcesser();
 }
 
 MorphoHelperProcesser::~MorphoHelperProcesser()
@@ -2634,6 +2636,8 @@ MorphoHelperProcesser::~MorphoHelperProcesser()
 	delete m_open_processer;
 	delete m_cross_open_processer;
 	delete m_cross_erosion_processer;
+	delete m_gray_open_processer;
+	delete m_gray_dilation_processer;
 }
 
 QImage MorphoHelperProcesser::produceProcessedImage(const QImage &image)
@@ -2645,6 +2649,10 @@ QImage MorphoHelperProcesser::produceProcessedImage(const QImage &image)
 		return morphoGradient(image);
 	case MORPHO_RESTORATION:
 		return morphoRestoration(image);
+	case MORPHO_RECONSTRUCT:
+		return morphoReconstruct(image);
+	case MORPHO_GRAY_RECONSTRUCT:
+		return morphoGrayReconstruct(image);
 	}
 }
 
@@ -2852,3 +2860,126 @@ QImage MorphoHelperProcesser::morphoRestoration(const QImage &image)
 	delete [] reconst;
 	return resultImage;	
 }
+
+QImage MorphoHelperProcesser::morphoReconstruct(const QImage &image)
+{
+	QImage newImage = image;
+
+	int size = image.width() * image.height();
+	QImage lastImage = m_open_processer->produceProcessedImage(image);
+
+	bool anyChange = 1;
+	while (anyChange) {
+		QImage newImage = 
+			m_dilation_processer->produceProcessedImage(lastImage);
+		anyChange = 0;
+
+		const uchar* originBits = image.constBits();
+		uchar* newBits = newImage.bits();
+		for (int i = 0; i < size; ++i) {
+			if (originBits == 0) {
+				newBits[0] = 0;
+				newBits[1] = 0;
+				newBits[2] = 0;
+			}
+			originBits += 4;
+			newBits += 4;
+		}
+
+		newBits = newImage.bits();
+		const uchar* lastBits = lastImage.constBits();
+		for (int i = 0; i < size; ++i) {
+			if (*newBits != *lastBits) {
+				anyChange = 1;
+				break;
+			}
+			newBits += 4;
+			lastBits += 4;
+		}
+
+		lastImage = newImage;
+	}
+	return lastImage;
+}
+
+QImage MorphoHelperProcesser::morphoGrayReconstruct(const QImage &image)
+{
+	QImage newImage = image;
+
+	int size = image.width() * image.height();
+	QImage lastImage = m_gray_open_processer->produceProcessedImage(image);
+
+	bool anyChange = 1;
+	while (anyChange) {
+		QImage newImage = 
+			m_gray_dilation_processer->produceProcessedImage(
+				lastImage);
+		anyChange = 0;
+
+		const uchar* originBits = image.constBits();
+		uchar* newBits = newImage.bits();
+		for (int i = 0; i < size; ++i) {
+			if (newBits > originBits) {
+				newBits[0] = 0;
+				newBits[1] = 0;
+				newBits[2] = 0;
+			}
+			originBits += 4;
+			newBits += 4;
+		}
+
+		newBits = newImage.bits();
+		const uchar* lastBits = lastImage.constBits();
+		for (int i = 0; i < size; ++i) {
+			if (*newBits != *lastBits) {
+				anyChange = 1;
+				break;
+			}
+			newBits += 4;
+			lastBits += 4;
+		}
+
+		lastImage = newImage;
+	}
+	return lastImage;
+}
+
+ImageProcesser *MorphoHelperProcesser::getGrayOpenProcesser()
+{
+	QVector<int> matrix;
+	int kernel[9] =  { 255, 255, 255,
+			   255, 255, 255,
+			   255, 255, 255 };
+
+	for (int i = 0; i != 9; ++i)
+		matrix.push_back(kernel[i]);
+	QVector<ImageProcesser*> processers;
+	AreaIterator *iter = 
+		new AreaIterator(3, 3, 2, 2, ALL_AREA);
+	AreaRgbMap *map = new GrayErosionMap(3, 3, 2, 2, matrix);
+	processers.push_back(new AreaRgbImageProcesser(iter, map, "GrayErosion"));
+
+	iter = new AreaIterator(3, 3, 2, 2, ALL_AREA);
+	map = new GrayDilationMap(3, 3, 2, 2, matrix);
+	processers.push_back(new AreaRgbImageProcesser(iter, map, "GrayDilation"));
+
+	return new MultiProcesser(processers);	
+}
+
+ImageProcesser *MorphoHelperProcesser::getGrayDilationProcesser()
+{
+	QVector<int> matrix;
+	int kernel[9] =  { 255, 255, 255,
+			   255, 255, 255,
+			   255, 255, 255 };
+
+	for (int i = 0; i != 9; ++i)
+		matrix.push_back(kernel[i]);
+	AreaIterator *iter = 
+		new AreaIterator(3, 3, 2, 2, ALL_AREA);
+	AreaRgbMap *map = new GrayDilationMap(3, 3, 2, 2, matrix);
+	return new AreaRgbImageProcesser(iter, map, "GrayDilation");
+}
+
+
+

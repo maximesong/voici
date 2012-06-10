@@ -30,6 +30,8 @@ public slots:
 	void applyEdge();
 	void applyGradient();
 	void applyRestore();
+	void applyReconstruct();
+	void applyGrayReconstruct();
 	void setCrossKernel();
 	void setSquareKernel();
 	void setEmptyKernel();
@@ -50,6 +52,8 @@ private:
 	QPushButton *edgeButton;
 	QPushButton *gradientButton;
 	QPushButton *restoreButton;
+	QPushButton *reconstructButton;
+	QPushButton *grayReconstructButton;
 };
 
 #endif /* _MORPHOLOGYPANEL_H_ */
