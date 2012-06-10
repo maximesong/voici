@@ -277,8 +277,8 @@ private:
 	ImageProcesser *m_erosion_processer;
 };
 
-#define MOPHO_EDGE 1
-
+#define MORPHO_EDGE 1
+#define MORPHO_GRADIENT 2
 class MorphoHelperProcesser : public ImageProcesser {
 public:
 	MorphoHelperProcesser(int type);
@@ -286,8 +286,11 @@ public:
 	virtual QImage produceProcessedImage(const QImage &image);
 private:
 	QImage morphoEdge(const QImage &image);
+	QImage morphoGradient(const QImage &image);
 	ImageProcesser *getErosionProcesser();
+	ImageProcesser *getDilationProcesser();
 	ImageProcesser *m_erosion_processer;
+	ImageProcesser *m_dilation_processer;
 	int m_type;
 };
 

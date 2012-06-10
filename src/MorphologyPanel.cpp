@@ -90,14 +90,18 @@ MorphologyPanel::MorphologyPanel(QWidget *parent)
 
 
 	edgeButton = new QPushButton(tr("Edge"));
+	gradientButton = new QPushButton(tr("Gradient"));
 	QGroupBox *moreGroup = 
 		new QGroupBox(tr("More"));
 	QHBoxLayout *moreLayout = new QHBoxLayout();
 	moreLayout->addWidget(edgeButton);
+	moreLayout->addWidget(gradientButton);
 	moreGroup->setLayout(moreLayout);
 
 	connect(edgeButton, SIGNAL(clicked()), 
 		this, SLOT(applyEdge()));
+	connect(gradientButton, SIGNAL(clicked()), 
+		this, SLOT(applyGradient()));
 
 	distanceButton = new QPushButton(tr("Distance"));
 	QGroupBox *distanceGroup = 
@@ -321,6 +325,15 @@ void MorphologyPanel::setEmptyKernel()
 void MorphologyPanel::applyEdge()
 {
 	setSquareKernel();
-	SharedProcess process = ProcessFactory::getMorphoHelperProcess(MOPHO_EDGE);
+	SharedProcess process = 
+		ProcessFactory::getMorphoHelperProcess(MORPHO_EDGE);
+	emit newProcess(process);
+}
+
+void MorphologyPanel::applyGradient()
+{
+	setSquareKernel();
+	SharedProcess process = 
+		ProcessFactory::getMorphoHelperProcess(MORPHO_GRADIENT);
 	emit newProcess(process);
 }

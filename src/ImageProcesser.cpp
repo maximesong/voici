@@ -2663,18 +2663,22 @@ MorphoHelperProcesser::MorphoHelperProcesser(int type)
 {
 	m_type = type;
 	m_erosion_processer = getErosionProcesser();
+	m_dilation_processer = getDilationProcesser();
 }
 
 MorphoHelperProcesser::~MorphoHelperProcesser()
 {
 	delete m_erosion_processer;
+	delete m_dilation_processer;
 }
 
 QImage MorphoHelperProcesser::produceProcessedImage(const QImage &image)
 {
 	switch (m_type) {
-	case MOPHO_EDGE:
+	case MORPHO_EDGE:
 		return morphoEdge(image);
+	case MORPHO_GRADIENT:
+		return morphoGradient(image);
 	}
 }
 
@@ -2693,9 +2697,44 @@ ImageProcesser *MorphoHelperProcesser::getErosionProcesser()
 	return new AreaRgbImageProcesser(iter, map, "Erosion");
 }
 
+ImageProcesser *MorphoHelperProcesser::getDilationProcesser()
+{
+	QVector<int> matrix;
+	int kernel[9] =  { 255, 255, 255,
+			   255, 255, 255,
+			   255, 255, 255 };
+
+	for (int i = 0; i != 9; ++i)
+		matrix.push_back(kernel[i]);
+	AreaIterator *iter = 
+		new AreaIterator(3, 3, 2, 2, ALL_AREA);
+	AreaRgbMap *map = new DilationMap(3, 3, 2, 2, matrix);
+	return new AreaRgbImageProcesser(iter, map, "Dilation");
+}
+
 QImage MorphoHelperProcesser::morphoEdge(const QImage &image)
 {
 	const uchar *src = image.constBits();
+	QImage erosionImage = m_erosion_processer->produceProcessedImage(image);
+	const uchar *erosion = erosionImage.constBits();
+	QImage destImage = image;
+	uchar *dest = destImage.bits();
+	int size = image.width() * image.height();
+	for (int i = 0; i != size; ++i) {
+		dest[0] = src[0] - erosion[0];
+		dest[1] = src[1] - erosion[1];
+		dest[2] = src[2] - erosion[2];
+		dest += 4;
+		erosion += 4;
+		src += 4;
+	}
+	return destImage;
+}
+
+QImage MorphoHelperProcesser::morphoGradient(const QImage &image)
+{
+	QImage sourceImage = m_dilation_processer->produceProcessedImage(image);
+	const uchar *src = sourceImage.constBits();
 	QImage erosionImage = m_erosion_processer->produceProcessedImage(image);
 	const uchar *erosion = erosionImage.constBits();
 	QImage destImage = image;
