@@ -40,7 +40,7 @@ private:
 class ByteImageProcesser : public ImageProcesser {
 public:
 	ByteImageProcesser(Iterator *iter, PositionalByteMap *map,
-			  const QString &processerName  = "");
+			   const QString &processerName  = "");
 	~ByteImageProcesser();
 	virtual QImage produceProcessedImage(const QImage &src);
 private:
@@ -51,7 +51,7 @@ private:
 class AreaRgbImageProcesser : public ImageProcesser {
 public:
 	AreaRgbImageProcesser(AreaIterator *iter, AreaRgbMap *map,
-			  const QString &processerName  = "");
+			      const QString &processerName  = "");
 	~AreaRgbImageProcesser();
 	virtual QImage produceProcessedImage(const QImage &src);
 private:
@@ -266,6 +266,19 @@ public:
 private:
 	ImageProcesser *m_erosion_processer;
 	SharedArea m_area;
+};
+
+
+class MorphoSkeletonProcesser : public ImageProcesser {
+public:
+	MorphoSkeletonProcesser();
+	~MorphoSkeletonProcesser();
+	virtual QImage produceProcessedImage(const QImage &image);
+private:
+	ImageProcesser *getOpenProcesser();
+	ImageProcesser *getErosionProcesser();
+	ImageProcesser *m_open_processer;
+	ImageProcesser *m_erosion_processer;
 };
 
 #endif /* _IMAGEPROCESSER_H_ */

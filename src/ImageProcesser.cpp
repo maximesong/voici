@@ -2507,3 +2507,111 @@ QImage MorphoDistanceProcesser::produceProcessedImage(const QImage &image)
 	delete [] steps;
 	return distanceImage;
 }
+
+MorphoSkeletonProcesser::MorphoSkeletonProcesser()
+{
+	m_open_processer = getOpenProcesser();
+	m_erosion_processer = getErosionProcesser();
+}
+
+MorphoSkeletonProcesser::~MorphoSkeletonProcesser()
+{
+	delete m_open_processer;
+	delete m_erosion_processer;
+}
+
+QImage MorphoSkeletonProcesser::produceProcessedImage(const QImage &image)
+{
+	int count = 0;
+	int size = image.width() * image.height();
+	const uchar *bits = image.constBits();
+	const uchar *last = bits + size * 4;
+	while (bits < last) {
+		if (*bits)
+			++count;
+		bits += 4;
+	}
+	
+	uchar *sigma = new uchar[size];
+	QImage skeleton = image;
+	for (int i = 0; i < size; ++i) {
+		sigma[i] = 0;
+	}
+	QImage openImage = image;
+	QImage erosionImage = image;
+	
+	while (count) {
+		openImage =
+			m_open_processer->produceProcessedImage(skeleton);
+
+		uchar *skeletonBits = skeleton.bits();
+		const uchar *erosionBits = erosionImage.constBits();
+		const uchar *openBits = openImage.constBits();
+		for (int i = 0; i < size; ++i) {
+			if (*erosionBits != *openBits) {
+				skeletonBits[0] = MAX_PIXEL_VALUE;
+				skeletonBits[1] = MAX_PIXEL_VALUE;
+				skeletonBits[2] = MAX_PIXEL_VALUE;
+				sigma[i] = MAX_PIXEL_VALUE;
+			} else {
+				skeletonBits[0] = 0;
+				skeletonBits[1] = 0;
+				skeletonBits[2] = 0;
+			}
+			skeletonBits += 4;
+			erosionBits += 4;
+			openBits += 4;
+		}
+
+		erosionImage = 
+			m_erosion_processer->produceProcessedImage(erosionImage);
+	}
+
+	QImage resultImage = image;
+	uchar *skeletonBits = resultImage.bits();
+	for (int i = 0; i < size; ++ i) {
+		skeletonBits[0] = sigma[i];
+		skeletonBits[1] = sigma[i];
+		skeletonBits[2] = sigma[i];
+		skeletonBits += 4;
+	}
+
+	delete [] sigma;
+	return resultImage;
+}
+
+ImageProcesser *MorphoSkeletonProcesser::getOpenProcesser()
+{
+	QVector<int> matrix;
+	int kernel[9] =  { 0, 255, 0,
+			   255, 255, 255,
+			   0, 255, 0 };
+
+	for (int i = 0; i != 9; ++i)
+		matrix.push_back(kernel[i]);
+	QVector<ImageProcesser*> processers;
+	AreaIterator *iter = 
+		new AreaIterator(3, 3, 2, 2, SharedArea(0));
+	AreaRgbMap *map = new ErosionMap(3, 3, 2, 2, matrix);
+	processers.push_back(new AreaRgbImageProcesser(iter, map, "Erosion"));
+
+	iter = new AreaIterator(3, 3, 2, 2, SharedArea(0));
+	map = new ErosionMap(3, 3, 2, 2, matrix);
+	processers.push_back(new AreaRgbImageProcesser(iter, map, "Dilation"));
+
+	return new MultiProcesser(processers);
+}
+ImageProcesser *MorphoSkeletonProcesser::getErosionProcesser()
+{
+	QVector<int> matrix;
+	int kernel[9] =  { 0, 255, 0,
+			   255, 255, 255,
+			   0, 255, 0 };
+
+	for (int i = 0; i != 9; ++i)
+		matrix.push_back(kernel[i]);
+	AreaIterator *iter = 
+		new AreaIterator(3, 3, 2, 2, SharedArea(0));
+	AreaRgbMap *map = new ErosionMap(3, 3, 2, 2, matrix);
+	return new AreaRgbImageProcesser(iter, map, "Erosion");
+}
