@@ -2461,10 +2461,10 @@ MorphoDistanceProcesser::~MorphoDistanceProcesser()
 
 QImage MorphoDistanceProcesser::produceProcessedImage(const QImage &image)
 {
-	int count = 0;
 	int size = image.width() * image.height();
 	const uchar *bits = image.constBits();
 	const uchar *last = bits + size * 4;
+	int count = 0;
 	while (bits < last) {
 		if (*bits)
 			++count;
@@ -2478,7 +2478,9 @@ QImage MorphoDistanceProcesser::produceProcessedImage(const QImage &image)
 	for (int i = 0; i != size; ++i) {
 		steps[i] = 0;
 	}
-	while (count) {
+	int lastCount = 0;
+	while (count && count != lastCount) {
+		lastCount = count;
 		++step;
 		lastImage = currentImage;
 		currentImage = 
@@ -2560,6 +2562,7 @@ QImage MorphoSkeletonProcesser::produceProcessedImage(const QImage &image)
 				skeletonBits[1] = MAX_PIXEL_VALUE;
 				skeletonBits[2] = MAX_PIXEL_VALUE;
 				sigma[i] = MAX_PIXEL_VALUE;
+				--count;
 			} else {
 				skeletonBits[0] = 0;
 				skeletonBits[1] = 0;
