@@ -27,6 +27,7 @@ public slots:
 	void applyGrayClose();
 	void applySkeleton();
 	void applyDistance();
+	void applyEdge();
 	void setCrossKernel();
 	void setSquareKernel();
 	void setEmptyKernel();
@@ -44,6 +45,7 @@ private:
 	QPushButton *grayCloseButton;
 	QPushButton *skeletonButton;
 	QPushButton *distanceButton;
+	QPushButton *edgeButton;
 };
 
 #endif /* _MORPHOLOGYPANEL_H_ */

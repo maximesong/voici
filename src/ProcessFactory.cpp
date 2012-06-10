@@ -354,3 +354,9 @@ SharedProcess ProcessFactory::getMorphoDistanceProcess()
 	return buildDynamicProcess(
 		SharedImageProcesser(new MorphoDistanceProcesser()));
 }
+
+SharedProcess ProcessFactory::getMorphoHelperProcess(int type)
+{
+	return buildDynamicProcess(
+		SharedImageProcesser(new MorphoHelperProcesser(type)));
+}

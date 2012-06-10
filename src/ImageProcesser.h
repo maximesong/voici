@@ -277,4 +277,18 @@ private:
 	ImageProcesser *m_erosion_processer;
 };
 
+#define MOPHO_EDGE 1
+
+class MorphoHelperProcesser : public ImageProcesser {
+public:
+	MorphoHelperProcesser(int type);
+	~MorphoHelperProcesser();
+	virtual QImage produceProcessedImage(const QImage &image);
+private:
+	QImage morphoEdge(const QImage &image);
+	ImageProcesser *getErosionProcesser();
+	ImageProcesser *m_erosion_processer;
+	int m_type;
+};
+
 #endif /* _IMAGEPROCESSER_H_ */

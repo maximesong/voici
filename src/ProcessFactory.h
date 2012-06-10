@@ -109,6 +109,8 @@ public:
 	static SharedProcess getMorphoSkeletonProcess();
 	static SharedProcess getMorphoDistanceProcess();
 
+	static SharedProcess getMorphoHelperProcess(int type);
+
 private:
 	static SharedProcess buildDynamicProcess(SharedImageProcesser processer);
 	static SharedProcess buildPreProcess(PreProcesser id,

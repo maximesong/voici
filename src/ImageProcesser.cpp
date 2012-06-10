@@ -2583,13 +2583,10 @@ QImage MorphoSkeletonProcesser::produceProcessedImage(const QImage &image)
 	
 	int count = 1;
 	int lastCount;
-	int a = 0;
 	while (count && count != lastCount) {
 		lastCount = count;
 		openImage =
 			m_open_processer->produceProcessedImage(erosionImage);
-
-		const uchar *bits = openImage.constBits();
 
 		const uchar *erosionBits = erosionImage.constBits();
 		const uchar *openBits = openImage.constBits();
@@ -2660,4 +2657,57 @@ ImageProcesser *MorphoSkeletonProcesser::getErosionProcesser()
 		new AreaIterator(3, 3, 2, 2, ALL_AREA);
 	AreaRgbMap *map = new ErosionMap(3, 3, 2, 2, matrix);
 	return new AreaRgbImageProcesser(iter, map, "Erosion");
+}
+
+MorphoHelperProcesser::MorphoHelperProcesser(int type)
+{
+	m_type = type;
+	m_erosion_processer = getErosionProcesser();
+}
+
+MorphoHelperProcesser::~MorphoHelperProcesser()
+{
+	delete m_erosion_processer;
+}
+
+QImage MorphoHelperProcesser::produceProcessedImage(const QImage &image)
+{
+	switch (m_type) {
+	case MOPHO_EDGE:
+		return morphoEdge(image);
+	}
+}
+
+ImageProcesser *MorphoHelperProcesser::getErosionProcesser()
+{
+	QVector<int> matrix;
+	int kernel[9] =  { 255, 255, 255,
+			   255, 255, 255,
+			   255, 255, 255 };
+
+	for (int i = 0; i != 9; ++i)
+		matrix.push_back(kernel[i]);
+	AreaIterator *iter = 
+		new AreaIterator(3, 3, 2, 2, ALL_AREA);
+	AreaRgbMap *map = new ErosionMap(3, 3, 2, 2, matrix);
+	return new AreaRgbImageProcesser(iter, map, "Erosion");
+}
+
+QImage MorphoHelperProcesser::morphoEdge(const QImage &image)
+{
+	const uchar *src = image.constBits();
+	QImage erosionImage = m_erosion_processer->produceProcessedImage(image);
+	const uchar *erosion = erosionImage.constBits();
+	QImage destImage = image;
+	uchar *dest = destImage.bits();
+	int size = image.width() * image.height();
+	for (int i = 0; i != size; ++i) {
+		dest[0] = src[0] - erosion[0];
+		dest[1] = src[1] - erosion[1];
+		dest[2] = src[2] - erosion[2];
+		dest += 4;
+		erosion += 4;
+		src += 4;
+	}
+	return destImage;
 }

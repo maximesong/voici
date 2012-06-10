@@ -89,6 +89,16 @@ MorphologyPanel::MorphologyPanel(QWidget *parent)
 		this, SLOT(applySkeleton()));
 
 
+	edgeButton = new QPushButton(tr("Edge"));
+	QGroupBox *moreGroup = 
+		new QGroupBox(tr("More"));
+	QHBoxLayout *moreLayout = new QHBoxLayout();
+	moreLayout->addWidget(edgeButton);
+	moreGroup->setLayout(moreLayout);
+
+	connect(edgeButton, SIGNAL(clicked()), 
+		this, SLOT(applyEdge()));
+
 	distanceButton = new QPushButton(tr("Distance"));
 	QGroupBox *distanceGroup = 
 		new QGroupBox(tr("Distance"));
@@ -108,7 +118,7 @@ MorphologyPanel::MorphologyPanel(QWidget *parent)
 	layout->addWidget(grayOpenCloseGroup, 8, 0, 1, 1);
 	layout->addWidget(skeletonGroup, 5, 1, 1, 1);
 	layout->addWidget(distanceGroup, 6, 1, 1, 1);
-	
+	layout->addWidget(moreGroup, 7, 1, 1, 1);
 	setLayout(layout);
 }
 
@@ -306,4 +316,11 @@ void MorphologyPanel::setEmptyKernel()
 			      0, 0, 0,
 			      0, 0, 0 };
 	setKernel(3, 3, 2, 2, kernel);
+}
+
+void MorphologyPanel::applyEdge()
+{
+	setSquareKernel();
+	SharedProcess process = ProcessFactory::getMorphoHelperProcess(MOPHO_EDGE);
+	emit newProcess(process);
 }
