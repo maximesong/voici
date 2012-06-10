@@ -79,7 +79,7 @@ MorphologyPanel::MorphologyPanel(QWidget *parent)
 		this, SLOT(applyGrayClose()));
 
 	skeletonButton = new QPushButton(tr("Skeleton"));
-	restoreButton = new QPushButton(tr("Restoration"));
+	restoreButton = new QPushButton(tr("Restoration(not work)"));
 	QGroupBox *skeletonGroup = 
 		new QGroupBox(tr("Skeleton"));
 	QHBoxLayout *skeletonLayout = new QHBoxLayout();
