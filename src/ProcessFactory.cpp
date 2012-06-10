@@ -237,7 +237,7 @@ SharedProcess ProcessFactory::getOpenProcess(int rows, int columns,
 	processers.push_back(new AreaRgbImageProcesser(iter, map, tr("Erosion")));
 
 	iter = new AreaIterator(rows, columns, centerRow, centerColumn, area);
-	map = new ErosionMap(rows, columns, centerRow, centerColumn, matrix);
+	map = new DilationMap(rows, columns, centerRow, centerColumn, matrix);
 	processers.push_back(new AreaRgbImageProcesser(iter, map, tr("Dilation")));
 
 	ImageProcesser *processer = new MultiProcesser(processers);
@@ -311,7 +311,7 @@ SharedProcess ProcessFactory::getGrayOpenProcess(int rows, int columns,
 						       tr("Gray Erosion")));
 
 	iter = new AreaIterator(rows, columns, centerRow, centerColumn, area);
-	map = new GrayErosionMap(rows, columns, centerRow, centerColumn, matrix);
+	map = new GrayDilationMap(rows, columns, centerRow, centerColumn, matrix);
 	processers.push_back(new AreaRgbImageProcesser(iter, map,
 						       tr("Gray Dilation")));
 

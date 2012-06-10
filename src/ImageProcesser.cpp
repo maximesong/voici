@@ -2530,59 +2530,95 @@ MorphoSkeletonProcesser::~MorphoSkeletonProcesser()
 
 QImage MorphoSkeletonProcesser::produceProcessedImage(const QImage &image)
 {
-	int count = 0;
-	int size = image.width() * image.height();
-	const uchar *bits = image.constBits();
-	const uchar *last = bits + size * 4;
-	while (bits < last) {
-		if (*bits)
-			++count;
-		bits += 4;
-	}
+	// int size = image.width() * image.height();
+
+
+	// QImage skeleton = image;
+	// QImage openImage = image;
+	// QImage erosionImage = image;
 	
-	uchar *sigma = new uchar[size];
-	QImage skeleton = image;
+	// int count = 1;
+	// int lastCount;
+	// while (count && count != lastCount) {
+	// 	lastCount = count;
+	// 	cout << count << endl;
+	// 	openImage =
+	// 		m_open_processer->produceProcessedImage(skeleton);
+
+	// 	uchar *skeletonBits = skeleton.bits();
+	// 	const uchar *erosionBits = erosionImage.constBits();
+	// 	const uchar *openBits = openImage.constBits();
+	// 	for (int i = 0; i < size; ++i) {
+	// 		*openBits = qBound(0, *erosionBits - *openBits, 
+	// 				   MAX_PIXEL_VALUE)
+	// 		skeletonBits += 4;
+	// 		erosionBits += 4;
+	// 		openBits += 4;
+	// 	}
+
+	// 	erosionImage = 
+	// 		m_erosion_processer->produceProcessedImage(erosionImage);
+	// }
+
+	// QImage resultImage = image;
+	// uchar *skeletonBits = resultImage.bits();
+	// for (int i = 0; i < size; ++ i) {
+	// 	skeletonBits[0] = sigma[i];
+	// 	skeletonBits[1] = sigma[i];
+	// 	skeletonBits[2] = sigma[i];
+	// 	skeletonBits += 4;
+	// }
+
+	// delete [] sigma;
+	// return resultImage;
+
+	int size = image.width() * image.height();
+
+	int *sigma = new int[size];
 	for (int i = 0; i < size; ++i) {
 		sigma[i] = 0;
 	}
 	QImage openImage = image;
 	QImage erosionImage = image;
 	
-	while (count) {
-		cout << count << endl;
+	int count = 1;
+	int lastCount;
+	int a = 0;
+	while (count && count != lastCount) {
+		lastCount = count;
 		openImage =
-			m_open_processer->produceProcessedImage(skeleton);
+			m_open_processer->produceProcessedImage(erosionImage);
 
-		uchar *skeletonBits = skeleton.bits();
+		const uchar *bits = openImage.constBits();
+
 		const uchar *erosionBits = erosionImage.constBits();
 		const uchar *openBits = openImage.constBits();
 		for (int i = 0; i < size; ++i) {
-			if (*erosionBits != *openBits) {
-				skeletonBits[0] = MAX_PIXEL_VALUE;
-				skeletonBits[1] = MAX_PIXEL_VALUE;
-				skeletonBits[2] = MAX_PIXEL_VALUE;
+			if (*erosionBits == MAX_PIXEL_VALUE &&
+			    *openBits == 0) {
 				sigma[i] = MAX_PIXEL_VALUE;
-				--count;
-			} else {
-				skeletonBits[0] = 0;
-				skeletonBits[1] = 0;
-				skeletonBits[2] = 0;
 			}
-			skeletonBits += 4;
 			erosionBits += 4;
 			openBits += 4;
 		}
-
 		erosionImage = 
 			m_erosion_processer->produceProcessedImage(erosionImage);
+		erosionBits = erosionImage.constBits();
+		count = 0;
+		for (int i = 0; i < size; ++i) {
+			if (*erosionBits == MAX_PIXEL_VALUE)
+				++count;
+			erosionBits += 4;
+		}
 	}
 
 	QImage resultImage = image;
 	uchar *skeletonBits = resultImage.bits();
 	for (int i = 0; i < size; ++ i) {
-		skeletonBits[0] = sigma[i];
-		skeletonBits[1] = sigma[i];
-		skeletonBits[2] = sigma[i];
+		skeletonBits[0] = qBound(0, sigma[i], 255);
+		skeletonBits[1] = qBound(0, sigma[i], 255);
+		skeletonBits[2] = qBound(0, sigma[i], 255);
+		skeletonBits[3] = MAX_PIXEL_VALUE;
 		skeletonBits += 4;
 	}
 
@@ -2606,7 +2642,7 @@ ImageProcesser *MorphoSkeletonProcesser::getOpenProcesser()
 	processers.push_back(new AreaRgbImageProcesser(iter, map, "Erosion"));
 
 	iter = new AreaIterator(3, 3, 2, 2, ALL_AREA);
-	map = new ErosionMap(3, 3, 2, 2, matrix);
+	map = new DilationMap(3, 3, 2, 2, matrix);
 	processers.push_back(new AreaRgbImageProcesser(iter, map, "Dilation"));
 
 	return new MultiProcesser(processers);

@@ -297,7 +297,8 @@ QRgb DilationMap::map(const QImage *image, int x, int y)
 		y_ptr = src + (y + j) * bytes * image->width();
 		for (int i = 0; i != m_m; ++i) {
 			x_ptr = y_ptr + (x + i) * bytes;
-			if (*x_ptr >= m_matrix[i + j * m_m]) {
+			if (*x_ptr >= m_matrix[i + j * m_m] && 
+			    m_matrix[i + j * m_m] != 0) {
 				touch = 1;
 				break;
 			}

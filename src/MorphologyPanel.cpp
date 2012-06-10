@@ -15,11 +15,7 @@ MorphologyPanel::MorphologyPanel(QWidget *parent)
 	: QWidget(parent)
 {
 	kernelTable = new KernelTable();
-	QVector<double> matrix;
-	for (int i = 0; i != 9; ++i) {
-		matrix.push_back(255);
-	}
-	kernelTable->setKernel(3, 3, 2, 2, matrix);
+	setCrossKernel();
 
 	dilationButton = new QPushButton(tr("Dilation"));
 	erosionButton = new QPushButton(tr("Erosion"));
