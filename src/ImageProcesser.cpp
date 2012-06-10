@@ -1,5 +1,8 @@
 #include "ImageProcesser.h"
 
+#include <iostream>
+using namespace std;
+
 #include <QImage>
 #include <QPainter>
 #include <QPen>
@@ -2434,18 +2437,21 @@ QImage MultiProcesser::produceProcessedImage(const QImage &image)
 	return dest;
 }
 
-MorphoDistanceProcesser::MorphoDistanceProcesser(int rows, int columns, 
-				int centerRow, int centerColumn,
-				const QVector<int> &matrix,
-				SharedArea area)
+MorphoDistanceProcesser::MorphoDistanceProcesser()
 {
+	QVector<int> matrix;
+	int kernel[9] =  { 255, 255, 255,
+			   255, 255, 255,
+			   255, 255, 255 };
+
+	for (int i = 0; i != 9; ++i)
+		matrix.push_back(kernel[i]);
 	AreaIterator *iter = 
-		new AreaIterator(rows, columns, centerRow, centerColumn, area);
-	AreaRgbMap *map = new ErosionMap(rows, columns, centerRow, centerColumn,
+		new AreaIterator(3, 3, 2, 2, ALL_AREA);
+	AreaRgbMap *map = new ErosionMap(3, 3, 2, 2,
 					 matrix);
 	m_erosion_processer  = 
 		new AreaRgbImageProcesser(iter, map, "Erosion");
-	m_area = area;
 }
 
 MorphoDistanceProcesser::~MorphoDistanceProcesser()
@@ -2541,6 +2547,7 @@ QImage MorphoSkeletonProcesser::produceProcessedImage(const QImage &image)
 	QImage erosionImage = image;
 	
 	while (count) {
+		cout << count << endl;
 		openImage =
 			m_open_processer->produceProcessedImage(skeleton);
 
@@ -2591,11 +2598,11 @@ ImageProcesser *MorphoSkeletonProcesser::getOpenProcesser()
 		matrix.push_back(kernel[i]);
 	QVector<ImageProcesser*> processers;
 	AreaIterator *iter = 
-		new AreaIterator(3, 3, 2, 2, SharedArea(0));
+		new AreaIterator(3, 3, 2, 2, ALL_AREA);
 	AreaRgbMap *map = new ErosionMap(3, 3, 2, 2, matrix);
 	processers.push_back(new AreaRgbImageProcesser(iter, map, "Erosion"));
 
-	iter = new AreaIterator(3, 3, 2, 2, SharedArea(0));
+	iter = new AreaIterator(3, 3, 2, 2, ALL_AREA);
 	map = new ErosionMap(3, 3, 2, 2, matrix);
 	processers.push_back(new AreaRgbImageProcesser(iter, map, "Dilation"));
 
@@ -2611,7 +2618,7 @@ ImageProcesser *MorphoSkeletonProcesser::getErosionProcesser()
 	for (int i = 0; i != 9; ++i)
 		matrix.push_back(kernel[i]);
 	AreaIterator *iter = 
-		new AreaIterator(3, 3, 2, 2, SharedArea(0));
+		new AreaIterator(3, 3, 2, 2, ALL_AREA);
 	AreaRgbMap *map = new ErosionMap(3, 3, 2, 2, matrix);
 	return new AreaRgbImageProcesser(iter, map, "Erosion");
 }

@@ -25,6 +25,12 @@ public slots:
 	void applyGrayErosion();
 	void applyGrayOpen();
 	void applyGrayClose();
+	void applySkeleton();
+	void applyDistance();
+	void setCrossKernel();
+	void setSquareKernel();
+	void setEmptyKernel();
+
 private:
 	void setKernel(int m, int n, int x, int y, const double *init_list);
 	KernelTable *kernelTable;
@@ -36,6 +42,8 @@ private:
 	QPushButton *grayErosionButton;
 	QPushButton *grayOpenButton;
 	QPushButton *grayCloseButton;
+	QPushButton *skeletonButton;
+	QPushButton *distanceButton;
 };
 
 #endif /* _MORPHOLOGYPANEL_H_ */

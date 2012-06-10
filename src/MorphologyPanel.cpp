@@ -82,12 +82,36 @@ MorphologyPanel::MorphologyPanel(QWidget *parent)
 	connect(grayCloseButton, SIGNAL(clicked()), 
 		this, SLOT(applyGrayClose()));
 
+	skeletonButton = new QPushButton(tr("Skeleton"));
+	QGroupBox *skeletonGroup = 
+		new QGroupBox(tr("Skeleton"));
+	QHBoxLayout *skeletonLayout = new QHBoxLayout();
+	skeletonLayout->addWidget(skeletonButton);
+	skeletonGroup->setLayout(skeletonLayout);
+
+	connect(skeletonButton, SIGNAL(clicked()), 
+		this, SLOT(applySkeleton()));
+
+
+	distanceButton = new QPushButton(tr("Distance"));
+	QGroupBox *distanceGroup = 
+		new QGroupBox(tr("Distance"));
+	QHBoxLayout *distanceLayout = new QHBoxLayout();
+	distanceLayout->addWidget(distanceButton);
+	distanceGroup->setLayout(distanceLayout);
+
+	connect(distanceButton, SIGNAL(clicked()), 
+		this, SLOT(applyDistance()));
+
+
 	QGridLayout *layout = new QGridLayout();
 	layout->addWidget(kernelTable, 0, 0, 4, 6);
 	layout->addWidget(dilationErosionGroup, 5, 0, 1, 1);
 	layout->addWidget(openCloseGroup, 6, 0, 1, 1);
 	layout->addWidget(grayDilationErosionGroup, 7, 0, 1, 1);
 	layout->addWidget(grayOpenCloseGroup, 8, 0, 1, 1);
+	layout->addWidget(skeletonGroup, 5, 1, 1, 1);
+	layout->addWidget(distanceGroup, 6, 1, 1, 1);
 	
 	setLayout(layout);
 }
@@ -114,8 +138,8 @@ void MorphologyPanel::applyDilation()
 	int y = kernelTable->getCenterColumn();
 	SharedProcess process = 
 		ProcessFactory::getDilationProcess(m, n, x, y, 
-						      matrix,
-						      mainWindow->getArea());
+						   matrix,
+						   mainWindow->getArea());
 	emit newProcess(process);
 }
 
@@ -133,8 +157,8 @@ void MorphologyPanel::applyErosion()
 	int y = kernelTable->getCenterColumn();
 	SharedProcess process = 
 		ProcessFactory::getErosionProcess(m, n, x, y, 
-						      matrix,
-						      mainWindow->getArea());
+						  matrix,
+						  mainWindow->getArea());
 	emit newProcess(process);
 }
 
@@ -152,8 +176,8 @@ void MorphologyPanel::applyOpen()
 	int y = kernelTable->getCenterColumn();
 	SharedProcess process = 
 		ProcessFactory::getOpenProcess(m, n, x, y, 
-						      matrix,
-						      mainWindow->getArea());
+					       matrix,
+					       mainWindow->getArea());
 	emit newProcess(process);
 }
 
@@ -170,8 +194,8 @@ void MorphologyPanel::applyClose()
 	int y = kernelTable->getCenterColumn();
 	SharedProcess process = 
 		ProcessFactory::getCloseProcess(m, n, x, y, 
-						      matrix,
-						      mainWindow->getArea());
+						matrix,
+						mainWindow->getArea());
 	emit newProcess(process);
 }
 
@@ -188,8 +212,8 @@ void MorphologyPanel::applyGrayDilation()
 	int y = kernelTable->getCenterColumn();
 	SharedProcess process = 
 		ProcessFactory::getGrayDilationProcess(m, n, x, y, 
-						      matrix,
-						      mainWindow->getArea());
+						       matrix,
+						       mainWindow->getArea());
 	emit newProcess(process);
 }
 
@@ -226,8 +250,8 @@ void MorphologyPanel::applyGrayOpen()
 	int y = kernelTable->getCenterColumn();
 	SharedProcess process = 
 		ProcessFactory::getGrayOpenProcess(m, n, x, y, 
-						      matrix,
-						      mainWindow->getArea());
+						   matrix,
+						   mainWindow->getArea());
 	emit newProcess(process);
 }
 
@@ -244,7 +268,46 @@ void MorphologyPanel::applyGrayClose()
 	int y = kernelTable->getCenterColumn();
 	SharedProcess process = 
 		ProcessFactory::getGrayCloseProcess(m, n, x, y, 
-						      matrix,
-						      mainWindow->getArea());
+						    matrix,
+						    mainWindow->getArea());
 	emit newProcess(process);
+}
+
+
+void MorphologyPanel::applySkeleton()
+{
+	setCrossKernel();
+	SharedProcess process = ProcessFactory::getMorphoSkeletonProcess();
+	emit newProcess(process);
+}
+
+void MorphologyPanel::applyDistance()
+{
+	setSquareKernel();
+	SharedProcess process = ProcessFactory::getMorphoDistanceProcess();
+	emit newProcess(process);
+}
+
+void MorphologyPanel::setCrossKernel()
+{
+	double kernel[9] =  { 0, 255, 0,
+			      255, 255, 255,
+			      0, 255, 0 };
+	setKernel(3, 3, 2, 2, kernel);
+}
+
+void MorphologyPanel::setSquareKernel()
+{
+	double kernel[9] =  { 255, 255, 255,
+			      255, 255, 255,
+			      255, 255, 255 };
+	setKernel(3, 3, 2, 2, kernel);
+}
+
+void MorphologyPanel::setEmptyKernel()
+{
+	double kernel[9] =  { 0, 0, 0,
+			      0, 0, 0,
+			      0, 0, 0 };
+	setKernel(3, 3, 2, 2, kernel);
 }

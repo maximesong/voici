@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 	mainWindow->show();
 
 	#ifdef QUICK_TEST
-	mainWindow->loadFile("test1.bmp");
+	mainWindow->loadFile("binary.bmp");
 	#endif
 
 	return app.exec();

@@ -106,6 +106,9 @@ public:
 					       const QVector<int> &matrix,
 					       SharedArea area = ALL_AREA);
 
+	static SharedProcess getMorphoSkeletonProcess();
+	static SharedProcess getMorphoDistanceProcess();
+
 private:
 	static SharedProcess buildDynamicProcess(SharedImageProcesser processer);
 	static SharedProcess buildPreProcess(PreProcesser id,
