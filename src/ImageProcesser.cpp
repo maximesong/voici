@@ -2877,7 +2877,7 @@ QImage MorphoHelperProcesser::morphoReconstruct(const QImage &image)
 		const uchar* originBits = image.constBits();
 		uchar* newBits = newImage.bits();
 		for (int i = 0; i < size; ++i) {
-			if (originBits == 0) {
+			if (*originBits == 0) {
 				newBits[0] = 0;
 				newBits[1] = 0;
 				newBits[2] = 0;
@@ -2919,7 +2919,7 @@ QImage MorphoHelperProcesser::morphoGrayReconstruct(const QImage &image)
 		const uchar* originBits = image.constBits();
 		uchar* newBits = newImage.bits();
 		for (int i = 0; i < size; ++i) {
-			if (newBits > originBits) {
+			if (*newBits > *originBits) {
 				newBits[0] = 0;
 				newBits[1] = 0;
 				newBits[2] = 0;
@@ -2969,9 +2969,9 @@ ImageProcesser *MorphoHelperProcesser::getGrayOpenProcesser()
 ImageProcesser *MorphoHelperProcesser::getGrayDilationProcesser()
 {
 	QVector<int> matrix;
-	int kernel[9] =  { 255, 255, 255,
-			   255, 255, 255,
-			   255, 255, 255 };
+	int kernel[9] =  { 0, 0, 0,
+			   0, 0, 0,
+			   0, 0, 0 };
 
 	for (int i = 0; i != 9; ++i)
 		matrix.push_back(kernel[i]);
