@@ -111,12 +111,16 @@ public:
 
 	static SharedProcess getMorphoHelperProcess(int type);
 
+	static SharedProcess getSetImageProcess(QImage image);
+
+
 private:
 	static SharedProcess buildDynamicProcess(SharedImageProcesser processer);
 	static SharedProcess buildPreProcess(PreProcesser id,
 					     SharedImageProcesser processer);
 	static SharedProcess buildPostProcess(PostProcesser id,
 					      SharedImageProcesser processer);
+
 };
 
 #endif /* _PROCESSFACTORY_H_ */

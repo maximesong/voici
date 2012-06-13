@@ -270,11 +270,15 @@ public:
 	MorphoSkeletonProcesser();
 	~MorphoSkeletonProcesser();
 	virtual QImage produceProcessedImage(const QImage &image);
+	QImage getRestorationImage();
 private:
+	QImage restorationImage;
 	ImageProcesser *getOpenProcesser();
 	ImageProcesser *getErosionProcesser();
+	ImageProcesser *getDilationProcesser();
 	ImageProcesser *m_open_processer;
 	ImageProcesser *m_erosion_processer;
+	ImageProcesser *m_dilation_processer;
 };
 
 #define MORPHO_EDGE 1
@@ -309,6 +313,14 @@ private:
 	ImageProcesser *m_gray_dilation_processer;
 	ImageProcesser *m_gray_open_processer;
 	int m_type;
+};
+
+class SetImageProcesser : public ImageProcesser {
+public:
+	SetImageProcesser(QImage image);
+	virtual QImage produceProcessedImage(const QImage &image);
+private:
+	QImage m_image;
 };
 
 #endif /* _IMAGEPROCESSER_H_ */

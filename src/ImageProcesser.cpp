@@ -2520,12 +2520,14 @@ MorphoSkeletonProcesser::MorphoSkeletonProcesser()
 {
 	m_open_processer = getOpenProcesser();
 	m_erosion_processer = getErosionProcesser();
+	m_dilation_processer = getDilationProcesser();
 }
 
 MorphoSkeletonProcesser::~MorphoSkeletonProcesser()
 {
 	delete m_open_processer;
 	delete m_erosion_processer;
+	delete m_dilation_processer;
 }
 
 QImage MorphoSkeletonProcesser::produceProcessedImage(const QImage &image)
@@ -2536,11 +2538,20 @@ QImage MorphoSkeletonProcesser::produceProcessedImage(const QImage &image)
 	for (int i = 0; i < size; ++i) {
 		sigma[i] = 0;
 	}
+
+	int *reconst = new int[size];
+	for (int i = 0; i < size; ++i) {
+		reconst[i] = 0;
+	}
+
 	QImage openImage = image;
 	QImage erosionImage = image;
-	
+	QImage skeletonImage = image;
 	int count = 1;
-	int lastCount;
+	int lastCount;	
+	int times = 0;
+
+
 	while (count && count != lastCount) {
 		lastCount = count;
 		openImage =
@@ -2548,13 +2559,36 @@ QImage MorphoSkeletonProcesser::produceProcessedImage(const QImage &image)
 
 		const uchar *erosionBits = erosionImage.constBits();
 		const uchar *openBits = openImage.constBits();
+		uchar* skeletonBits = skeletonImage.bits();
+
 		for (int i = 0; i < size; ++i) {
 			if (*erosionBits == MAX_PIXEL_VALUE &&
 			    *openBits == 0) {
 				sigma[i] = MAX_PIXEL_VALUE;
+				skeletonBits[0] = MAX_PIXEL_VALUE;
+				skeletonBits[1] = MAX_PIXEL_VALUE;
+				skeletonBits[2] = MAX_PIXEL_VALUE;
+			}
+			else {
+				skeletonBits[0] = 0;
+				skeletonBits[1] = 0;
+				skeletonBits[2] = 0;
 			}
 			erosionBits += 4;
 			openBits += 4;
+			skeletonBits += 4;
+		}
+		QImage tempImage = skeletonImage;
+		for (int i = 0; i != times; ++i) {
+			tempImage = 
+				m_dilation_processer->produceProcessedImage(
+					tempImage);
+		}
+		const uchar *tempBits = tempImage.constBits();
+		for (int i = 0; i != size; ++i) {
+			if (*tempBits)
+				reconst[i] = MAX_PIXEL_VALUE;
+			tempBits += 4;
 		}
 		erosionImage = 
 			m_erosion_processer->produceProcessedImage(erosionImage);
@@ -2565,6 +2599,7 @@ QImage MorphoSkeletonProcesser::produceProcessedImage(const QImage &image)
 				++count;
 			erosionBits += 4;
 		}
+		++times;
 	}
 
 	QImage resultImage = image;
@@ -2577,8 +2612,24 @@ QImage MorphoSkeletonProcesser::produceProcessedImage(const QImage &image)
 		skeletonBits += 4;
 	}
 
+	restorationImage = image;
+	uchar *restorationBits = restorationImage.bits();
+	for (int i = 0; i < size; ++ i) {
+		restorationBits[0] = qBound(0, reconst[i], 255);
+		restorationBits[1] = qBound(0, reconst[i], 255);
+		restorationBits[2] = qBound(0, reconst[i], 255);
+		restorationBits[3] = MAX_PIXEL_VALUE;
+		restorationBits += 4;
+	}
+
 	delete [] sigma;
+	delete [] reconst;
 	return resultImage;
+}
+
+QImage MorphoSkeletonProcesser::getRestorationImage()
+{
+	return restorationImage;
 }
 
 ImageProcesser *MorphoSkeletonProcesser::getOpenProcesser()
@@ -2615,6 +2666,21 @@ ImageProcesser *MorphoSkeletonProcesser::getErosionProcesser()
 		new AreaIterator(3, 3, 2, 2, ALL_AREA);
 	AreaRgbMap *map = new ErosionMap(3, 3, 2, 2, matrix);
 	return new AreaRgbImageProcesser(iter, map, "Erosion");
+}
+
+ImageProcesser *MorphoSkeletonProcesser::getDilationProcesser()
+{
+	QVector<int> matrix;
+	int kernel[9] =  { 0, 255, 0,
+			   255, 255, 255,
+			   0, 255, 0 };
+
+	for (int i = 0; i != 9; ++i)
+		matrix.push_back(kernel[i]);
+	AreaIterator *iter = 
+		new AreaIterator(3, 3, 2, 2, ALL_AREA);
+	AreaRgbMap *map = new DilationMap(3, 3, 2, 2, matrix);
+	return new AreaRgbImageProcesser(iter, map, "Dilation");
 }
 
 MorphoHelperProcesser::MorphoHelperProcesser(int type)
@@ -2654,6 +2720,7 @@ QImage MorphoHelperProcesser::produceProcessedImage(const QImage &image)
 	case MORPHO_GRAY_RECONSTRUCT:
 		return morphoGrayReconstruct(image);
 	}
+	return QImage();
 }
 
 ImageProcesser *MorphoHelperProcesser::getErosionProcesser()
@@ -2824,7 +2891,6 @@ QImage MorphoHelperProcesser::morphoRestoration(const QImage &image)
 		}
 		QImage tempImage = skeletonImage;
 		for (int i = 0; i != times; ++i) {
-			cout << times << endl;
 			tempImage = 
 				m_dilation_processer->produceProcessedImage(
 					tempImage);
@@ -2981,5 +3047,12 @@ ImageProcesser *MorphoHelperProcesser::getGrayDilationProcesser()
 	return new AreaRgbImageProcesser(iter, map, "GrayDilation");
 }
 
+SetImageProcesser::SetImageProcesser(QImage image)
+{
+	m_image = image;
+}
 
-
+QImage SetImageProcesser::produceProcessedImage(const QImage &)
+{
+	return m_image;
+}

@@ -54,6 +54,7 @@ private:
 	QPushButton *restoreButton;
 	QPushButton *reconstructButton;
 	QPushButton *grayReconstructButton;
+	SharedImageProcesser skeletonProcesser;
 };
 
 #endif /* _MORPHOLOGYPANEL_H_ */

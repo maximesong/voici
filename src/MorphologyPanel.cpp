@@ -79,7 +79,7 @@ MorphologyPanel::MorphologyPanel(QWidget *parent)
 		this, SLOT(applyGrayClose()));
 
 	skeletonButton = new QPushButton(tr("Skeleton"));
-	restoreButton = new QPushButton(tr("Restoration(not work)"));
+	restoreButton = new QPushButton(tr("Restoration"));
 	QGroupBox *skeletonGroup = 
 		new QGroupBox(tr("Skeleton"));
 	QHBoxLayout *skeletonLayout = new QHBoxLayout();
@@ -306,6 +306,8 @@ void MorphologyPanel::applySkeleton()
 {
 	setCrossKernel();
 	SharedProcess process = ProcessFactory::getMorphoSkeletonProcess();
+	skeletonProcesser = 
+		((DynamicImageProcess *) process.data())->getProcesser();
 	emit newProcess(process);
 }
 
@@ -359,8 +361,12 @@ void MorphologyPanel::applyGradient()
 void MorphologyPanel::applyRestore()
 {
 	setCrossKernel();
+	if (skeletonProcesser.isNull())
+		return;
 	SharedProcess process = 
-		ProcessFactory::getMorphoHelperProcess(MORPHO_RESTORATION);
+		ProcessFactory::getSetImageProcess(
+			((MorphoSkeletonProcesser *)skeletonProcesser.data())->getRestorationImage());
+//		ProcessFactory::getMorphoHelperProcess(MORPHO_RESTORATION);
 	emit newProcess(process);
 }
 

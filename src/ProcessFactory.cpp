@@ -360,3 +360,9 @@ SharedProcess ProcessFactory::getMorphoHelperProcess(int type)
 	return buildDynamicProcess(
 		SharedImageProcesser(new MorphoHelperProcesser(type)));
 }
+
+SharedProcess ProcessFactory::getSetImageProcess(QImage image)
+{
+	return buildDynamicProcess(
+		SharedImageProcesser(new SetImageProcesser(image)));
+}

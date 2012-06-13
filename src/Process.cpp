@@ -29,6 +29,11 @@ void DynamicImageProcess::applyToImageFamily(ImageFamily *imageFamily)
 	imageFamily->pushDynamicImageProcesser(m_image_processer);
 }
 
+SharedImageProcesser DynamicImageProcess::getProcesser()
+{
+	return m_image_processer;
+}
+
 PreImageProcess::PreImageProcess(PreProcesser id, 
 				 SharedImageProcesser imageProcesser,
 				 const QString &processName)
@@ -66,3 +71,5 @@ void PostImageProcess::setPostProcesser(PostProcesser id, SharedImageProcesser p
 	m_id = id;
 	m_image_processer = processer;
 }
+
+

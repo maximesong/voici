@@ -33,6 +33,7 @@ public:
 	virtual void applyToImageFamily(ImageFamily *imageFamily);
 
 	void setProcesser(SharedImageProcesser processer);
+	SharedImageProcesser getProcesser();
 private:
 	SharedImageProcesser m_image_processer;
 };
