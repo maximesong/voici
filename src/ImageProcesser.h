@@ -305,6 +305,7 @@ private:
 	ImageProcesser *getCrossOpenProcesser();
 	ImageProcesser *getGrayOpenProcesser();
 	ImageProcesser *getGrayDilationProcesser();
+	ImageProcesser *getGrayErosionProcesser();
 	ImageProcesser *m_erosion_processer;
 	ImageProcesser *m_dilation_processer;
 	ImageProcesser *m_open_processer;
@@ -312,6 +313,7 @@ private:
 	ImageProcesser *m_cross_open_processer;
 	ImageProcesser *m_gray_dilation_processer;
 	ImageProcesser *m_gray_open_processer;
+	ImageProcesser *m_gray_erosion_processer;
 	int m_type;
 };
 

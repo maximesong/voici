@@ -2693,6 +2693,7 @@ MorphoHelperProcesser::MorphoHelperProcesser(int type)
 	m_cross_erosion_processer = getCrossErosionProcesser();
 	m_gray_open_processer = getGrayOpenProcesser();
 	m_gray_dilation_processer = getGrayDilationProcesser();
+	m_gray_erosion_processer = getGrayErosionProcesser();
 }
 
 MorphoHelperProcesser::~MorphoHelperProcesser()
@@ -2704,6 +2705,7 @@ MorphoHelperProcesser::~MorphoHelperProcesser()
 	delete m_cross_erosion_processer;
 	delete m_gray_open_processer;
 	delete m_gray_dilation_processer;
+	delete m_gray_erosion_processer;
 }
 
 QImage MorphoHelperProcesser::produceProcessedImage(const QImage &image)
@@ -2789,17 +2791,17 @@ QImage MorphoHelperProcesser::morphoEdge(const QImage &image)
 
 QImage MorphoHelperProcesser::morphoGradient(const QImage &image)
 {
-	QImage sourceImage = m_dilation_processer->produceProcessedImage(image);
+	QImage sourceImage = m_gray_dilation_processer->produceProcessedImage(image);
 	const uchar *src = sourceImage.constBits();
-	QImage erosionImage = m_erosion_processer->produceProcessedImage(image);
+	QImage erosionImage = m_gray_erosion_processer->produceProcessedImage(image);
 	const uchar *erosion = erosionImage.constBits();
 	QImage destImage = image;
 	uchar *dest = destImage.bits();
 	int size = image.width() * image.height();
 	for (int i = 0; i != size; ++i) {
-		dest[0] = src[0] - erosion[0];
-		dest[1] = src[1] - erosion[1];
-		dest[2] = src[2] - erosion[2];
+		dest[0] = qBound(0, (src[0] - erosion[0]) / 2, 255);
+		dest[1] = qBound(0, (src[1] - erosion[1]) / 2, 255);
+		dest[2] = qBound(0, (src[2] - erosion[2]) / 2, 255);
 		dest += 4;
 		erosion += 4;
 		src += 4;
@@ -3045,6 +3047,21 @@ ImageProcesser *MorphoHelperProcesser::getGrayDilationProcesser()
 		new AreaIterator(3, 3, 2, 2, ALL_AREA);
 	AreaRgbMap *map = new GrayDilationMap(3, 3, 2, 2, matrix);
 	return new AreaRgbImageProcesser(iter, map, "GrayDilation");
+}
+
+ImageProcesser *MorphoHelperProcesser::getGrayErosionProcesser()
+{
+	QVector<int> matrix;
+	int kernel[9] =  { 0, 0, 0,
+			   0, 0, 0,
+			   0, 0, 0 };
+
+	for (int i = 0; i != 9; ++i)
+		matrix.push_back(kernel[i]);
+	AreaIterator *iter = 
+		new AreaIterator(3, 3, 2, 2, ALL_AREA);
+	AreaRgbMap *map = new GrayErosionMap(3, 3, 2, 2, matrix);
+	return new AreaRgbImageProcesser(iter, map, "GrayErosion");
 }
 
 SetImageProcesser::SetImageProcesser(QImage image)
